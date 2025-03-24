@@ -6,6 +6,8 @@ import HomeScreen from '../../scenes/Home/HomeScreen'
 import { Images } from '../../assets';
 import { Image, ImageSourcePropType, ImageStyle, StyleSheet, View } from 'react-native';
 import { getIconUrl } from '../../assets/icons';
+import NAVIGATION_ROUTES from '../NavigationRoutes';
+import TabBar from './TabBar/TabBar';
 
 
 const Stack = createStackNavigator()
@@ -13,7 +15,9 @@ const Tab = createBottomTabNavigator();
 
 const HomeStack = () => (
     <Stack.Navigator>
-        <Stack.Screen name="Home" component={HomeScreen} />
+        <Stack.Screen options={{
+            headerShown: false
+        }} name={NAVIGATION_ROUTES.HOMEPAGE} component={HomeScreen} />
     </Stack.Navigator>
 )
 
@@ -48,28 +52,30 @@ const TabIcon: React.FC<TabIconProps> = ({ focused, iconName }) => {
 const BottomTabBar = () => {
     return (
         <Tab.Navigator
+            tabBar={(props) => <TabBar {...props} />}
 
             screenOptions={({ route }) => ({
+
                 headerShown: false,
                 tabBarIcon: ({ focused, color, size }) => {
                     let iconName
                     switch (route.name) {
                         case 'Home':
                             iconName = focused ? 'home' : 'home'
-                            return <TabIcon focused={focused} iconName='ic_bottom_bar_home' />
+                            return <TabIcon focused={focused} iconName='ic_ph_user_circle_light' />
                         case 'Cart':
                             iconName = focused ? 'shoppingcart' : 'shoppingcart'
-                            return <TabIcon focused={focused} iconName='ic_bottom_bar_home' />
+                            return <TabIcon focused={focused} iconName='ic_fluent_tag_regular' />
                         case 'Notifications':
                             iconName = focused ? 'notification' : 'notification'
-                            return <TabIcon focused={focused} iconName='ic_bottom_bar_home' />
+                            return <TabIcon focused={focused} iconName='ic_famicons_bag_outline' />
                         case 'Profile':
                             iconName = focused ? 'user' : 'user'
-                            return <TabIcon focused={focused} iconName='ic_bottom_bar_home' />
+                            return <TabIcon focused={focused} iconName='ic_search' />
 
                         case 'Settings':
                             iconName = focused ? 'setting' : 'setting'
-                            return <TabIcon focused={focused} iconName='ic_bottom_bar_home' />
+                            return <TabIcon focused={focused} iconName='ic_N_Gray' />
 
 
                         default:
@@ -86,33 +92,37 @@ const BottomTabBar = () => {
         //     inactiveTintColor: 'gray',
         // }}
         >
-            <Tab.Screen options={{ tabBarShowLabel: false }} name="Home" component={HomeStack} />
-            <Tab.Screen options={{ tabBarShowLabel: false }} name="Cart" component={HomeStack} />
-            <Tab.Screen options={{ tabBarShowLabel: false }} name="Notifications" component={HomeStack} />
-            <Tab.Screen options={{ tabBarShowLabel: false }} name="Profile" component={ProfileStack} />
-            <Tab.Screen options={{ tabBarShowLabel: false }} name="Settings" component={HomeStack} />
+
+            <Tab.Screen options={{ tabBarShowLabel: false }} name="Nirami" component={HomeStack} initialParams={{ icon: 'ic_N_Gray' }} />
+            <Tab.Screen options={{ tabBarShowLabel: false }} name="Search" component={ProfileStack} initialParams={{ icon: 'ic_search' }} />
+            <Tab.Screen options={{ tabBarShowLabel: false }} name="Cart" component={HomeStack} initialParams={{ icon: 'ic_famicons_bag_outline' }} />
+            <Tab.Screen options={{ tabBarShowLabel: false }} name="Brands" component={HomeStack} initialParams={{ icon: 'ic_fluent_tag_regular' }} />
+            <Tab.Screen options={{ tabBarShowLabel: false }} name="Account" component={HomeStack} initialParams={{ icon: 'ic_ph_user_circle_light' }} />
+
+
+
         </Tab.Navigator>
     );
 }
 
 const styles = StyleSheet.create({
     iconContainer: {
-      alignItems: "center",
-      width: "100%",
+        alignItems: "center",
+        width: "100%",
     },
     activeBar: {
-      width: 80,
-      height: 2,
-      backgroundColor: "#000000",
-      borderRadius: 2,
-      position: "absolute",
-      top: -6,
+        width: 80,
+        height: 2,
+        backgroundColor: "#000000",
+        borderRadius: 2,
+        position: "absolute",
+        top: -6,
     },
     icon: {
-      width: 24,
-      height: 24,
-      resizeMode: "contain",
+        width: 24,
+        height: 24,
+        resizeMode: "contain",
     },
-  });
+});
 
 export default BottomTabBar

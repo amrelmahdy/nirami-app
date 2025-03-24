@@ -2,12 +2,14 @@ import React, { useEffect, useRef } from 'react';
 import { BackHandler, Button, View } from 'react-native';
 import { NavigationContainer, NavigationContainerRef, useNavigationContainerRef } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import NavigationAdapterImpl from './NavigationAdapterImpl';
+import NavigationAdapterImpl from './NavigationAdapter';
 import NAVIGATION_ROUTES from './NavigationRoutes';
 import { Text } from 'react-native-gesture-handler';
 import SplashScreen from '../scenes/Splash/SplashScreen';
 import BottomTabBar from './BottomTabNavigator/BottomTabNavigator';
 import ChooseLanguage from '../scenes/ChooseLanguage/ChooseLanguage';
+import LoginOrRegister from '../scenes/Auth/login_or_register/LoginOrRegisterScreen';
+import OtpScreen from '../scenes/Auth/otp/OtpScreen';
 
 const Stack = createStackNavigator();
 
@@ -21,20 +23,24 @@ export const noHeaderWithNoTransitionOptions = {
 
 
 
-function HomeScreen() {
-    console.log("urrent Screen Name:", NavigationAdapterImpl.getCurrentScreenName())
 
 
 
-    return (
-        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-            <Text>Home Screen</Text>
-            <Button title='ddd' onPress={() => {
-                NavigationAdapterImpl.navigate(NAVIGATION_ROUTES.SPLASH)
-            }} ></Button>
-        </View>
-    );
-}
+const AuthStack = () => (
+    <Stack.Navigator>
+        <Stack.Screen
+            name={NAVIGATION_ROUTES.LOGIN_OR_REGISTER}
+            component={LoginOrRegister}
+            {...noHeaderOptions}
+        />
+
+        <Stack.Screen
+            name={NAVIGATION_ROUTES.OTP}
+            component={OtpScreen}
+            {...noHeaderOptions}
+        />
+    </Stack.Navigator>
+)
 
 
 function Navigation() {
@@ -59,9 +65,7 @@ function Navigation() {
                 <Stack.Navigator screenOptions={{
                     headerShown: false
                 }}>
-                    <Stack.Screen
-                        name="Main"
-                        component={BottomTabBar} />
+
 
                     <Stack.Screen
                         name={NAVIGATION_ROUTES.SPLASH}
@@ -75,12 +79,24 @@ function Navigation() {
                         {...noHeaderOptions}
                     />
 
+
+
                     <Stack.Screen
-                        name={NAVIGATION_ROUTES.HOMEPAGE}
-                        component={HomeScreen}
+                        name={NAVIGATION_ROUTES.AUTH}
+                        component={AuthStack}
                         {...noHeaderOptions}
                     />
 
+                    <Stack.Screen
+                        name={NAVIGATION_ROUTES.BOTTOM_TAB_BAR}
+                        component={BottomTabBar} />
+
+
+                    {/* <Stack.Screen
+                        name={NAVIGATION_ROUTES.HOMEPAGE}
+                        component={HomeScreen}
+                        {...noHeaderOptions}
+                    /> */}
                 </Stack.Navigator>
 
 
