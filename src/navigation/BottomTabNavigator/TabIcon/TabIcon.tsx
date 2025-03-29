@@ -3,6 +3,7 @@ import React from 'react'
 import { Image, ImageSourcePropType, ImageStyle, StyleSheet, View } from 'react-native';
 import { getIconUrl } from '../../../assets/icons';
 import { Images } from '../../../assets';
+import { Icon } from 'react-native-paper';
 
 
 type TabIconProps = {
@@ -18,6 +19,7 @@ const TabIcon: React.FC<TabIconProps> = ({ focused, iconName }) => {
         <View style={styles.iconContainer}>
             {/* {focused && <View style={styles.activeBar} />} */}
             {iconSource && (
+                //<Icon source={iconSource} size={24} color={tintColor} />
                 <Image source={iconSource} style={[styles.icon, { tintColor } as ImageStyle]} />
             )}
         </View>

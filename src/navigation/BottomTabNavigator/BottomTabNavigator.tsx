@@ -8,6 +8,8 @@ import { Image, ImageSourcePropType, ImageStyle, StyleSheet, View } from 'react-
 import { getIconUrl } from '../../assets/icons';
 import NAVIGATION_ROUTES from '../NavigationRoutes';
 import TabBar from './TabBar/TabBar';
+import FavListScreen from '../../scenes/FavList/FavListScreen';
+import ProductDetailsScreen from '../../scenes/ProductDetails/ProductDetailsScreen';
 
 
 const Stack = createStackNavigator()
@@ -15,9 +17,9 @@ const Tab = createBottomTabNavigator();
 
 const HomeStack = () => (
     <Stack.Navigator>
-        <Stack.Screen options={{
-            headerShown: false
-        }} name={NAVIGATION_ROUTES.HOMEPAGE} component={HomeScreen} />
+        <Stack.Screen options={{ headerShown: false }} name={NAVIGATION_ROUTES.HOMEPAGE} component={HomeScreen} />
+        <Stack.Screen options={{ headerShown: false }} name={NAVIGATION_ROUTES.FAV_LIST} component={FavListScreen} />
+        <Stack.Screen options={{ headerShown: false }} name={NAVIGATION_ROUTES.PRODUCT_DETAILS} component={ProductDetailsScreen} />
     </Stack.Navigator>
 )
 
@@ -53,39 +55,41 @@ const BottomTabBar = () => {
     return (
         <Tab.Navigator
             tabBar={(props) => <TabBar {...props} />}
-
             screenOptions={({ route }) => ({
-
                 headerShown: false,
-                tabBarIcon: ({ focused, color, size }) => {
-                    let iconName
-                    switch (route.name) {
-                        case 'Home':
-                            iconName = focused ? 'home' : 'home'
-                            return <TabIcon focused={focused} iconName='ic_ph_user_circle_light' />
-                        case 'Cart':
-                            iconName = focused ? 'shoppingcart' : 'shoppingcart'
-                            return <TabIcon focused={focused} iconName='ic_fluent_tag_regular' />
-                        case 'Notifications':
-                            iconName = focused ? 'notification' : 'notification'
-                            return <TabIcon focused={focused} iconName='ic_famicons_bag_outline' />
-                        case 'Profile':
-                            iconName = focused ? 'user' : 'user'
-                            return <TabIcon focused={focused} iconName='ic_search' />
-
-                        case 'Settings':
-                            iconName = focused ? 'setting' : 'setting'
-                            return <TabIcon focused={focused} iconName='ic_N_Gray' />
-
-
-                        default:
-                        //     
-                    }
-                    return <></>
-                    //return <Image source={getIconUrl(Images, 'ic_bottom_bar_home')} />
-                    //return <Icon color={focused ? '#09B6CC' : '#333'} name={iconName} size={30} />
-                },
             })}
+        // screenOptions={({ route }) => ({
+
+        //     headerShown: false,
+        //     tabBarIcon: ({ focused, color, size }) => {
+        //         let iconName
+        //         switch (route.name) {
+        //             case 'Home':
+        //                 iconName = focused ? 'home' : 'home'
+        //                 return <TabIcon focused={focused} iconName='ic_ph_user_circle_light' />
+        //             case 'Cart':
+        //                 iconName = focused ? 'shoppingcart' : 'shoppingcart'
+        //                 return <TabIcon focused={focused} iconName='ic_fluent_tag_regular' />
+        //             case 'Notifications':
+        //                 iconName = focused ? 'notification' : 'notification'
+        //                 return <TabIcon focused={focused} iconName='ic_famicons_bag_outline' />
+        //             case 'Profile':
+        //                 iconName = focused ? 'user' : 'user'
+        //                 return <TabIcon focused={focused} iconName='ic_search' />
+
+        //             case 'Settings':
+        //                 iconName = focused ? 'setting' : 'setting'
+        //                 return <TabIcon focused={focused} iconName='ic_N_Gray' />
+
+
+        //             default:
+        //             //     
+        //         }
+        //         return <></>
+        //         //return <Image source={getIconUrl(Images, 'ic_bottom_bar_home')} />
+        //         //return <Icon color={focused ? '#09B6CC' : '#333'} name={iconName} size={30} />
+        //     },
+        // })}
         // tabBarOptions={{
         //     labelStyle: { display: 'none' },
         //     activeTintColor: 'tomato',

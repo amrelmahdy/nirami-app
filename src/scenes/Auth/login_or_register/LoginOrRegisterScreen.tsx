@@ -25,98 +25,41 @@ function LoginOrRegister() {
     return (
 
 
-        <SafeAreaProvider>
-            <SafeAreaView style={styles.container} edges={['left', 'right']}>
-                <ImageBackground source={getIconUrl(Images, activeTab === 'login' ? 'login_shape' : 'register_shape')} resizeMode="cover" style={styles.imageBackground}>
-                    {/* <Text style={styles.text}>Inside</Text> */}
-                </ImageBackground>
-                <View style={styles.loginFormContainer}>
-
-                    <View style={styles.logoContainer}>
-                        <Image style={styles.logo} source={getIconUrl(Images, "login_logo_nirami")} />
-                    </View>
-
-                    <View style={styles.tabsSection}>
-                        <View style={styles.tabsContainer}>
-                            <View style={styles.tabs}>
-                                <TouchableOpacity style={styles.tab} onPress={() => setActiveTab("register")}>
-                                    <Text style={[styles.font, {
-                                         color:  activeTab === 'register' ? 'rgb(190, 190, 190)' : '#000'
-                                    }]}>التسجيل</Text>
-                                </TouchableOpacity>
-                                <Text style={styles.tabDivider}>|</Text>
-                                <TouchableOpacity style={styles.tab} onPress={() => setActiveTab("login")}>
-                                    <Text style={[styles.font, {
-                                        color:  activeTab === 'login' ? 'rgb(190, 190, 190)' : '#000'
-                                    }]}>تسجيل الدخول</Text>
-                                </TouchableOpacity>
-                            </View>
-                        </View>
-
-                        <View style={styles.fieldContainer}>
-                            <TextInput
-                                style={styles.input}
-                                onChangeText={() => { }}
-                                //value={number}
-                                placeholder=" البريد الإلكتروني او رقم الجوال"
-                                keyboardType="numeric"
-                            />
-                            {/* <TextInput
-                                mode="outlined"
-                                
-                                //label="البريد الإلكتروني او رقم الجوال"
-                                label={
-                                    <Text
-                                    style={{
-                                      fontSize: 16,
-                                      fontFamily: 'Almarai-Regular',
-                                      color: "red",
-                                    }}
-                                  >
-                                    البريد الإلكتروني او رقم الجوال
-                                  </Text>
-                                }
-                                //placeholder="البريد الإلكتروني او رقم الجوال"
-                                style={{
-                                    textAlign: "right",
-                                }}
-                                // textColor="green"
-                                theme={{
-                                    fonts: { labelLarge: { fontFamily: 'Almarai-Regular', fontSize: 18, fontWeight: "bold" } },
-                                    colors: { onSurfaceVariant: "red" }, // Label color
-                                }}
-                                contentStyle={
-                                    styles.input
-                                }
-                                outlineColor="green"
-                                outlineStyle={{
-                                    alignContent:'space-evenly'
-                                }}
-                                underlineStyle={{
-                                    borderRadius:'green'
-                                }}
-                            /> */}
-                        </View>
-
-
-
-
-                    </View>
-                </View>
-
-                <View style={styles.continueBtnContainer}>
-                    <TouchableOpacity style={{}} onPress={() => {
-                        navigationAdapter.navigate(NAVIGATION_ROUTES.OTP)
-                    }}>
-                        <Text style={styles.continueBtn}>استمرار</Text>
+        <View style={styles.container}>
+            <View style={styles.loginFormContainer}>
+                <Image style={styles.logo} source={getIconUrl(Images, "login_logo_nirami")} />
+                <View style={styles.tabs}>
+                    <TouchableOpacity style={styles.tab} onPress={() => setActiveTab("register")}>
+                        <Text style={[styles.font, {
+                            color: activeTab !== 'register' ? 'rgb(190, 190, 190)' : '#000'
+                        }]}>التسجيل</Text>
                     </TouchableOpacity>
-
+                    <Text style={styles.tabDivider}>|</Text>
+                    <TouchableOpacity style={styles.tab} onPress={() => setActiveTab("login")}>
+                        <Text style={[styles.font, {
+                            color: activeTab !== 'login' ? 'rgb(190, 190, 190)' : '#000'
+                        }]}>تسجيل الدخول</Text>
+                    </TouchableOpacity>
                 </View>
-
-
-
-            </SafeAreaView>
-        </SafeAreaProvider>
+                <View style={styles.fieldContainer}>
+                    <Text style={{ textAlign: 'right', fontFamily: 'Almarai-Regular', height: 20}}>البريد الإلكتروني او رقم الجوال</Text>
+                    <TextInput
+                        style={styles.input}
+                        onChangeText={() => { }}
+                        //value={number}
+                        // placeholder=" البريد الإلكتروني او رقم الجوال"
+                        keyboardType="numeric"
+                    />
+                    <View style={styles.continueBtnContainer}>
+                        <TouchableOpacity style={{}} onPress={() => {
+                            navigationAdapter.navigate(NAVIGATION_ROUTES.OTP)
+                        }}>
+                            <Text style={styles.continueBtn}>استمرار</Text>
+                        </TouchableOpacity>
+                    </View>
+                </View>
+            </View>
+        </View>
     );
 }
 
@@ -124,20 +67,25 @@ function LoginOrRegister() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        justifyContent: 'center',
+        paddingHorizontal: 15
+
     },
     imageBackground: {
         flex: 1.5,
         //justifyContent: 'flex-start',
     },
     loginFormContainer: {
-        flex: 1,
+        flex: 0.5,
         paddingTop: 30,
+        justifyContent: 'center',
         alignItems: 'center',
-
     },
     logoContainer: {
+
         // marginTop: 30,
-        marginBottom: 30
+        marginBottom: 30,
+
         //flex: 1,
         //flexDirection: 'row',
         //justifyContent: 'center'
@@ -148,22 +96,21 @@ const styles = StyleSheet.create({
     },
     tabsSection: {
         flex: 1,
-        width: '100%',
-        justifyContent: 'space-between'
-
+        justifyContent: 'center',
     },
     tabsContainer: {
-        flex: 1
+
     },
     tabs: {
+        width: '100%',
         marginTop: 20,
         justifyContent: 'center',
         flexDirection: 'row',
         borderTopWidth: 1,
         borderBottomWidth: 1,
-        padding: 15,
+        paddingVertical: 15,
         borderColor: '#bebebe',
-        marginHorizontal: 20
+        marginVertical: 40
     },
     tab: {
         flex: 1,
@@ -174,7 +121,7 @@ const styles = StyleSheet.create({
         color: 'rgb(190, 190, 190)'
     },
     fieldContainer: {
-        flex: 1,
+        width: '100%',
     },
     font: {
         flex: 1,
@@ -183,19 +130,19 @@ const styles = StyleSheet.create({
         fontFamily: 'Almarai-Regular',
     },
     input: {
+        width: '100%',
         height: 50,
-        margin: 12,
+        marginVertical: 12,
         borderWidth: 1,
         fontSize: 17,
         padding: 10,
         fontFamily: 'Almarai-Regular',
         textAlign: "right",
-        textAlign: 'right',
         borderColor: 'rgb(190, 190, 190)',
-        borderRadius: 5
+        borderRadius: 5,
+        marginBottom: 40
     },
     continueBtnContainer: {
-        flex: .5,
         alignItems: 'center'
     },
     continueBtn: {
@@ -207,7 +154,6 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         width: 130,
         paddingVertical: 5,
-        paddingHorizontal: 25
     }
     // text: {
     //     color: 'white',

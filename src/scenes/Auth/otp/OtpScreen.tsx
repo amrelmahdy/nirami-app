@@ -80,15 +80,15 @@ function OtpScreen() {
                 </View>
 
 
-                <View style={{ flexDirection: 'row', justifyContent: 'space-between', paddingHorizontal: 20 }}>
+                <View style={{ flexDirection: 'row', justifyContent: 'center', paddingHorizontal: 20 }}>
                     <TouchableOpacity style={styles.smsTextBox} >
                         <Text style={styles.smsText}>الرسائل النصية</Text>
                         <Image style={styles.resendTextIcon} source={getIconUrl(Images, "ic_material_symbols_sms_rounded")} />
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.whatsappTextBox} >
+                    {/* <TouchableOpacity style={styles.whatsappTextBox} >
                         <Text style={styles.whatsappText}>الواتس اب</Text>
                         <Image style={styles.resendTextIcon} source={getIconUrl(Images, "ic_dashicons_whatsapp")} />
-                    </TouchableOpacity>
+                    </TouchableOpacity> */}
 
                 </View>
 
@@ -174,10 +174,10 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: 'rgb(190, 190, 190)',
         borderRadius: 20,
-        paddingHorizontal: 15,
-        paddingVertical: 5,
-        width: 145,
-        justifyContent: 'flex-end'
+        paddingHorizontal: 20,
+        paddingVertical: 6,
+        // width: 145,
+        justifyContent: 'center'
 
     },
     smsText: {

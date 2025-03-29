@@ -12,6 +12,8 @@ const NAVIGATION_ROUTES = {
   BOTTOM_TAB_SEARCH: 'BTM_TAB_Nirami',
 
   HOMEPAGE: 'HomePage',
+  FAV_LIST: 'FavList',
+  PRODUCT_DETAILS: 'ProductDetails',
   LOGIN_OR_REGISTER: 'LoginOrRegister',
   OTP: 'OTP',
   RESET_PASSWORD: 'ResetPasswordScreen',
