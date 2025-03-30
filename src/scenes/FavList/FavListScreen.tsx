@@ -13,6 +13,7 @@ import Carousel, {
 import { useSharedValue } from "react-native-reanimated";
 import { TextInput, Icon } from "react-native-paper";
 import ProductCard from "../../components/ProductCard/ProductCard";
+import PageHeader from "../../components/PageHeader/PageHeader";
 
 
 
@@ -112,7 +113,7 @@ function FavList() {
 
 
 
-  
+
     const renderItem = ({ item, index }) => {
         return (
             <View style={styles.slide}>
@@ -128,7 +129,7 @@ function FavList() {
 
         <>
             {/* <SafeAreaView style={{ borderBottomWidth: 1, borderColor: '#bfbfbf', paddingTop: 0, paddingBottom: 0, paddingHorizontal: 15  }}> */}
-                <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: insets.top, paddingBottom: 20,borderBottomWidth: 1, borderColor: '#bfbfbf',  paddingHorizontal: 15 }}>
+            {/* <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: insets.top, paddingBottom: 20,borderBottomWidth: 1, borderColor: '#bfbfbf',  paddingHorizontal: 15 }}>
                     <View></View>
                     <Text style={{ fontFamily: FONT_FAMILIES.ALMARAI_BOLD }}>المفضلة</Text>
                     <View>
@@ -136,7 +137,9 @@ function FavList() {
                             <Icon source={getIconUrl(Images, 'ic_weui_arrow_outlined')} size={24} />
                         </TouchableOpacity>
                     </View>
-                </View>
+                </View> */}
+
+            <PageHeader headerLabel="المفضلة" />
             {/* </SafeAreaView> */}
             <ScrollView style={{}}>
 

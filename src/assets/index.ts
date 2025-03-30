@@ -16,6 +16,8 @@ export const Images: IconMap = {
   register_shape: Image.resolveAssetSource(require('./images/login/register_shape.png')),
   logo_eng_ar: Image.resolveAssetSource(require('./images/logo_eng_ar.png')),
   login_logo_nirami: Image.resolveAssetSource(require('./images/login/login_logo_nirami.png')),
+  makeup_tab_bg: Image.resolveAssetSource(require('./images/makeup_tab_bg.png')),
+  skin_care_tab_bg: Image.resolveAssetSource(require('./images/skin_care_tab_bg.png')),
 
 
 

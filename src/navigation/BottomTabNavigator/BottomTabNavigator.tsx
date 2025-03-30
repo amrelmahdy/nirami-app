@@ -10,6 +10,7 @@ import NAVIGATION_ROUTES from '../NavigationRoutes';
 import TabBar from './TabBar/TabBar';
 import FavListScreen from '../../scenes/FavList/FavListScreen';
 import ProductDetailsScreen from '../../scenes/ProductDetails/ProductDetailsScreen';
+import DepartmentSearchScreen from '../../scenes/DepartmentSearch/DepartmentSearchScreen';
 
 
 const Stack = createStackNavigator()
@@ -26,7 +27,7 @@ const HomeStack = () => (
 
 const ProfileStack = () => (
     <Stack.Navigator>
-        <Stack.Screen name="Profile" component={HomeScreen} />
+        <Stack.Screen name="Profile"  options={{ headerShown: false }}  component={DepartmentSearchScreen} />
     </Stack.Navigator>
 )
 
