@@ -26,6 +26,7 @@ export const Images: IconMap = {
   ic_close: Image.resolveAssetSource(require('./icons/close.png')),
   ic_lsicon_share_outline: Image.resolveAssetSource(require('./icons/lsicon_share-outline.png')),
 
+  ic_angle_bottom: Image.resolveAssetSource(require('./icons/angle_bottom.png')),
   ic_ei_like: Image.resolveAssetSource(require('./icons/ei_like.png')),
   saudi_riyal_symbol: Image.resolveAssetSource(require('./icons/Saudi_Riyal_Symbol.png')),
   ic_weui_arrow_outlined: Image.resolveAssetSource(require('./icons/weui_arrow-outlined.png')),

@@ -1,0 +1,32 @@
+{
+  "name": "Makeup",
+  "categories": [
+    {
+      "name": "Face",
+      "groups": [
+        {
+          "name": "Foundation",
+          "products": [
+            {
+              "name": "Hydrating Foundation",
+              "brand": "Glow Beauty",
+              "price": 25.99,
+              "variants": [
+                {
+                  "colorName": "Ivory",
+                  "hexCode": "#F8E2CF",
+                  "imageUrl": "https://example.com/images/ivory.png"
+                },
+                {
+                  "colorName": "Almond",
+                  "hexCode": "#D9B18E",
+                  "imageUrl": "https://example.com/images/almond.png"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

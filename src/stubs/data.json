@@ -1,0 +1,108 @@
+{
+    "data": {
+        "departments": [
+            {
+                "name": "المكياج",
+                "categories": [
+                    {
+                        "name": "تنظيف البشرة",
+                        "groups": [
+                            {
+                                "name": "Foundation",
+                                "products": [
+                                    {
+                                        "name": "آحمر شفاه",
+                                        "category": "MAC",
+                                        "ratings": 1.5,
+                                        "reviews": [
+                                            {
+                                                "value": 5,
+                                                "ownerName": "Amr",
+                                                "review": "اعجبني جدااااا"
+                                            },
+                                            {
+                                                "value": 4.5,
+                                                "ownerName": "Ghaidaa",
+                                                "review": "خطير اوي"
+                                            },
+                                            {
+                                                "value": 1.5,
+                                                "ownerName": "Sultan",
+                                                "review": "لا معجبنيش خالص"
+                                            }
+                                        ],
+                                        "price": 133,
+                                        "image": "https://placehold.co/600x600.png",
+                                        "variants": [
+                                            {
+                                                "colorName": "Ivory",
+                                                "hexCode": "#F8E2CF",
+                                                "imageUrl": "https://example.com/images/ivory.png"
+                                            },
+                                            {
+                                                "colorName": "Almond",
+                                                "hexCode": "#D9B18E",
+                                                "imageUrl": "https://example.com/images/almond.png"
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "name": "العناية",
+                "categories": [
+                    {
+                        "name": "تنظيف البشرة",
+                        "groups": [
+                            {
+                                "name": "Foundation",
+                                "products": [
+                                    {
+                                        "name": "آحمر شفاه",
+                                        "category": "MAC",
+                                        "ratings": 1.5,
+                                        "reviews": [
+                                            {
+                                                "value": 5,
+                                                "ownerName": "Amr",
+                                                "review": "اعجبني جدااااا"
+                                            },
+                                            {
+                                                "value": 4.5,
+                                                "ownerName": "Ghaidaa",
+                                                "review": "خطير اوي"
+                                            },
+                                            {
+                                                "value": 1.5,
+                                                "ownerName": "Sultan",
+                                                "review": "لا معجبنيش خالص"
+                                            }
+                                        ],
+                                        "price": 133,
+                                        "image": "https://placehold.co/600x600.png",
+                                        "variants": [
+                                            {
+                                                "colorName": "Ivory",
+                                                "hexCode": "#F8E2CF",
+                                                "imageUrl": "https://example.com/images/ivory.png"
+                                            },
+                                            {
+                                                "colorName": "Almond",
+                                                "hexCode": "#D9B18E",
+                                                "imageUrl": "https://example.com/images/almond.png"
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    }
+}

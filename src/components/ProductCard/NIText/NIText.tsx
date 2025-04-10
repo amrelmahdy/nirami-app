@@ -3,7 +3,7 @@ import { Text, TextStyle } from "react-native";
 import { FONT_FAMILIES } from "../../../assets";
 
 interface NITextProps {
-    children: string;
+    children: any;
     type?: "bold" | "extraBold" | "light" | "regular";
     style?: TextStyle;
 }

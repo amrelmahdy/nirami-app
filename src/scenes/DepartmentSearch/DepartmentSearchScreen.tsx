@@ -33,8 +33,8 @@ export default function DepartmentSearchScreen() {
                     // tabBarStyle: { backgroundColor: 'powderblue' },
                 }}
             >
-                <Tab.Screen name='TAB1' options={{ tabBarLabel: 'العناية' }} component={Makeup} />
-                <Tab.Screen name='TAB2' options={{ tabBarLabel: 'المكياج' }} component={SkinCare} />
+                <Tab.Screen name='TAB1' options={{ tabBarLabel: 'العناية' }} component={SkinCare} />
+                <Tab.Screen name='TAB2' options={{ tabBarLabel: 'المكياج' }} component={Makeup} />
             </Tab.Navigator>
         </View>
     );

@@ -11,6 +11,7 @@ import TabBar from './TabBar/TabBar';
 import FavListScreen from '../../scenes/FavList/FavListScreen';
 import ProductDetailsScreen from '../../scenes/ProductDetails/ProductDetailsScreen';
 import DepartmentSearchScreen from '../../scenes/DepartmentSearch/DepartmentSearchScreen';
+import FilteredProductsScreen from '../../scenes/DepartmentSearch/FilteredProductsScreen';
 
 
 const Stack = createStackNavigator()
@@ -25,9 +26,10 @@ const HomeStack = () => (
 )
 
 
-const ProfileStack = () => (
+const DepartmentStack = () => (
     <Stack.Navigator>
-        <Stack.Screen name="Profile"  options={{ headerShown: false }}  component={DepartmentSearchScreen} />
+        <Stack.Screen name={NAVIGATION_ROUTES.DEPARTMENT_SEARCH_SCREEN} options={{ headerShown: false }} component={DepartmentSearchScreen} />
+        <Stack.Screen name={NAVIGATION_ROUTES.FILTERED_PRODUCTS_SCREEN} options={{ headerShown: false }} component={FilteredProductsScreen} />
     </Stack.Navigator>
 )
 
@@ -99,7 +101,7 @@ const BottomTabBar = () => {
         >
 
             <Tab.Screen options={{ tabBarShowLabel: false }} name="Nirami" component={HomeStack} initialParams={{ icon: 'ic_N_Gray' }} />
-            <Tab.Screen options={{ tabBarShowLabel: false }} name="Search" component={ProfileStack} initialParams={{ icon: 'ic_search' }} />
+            <Tab.Screen options={{ tabBarShowLabel: false }} name="Search" component={DepartmentStack} initialParams={{ icon: 'ic_search' }} />
             <Tab.Screen options={{ tabBarShowLabel: false }} name="Cart" component={HomeStack} initialParams={{ icon: 'ic_famicons_bag_outline' }} />
             <Tab.Screen options={{ tabBarShowLabel: false }} name="Brands" component={HomeStack} initialParams={{ icon: 'ic_fluent_tag_regular' }} />
             <Tab.Screen options={{ tabBarShowLabel: false }} name="Account" component={HomeStack} initialParams={{ icon: 'ic_ph_user_circle_light' }} />
