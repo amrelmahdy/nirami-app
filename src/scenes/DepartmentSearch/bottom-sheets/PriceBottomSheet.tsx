@@ -7,6 +7,7 @@ import { FONT_FAMILIES } from '../../../assets';
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
 import Slider, { MarkerProps } from '@react-native-community/slider';
 import NIText from '../../../components/ProductCard/NIText/NIText';
+import NIButton from '../../../components/NIButton/NIButton';
 
 
 
@@ -42,31 +43,32 @@ const PriceBottomSheet: React.FC<PriceBottomSheetProps> = ({ }) => {
 
         <View style={styles.container}>
 
-            {/* This is where we show min and max labels */}
-            <View style={styles.minMaxLabelContainer}>
-                <NIText style={styles.minMaxText}>٥٠٠ رس</NIText>
-                <NIText style={styles.minMaxText}>
-                    {toArabicDigits(+value.toFixed(0))}
-                    &nbsp; 
-                    رس
-                </NIText>
-                <NIText style={styles.minMaxText}>١٧ رس</NIText>
+            <View style={{  }}>
+                <View style={styles.minMaxLabelContainer}>
+                    <NIText style={styles.minMaxText}>٥٠٠ رس</NIText>
+                    <NIText style={styles.minMaxText}>
+                        {toArabicDigits(+value.toFixed(0))}
+                        &nbsp;
+                        رس
+                    </NIText>
+                    <NIText style={styles.minMaxText}>١٧ رس</NIText>
+                </View>
+
+                <Slider
+                    style={styles.slider}
+                    minimumValue={CONSTANTS.MIN_VALUE}
+                    maximumValue={CONSTANTS.MAX_VALUE}
+                    value={value}
+                    onValueChange={setValue}
+                    tapToSeek
+                    inverted
+                    minimumTrackTintColor={'#000'}
+                    maximumTrackTintColor={'#979EA4'}
+                />
             </View>
-
-            {/* Current selected value */}
-
-            {/* The slider */}
-            <Slider
-                style={styles.slider}
-                minimumValue={CONSTANTS.MIN_VALUE}
-                maximumValue={CONSTANTS.MAX_VALUE}
-                value={value}
-                onValueChange={setValue}
-                tapToSeek
-                inverted
-                minimumTrackTintColor={'#000'}
-                maximumTrackTintColor={'#979EA4'}
-            />
+            <View style={{ width: '100%' }}>
+                <NIButton type='secondary'>تفعيل</NIButton>
+            </View>
         </View>
     )
 }
@@ -198,9 +200,11 @@ const styles = StyleSheet.create({
         backgroundColor: '#0F0FFF',
     },
     container: {
+        height: 250,
+        justifyContent: 'space-between',
         alignItems: 'center',
-        marginBottom: 130,
-        marginTop: 30
+        paddingHorizontal: 15,
+        paddingVertical: 20
     },
     outerSmall: {
         width: 4,

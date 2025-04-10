@@ -5,6 +5,7 @@ import BottomSheet from '../../../components/BottomSheet/BottomSheet';
 import { RadioButton } from 'react-native-paper';
 import { FONT_FAMILIES } from '../../../assets';
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
+import NIButton from '../../../components/NIButton/NIButton';
 
 
 
@@ -94,6 +95,9 @@ const ColorBottomSheet: React.FC<ColorBottomSheetProps> = ({ }) => {
                     rippleColor="transparent"
                 />
             </RadioButton.Group>
+            <View style={{ width: '100%',  paddingHorizontal: 15, marginBottom: 20 }}>
+                <NIButton type='secondary'>تفعيل</NIButton>
+            </View>
         </View>
     )
 }
