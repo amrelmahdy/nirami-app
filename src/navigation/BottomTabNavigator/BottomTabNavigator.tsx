@@ -12,6 +12,8 @@ import FavListScreen from '../../scenes/FavList/FavListScreen';
 import ProductDetailsScreen from '../../scenes/ProductDetails/ProductDetailsScreen';
 import DepartmentSearchScreen from '../../scenes/DepartmentSearch/DepartmentSearchScreen';
 import FilteredProductsScreen from '../../scenes/DepartmentSearch/FilteredProductsScreen';
+import CartScreen from '../../scenes/Cart/CartScreen';
+import BrandsScreen from '../../scenes/Brands/BrandsScreen';
 
 
 const Stack = createStackNavigator()
@@ -32,6 +34,32 @@ const DepartmentStack = () => (
         <Stack.Screen name={NAVIGATION_ROUTES.FILTERED_PRODUCTS_SCREEN} options={{ headerShown: false }} component={FilteredProductsScreen} />
     </Stack.Navigator>
 )
+
+
+const CartStack = () => (
+    <Stack.Navigator>
+        <Stack.Screen name={NAVIGATION_ROUTES.DEPARTMENT_SEARCH_SCREEN} options={{ headerShown: false }} component={CartScreen} />
+        <Stack.Screen name={NAVIGATION_ROUTES.FILTERED_PRODUCTS_SCREEN} options={{ headerShown: false }} component={FilteredProductsScreen} />
+    </Stack.Navigator>
+)
+
+
+const BrandsStack = () => (
+    <Stack.Navigator>
+        <Stack.Screen name={NAVIGATION_ROUTES.DEPARTMENT_SEARCH_SCREEN} options={{ headerShown: false }} component={BrandsScreen} />
+    </Stack.Navigator>
+)
+
+
+
+const AccountStack = () => (
+    <Stack.Navigator>
+        <Stack.Screen name={NAVIGATION_ROUTES.DEPARTMENT_SEARCH_SCREEN} options={{ headerShown: false }} component={CartScreen} />
+        <Stack.Screen name={NAVIGATION_ROUTES.FILTERED_PRODUCTS_SCREEN} options={{ headerShown: false }} component={FilteredProductsScreen} />
+    </Stack.Navigator>
+)
+
+
 
 type TabIconProps = {
     focused: boolean;
@@ -102,9 +130,9 @@ const BottomTabBar = () => {
 
             <Tab.Screen options={{ tabBarShowLabel: false }} name="Nirami" component={HomeStack} initialParams={{ icon: 'ic_N_Gray' }} />
             <Tab.Screen options={{ tabBarShowLabel: false }} name="Search" component={DepartmentStack} initialParams={{ icon: 'ic_search' }} />
-            <Tab.Screen options={{ tabBarShowLabel: false }} name="Cart" component={HomeStack} initialParams={{ icon: 'ic_famicons_bag_outline' }} />
-            <Tab.Screen options={{ tabBarShowLabel: false }} name="Brands" component={HomeStack} initialParams={{ icon: 'ic_fluent_tag_regular' }} />
-            <Tab.Screen options={{ tabBarShowLabel: false }} name="Account" component={HomeStack} initialParams={{ icon: 'ic_ph_user_circle_light' }} />
+            <Tab.Screen options={{ tabBarShowLabel: false }} name="Cart" component={CartStack} initialParams={{ icon: 'ic_famicons_bag_outline' }} />
+            <Tab.Screen options={{ tabBarShowLabel: false }} name="Brands" component={BrandsStack} initialParams={{ icon: 'ic_fluent_tag_regular' }} />
+            <Tab.Screen options={{ tabBarShowLabel: false }} name="Account" component={AccountStack} initialParams={{ icon: 'ic_ph_user_circle_light' }} />
 
 
 

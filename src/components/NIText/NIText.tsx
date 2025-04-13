@@ -1,6 +1,6 @@
 import React from "react";
 import { Text, TextStyle } from "react-native";
-import { FONT_FAMILIES } from "../../../assets";
+import { FONT_FAMILIES } from "../../assets";
 
 interface NITextProps {
     children: any;

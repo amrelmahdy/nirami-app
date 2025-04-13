@@ -6,7 +6,7 @@ import { getIconUrl } from '../../assets/icons';
 import navigationAdapter from '../../navigation/NavigationAdapter';
 import { Icon } from 'react-native-paper';
 import { FlatList } from 'react-native-gesture-handler';
-import NIText from '../ProductCard/NIText/NIText';
+import NIText from '../NIText/NIText';
 
 
 type Item = {

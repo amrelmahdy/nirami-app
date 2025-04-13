@@ -56,7 +56,7 @@ export default function ProductCard({ product }) {
                 <View style={{}}>
                     <Rating
                         type='custom'
-                        imageSize={24}
+                        imageSize={18}
                         //showRating
                         onFinishRating={() => { }}
                         style={{ paddingVertical: 0, width: '100%', direction: 'rtl', alignItems: 'flex-start', marginBottom: 20 }}

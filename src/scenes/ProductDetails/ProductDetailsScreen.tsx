@@ -14,7 +14,7 @@ import { useSharedValue } from "react-native-reanimated";
 import { TextInput, Icon, Divider } from "react-native-paper";
 import ProductCard from "../../components/ProductCard/ProductCard";
 import { Rating } from "react-native-ratings";
-import NIText from "../../components/ProductCard/NIText/NIText";
+import NIText from "../../components/NIText/NIText";
 import NIButton from "../../components/NIButton/NIButton";
 
 

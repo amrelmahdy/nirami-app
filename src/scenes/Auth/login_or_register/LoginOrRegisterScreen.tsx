@@ -6,6 +6,7 @@ import { getIconUrl } from "../../../assets/icons";
 import { SafeAreaView, SafeAreaProvider } from 'react-native-safe-area-context';
 import NAVIGATION_ROUTES from "../../../navigation/NavigationRoutes";
 import navigationAdapter from "../../../navigation/NavigationAdapter";
+import i18next, { t } from "i18next";
 // import { TextInput } from 'react-native-paper';
 // import { InputOutline, InputStandard } from 'react-native-input-outline';
 
@@ -28,21 +29,21 @@ function LoginOrRegister() {
         <View style={styles.container}>
             <View style={styles.loginFormContainer}>
                 <Image style={styles.logo} source={getIconUrl(Images, "login_logo_nirami")} />
-                <View style={styles.tabs}>
+                <View style={[styles.tabs, { flexDirection: i18next.language === 'ar' ? 'row' : 'row-reverse' }]}>
                     <TouchableOpacity style={styles.tab} onPress={() => setActiveTab("register")}>
                         <Text style={[styles.font, {
-                            color: activeTab !== 'register' ? 'rgb(190, 190, 190)' : '#000'
-                        }]}>التسجيل</Text>
+                            color: activeTab !== 'register' ? '#bebebe' : '#000'
+                        }]}>{t("register")}</Text>
                     </TouchableOpacity>
                     <Text style={styles.tabDivider}>|</Text>
                     <TouchableOpacity style={styles.tab} onPress={() => setActiveTab("login")}>
                         <Text style={[styles.font, {
                             color: activeTab !== 'login' ? 'rgb(190, 190, 190)' : '#000'
-                        }]}>تسجيل الدخول</Text>
+                        }]}>{t("login")}</Text>
                     </TouchableOpacity>
                 </View>
                 <View style={styles.fieldContainer}>
-                    <Text style={{ textAlign: 'right', fontFamily: 'Almarai-Regular', height: 20}}>البريد الإلكتروني او رقم الجوال</Text>
+                    <Text style={{ textAlign: 'right', fontFamily: 'Almarai-Regular', height: 20 }}>البريد الإلكتروني او رقم الجوال</Text>
                     <TextInput
                         style={styles.input}
                         onChangeText={() => { }}
@@ -110,7 +111,7 @@ const styles = StyleSheet.create({
         borderBottomWidth: 1,
         paddingVertical: 15,
         borderColor: '#bebebe',
-        marginVertical: 40
+        marginVertical: 40,
     },
     tab: {
         flex: 1,

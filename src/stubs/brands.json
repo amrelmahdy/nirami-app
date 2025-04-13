@@ -1,0 +1,44 @@
+{
+    "brands": [
+        {
+            "id": "1",
+            "name": "brand1_name",
+            "image": "https://placehold.co/600x600.png"
+        },
+        {
+            "id": "1",
+            "name": "brand2_name",
+            "image": "https://placehold.co/600x600.png"
+        },
+        {
+            "id": "1",
+            "name": "brand3_name",
+            "image": "https://placehold.co/600x600.png"
+        },
+        {
+            "id": "1",
+            "name": "brand4_name",
+            "image": "https://placehold.co/600x600.png"
+        },
+        {
+            "id": "1",
+            "name": "brand5_name",
+            "image": "https://placehold.co/600x600.png"
+        },
+        {
+            "id": "1",
+            "name": "brand6_name",
+            "image": "https://placehold.co/600x600.png"
+        },
+        {
+            "id": "1",
+            "name": "brand7_name",
+            "image": "https://placehold.co/600x600.png"
+        },
+        {
+            "id": "1",
+            "name": "brand8_name",
+            "image": "https://placehold.co/600x600.png"
+        }
+    ]
+}

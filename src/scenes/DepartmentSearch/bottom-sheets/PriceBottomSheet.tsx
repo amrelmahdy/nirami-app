@@ -6,7 +6,7 @@ import { RadioButton } from 'react-native-paper';
 import { FONT_FAMILIES } from '../../../assets';
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
 import Slider, { MarkerProps } from '@react-native-community/slider';
-import NIText from '../../../components/ProductCard/NIText/NIText';
+import NIText from '../../../components/NIText/NIText';
 import NIButton from '../../../components/NIButton/NIButton';
 
 

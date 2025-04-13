@@ -13,7 +13,7 @@ import {
 } from '@gorhom/bottom-sheet';
 
 import type { ReactNode, RefObject } from 'react';
-import NIText from '../ProductCard/NIText/NIText';
+import NIText from '../NIText/NIText';
 import { Icon } from 'react-native-paper';
 import { getIconUrl } from '../../assets/icons';
 import { Images } from '../../assets';

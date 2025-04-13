@@ -46,7 +46,7 @@ const products = [
                 value: 5,
                 ownerName: "Amr",
                 review: "اعجبني جدااااا"
-            }, 
+            },
             {
                 value: 4.5,
                 ownerName: "Ghaidaa",
@@ -71,7 +71,7 @@ const products = [
                 value: 5,
                 ownerName: "Amr",
                 review: "اعجبني جدااااا"
-            }, 
+            },
             {
                 value: 4.5,
                 ownerName: "Ghaidaa",
@@ -96,7 +96,7 @@ const products = [
                 value: 5,
                 ownerName: "Amr",
                 review: "اعجبني جدااااا"
-            }, 
+            },
             {
                 value: 4.5,
                 ownerName: "Ghaidaa",
@@ -121,7 +121,7 @@ const products = [
                 value: 5,
                 ownerName: "Amr",
                 review: "اعجبني جدااااا"
-            }, 
+            },
             {
                 value: 4.5,
                 ownerName: "Ghaidaa",
@@ -252,10 +252,15 @@ function HomeScreen() {
                 </View>
 
 
-                <View style={{ flex: 1, paddingHorizontal: 15, marginBottom: 50 }}>
+
+
+
+                <View style={{ flex: 1, paddingHorizontal: 15 }}>
                     <Text style={{ fontFamily: 'Almarai-Bold', textAlign: 'right', fontSize: 20, marginBottom: 20 }}>الاكثر مبيعاً</Text>
                     <FlatList
-                        numColumns={2}  // Set two columns per row
+                        // numColumns={2}  // Set two columns per row
+                        horizontal
+                        showsHorizontalScrollIndicator={false}
                         keyExtractor={(item, index) => index.toString()} style={{ width: '100%' }}
                         data={products}
                         //contentContainerStyle={{ paddingHorizontal: 10, paddingBottom: 20 }}  // Add padding around the grid
@@ -263,10 +268,61 @@ function HomeScreen() {
                         renderItem={({ item, index }) => <ProductCard product={item} />} />
                 </View>
 
+
+
+                <View
+                    style={{
+                        flex: 1,
+                        height: 300,
+                        marginVertical: 30
+                        // justifyContent: "center",
+                    }}
+                >
+                    <View style={styles.slide}>
+                        <Image
+                            style={styles.image}
+                            source={{ uri: "https://placehold.co/600x600.png" }}
+                            resizeMode={'cover'}
+                        />
+                    </View>
+                </View>
+
                 <View style={{ flex: 1, paddingHorizontal: 15 }}>
                     <Text style={{ fontFamily: 'Almarai-Bold', textAlign: 'right', fontSize: 20, marginBottom: 20 }}>وصل حديثاً</Text>
                     <FlatList
-                        numColumns={2}  // Set two columns per row
+                        horizontal
+                        showsHorizontalScrollIndicator={false}
+                        keyExtractor={(item, index) => index.toString()} style={{ width: '100%' }}
+                        data={products}
+                        //contentContainerStyle={{ paddingHorizontal: 10, paddingBottom: 20 }}  // Add padding around the grid
+
+                        renderItem={({ item, index }) => <ProductCard product={item} />} />
+                </View>
+
+
+                <View
+                    style={{
+                        flex: 1,
+                        height: 300,
+                        marginVertical: 30
+                        // justifyContent: "center",
+                    }}
+                >
+                    <View style={styles.slide}>
+                        <Image
+                            style={styles.image}
+                            source={{ uri: "https://placehold.co/600x600.png" }}
+                            resizeMode={'cover'}
+                        />
+                    </View>
+                </View>
+
+
+                <View style={{ flex: 1, paddingHorizontal: 15 }}>
+                    <Text style={{ fontFamily: 'Almarai-Bold', textAlign: 'right', fontSize: 20, marginBottom: 20 }}>المنتجات الجديدة</Text>
+                    <FlatList
+                        horizontal
+                        showsHorizontalScrollIndicator={false}
                         keyExtractor={(item, index) => index.toString()} style={{ width: '100%' }}
                         data={products}
                         //contentContainerStyle={{ paddingHorizontal: 10, paddingBottom: 20 }}  // Add padding around the grid

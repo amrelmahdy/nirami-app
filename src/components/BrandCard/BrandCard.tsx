@@ -6,22 +6,32 @@ import { Images } from "../../assets";
 import { Icon } from "react-native-paper";
 import navigationAdapter from "../../navigation/NavigationAdapter";
 import NAVIGATION_ROUTES from "../../navigation/NavigationRoutes";
-import NIText from "../NIText/NIText";
 
-export default function DepartmentCard({ department }) {
+
+type Brand = {
+    id: string,
+    name: string,
+    image: string,
+}
+
+
+type FilterByBarProps = {
+    brand: Brand
+}
+
+const BrandCard: React.FC<FilterByBarProps> = ({ brand }) => {
     return (
         <TouchableOpacity
             style={{
-
                 backgroundColor: "#fff",
                 borderWidth: 1,
                 borderColor: '#bebebe',
                 borderRadius: 2,
                 overflow: 'hidden',
                 // paddingHorizontal: 15, 
-                marginLeft: 15, // Adds spacing between cards
+                marginRight: 15, // Adds spacing between cards
                 marginBottom: 15,
-                width: Dimensions.get('screen').width / 2 - 22, // Slightly smaller for better fit in grid 
+                width: Dimensions.get('screen').width / 2 - 23, // Slightly smaller for better fit in grid 
                 // shadowColor: "#000", 
                 // shadowOpacity: 0.1, 
                 // shadowRadius: 5, 
@@ -29,17 +39,18 @@ export default function DepartmentCard({ department }) {
             }}
             activeOpacity={0.8} // Slight click effect
             onPress={() => {
-                navigationAdapter.navigate(NAVIGATION_ROUTES.FILTERED_PRODUCTS_SCREEN, { department })
+                //navigationAdapter.navigate(NAVIGATION_ROUTES.PRODUCT_DETAILS, { brand })
             }}
         >
+
             <Image
-                source={{ uri: department.image }}
+                source={{ uri: brand.image }}
                 style={{ width: "100%", height: undefined, aspectRatio: 1, resizeMode: "cover" }}
             />
-            <View style={{width:  '100%',  position: 'absolute', top: '50%', }}>
-                <NIText type='regular' style={{ textAlign: 'center', fontSize: 20, width: '100%', height: 30}}>{department.name}</NIText>
-            </View>
+
 
         </TouchableOpacity>
     );
 }
+
+export default BrandCard

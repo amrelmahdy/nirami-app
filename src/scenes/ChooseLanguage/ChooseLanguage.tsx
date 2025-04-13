@@ -4,6 +4,8 @@ import { Images } from './../../assets'
 import { getIconUrl } from "../../assets/icons";
 import navigationAdapter from "../../navigation/NavigationAdapter";
 import NAVIGATION_ROUTES from "../../navigation/NavigationRoutes";
+import i18next, { t } from "i18next";
+import i18n from "../../i18n";
 
 type ChooseLanguagenProps = {
     onFinish?: () => void;
@@ -17,11 +19,11 @@ const ChooseLanguage: React.FC<ChooseLanguagenProps> = ({ onFinish }) => {
         <View style={styles.container}>
             <View style={styles.logoWithSlogan}>
                 <Image source={getIconUrl(Images, 'login_logo_nirami')} style={styles.image} />
-                <Text style={styles.slogan}>تجربة استثنائية تعيد تعريف الجمال بأسلوب جديد</Text>
+                <Text style={styles.slogan}>{t("slogan")}</Text>
             </View>
 
             <View style={styles.chooseLangWrapper}>
-                <Text style={styles.chooseLang}>اختار اللغة</Text>
+                <Text style={styles.chooseLang}>{t("choose_lang")}</Text>
                 <View style={{
                     flexDirection: 'row',
                     justifyContent: 'space-around',
@@ -29,11 +31,18 @@ const ChooseLanguage: React.FC<ChooseLanguagenProps> = ({ onFinish }) => {
                     borderColor: '#bebebe',
 
                 }}>
-                    <TouchableOpacity onPress={() => navigationAdapter.replace(NAVIGATION_ROUTES.AUTH)} style={{ flex: 1 }} onLayout={(event) => console.log("Width:", event.nativeEvent.layout.width)}>
-                        <Text style={styles.lang}>English</Text>
+                    <TouchableOpacity onPress={() => {
+                        navigationAdapter.replace(NAVIGATION_ROUTES.AUTH)
+                        i18next.changeLanguage('en')
+                    }} style={{ flex: 1 }} onLayout={(event) => console.log("Width:", event.nativeEvent.layout.width)}>
+                        <Text style={styles.lang}>{t("lang_en")}</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={() => navigationAdapter.replace(NAVIGATION_ROUTES.AUTH)} style={{ flex: 1 }} onLayout={(event) => console.log("Width:", event.nativeEvent.layout.width)}>
-                        <Text style={styles.lang}>العربية</Text>
+                    <TouchableOpacity onPress={() => {
+                        navigationAdapter.replace(NAVIGATION_ROUTES.AUTH)
+                        i18next.changeLanguage('ar')
+                    }
+                    } style={{ flex: 1 }} onLayout={(event) => console.log("Width:", event.nativeEvent.layout.width)}>
+                        <Text style={styles.lang}>{t("lang_ar")}</Text>
                     </TouchableOpacity>
                     <View style={{
                         position: 'absolute',
