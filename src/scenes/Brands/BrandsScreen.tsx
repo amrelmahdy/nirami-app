@@ -17,134 +17,20 @@ import NIScreen from "../../components/NIScreen/NiScreen";
 import { t } from "i18next";
 import brandsData from './../../stubs/brands.json'
 import BrandCard from "../../components/BrandCard/BrandCard";
-
-
-const items = [
-    {
-        title: "1",
-        image: "https://placehold.co/600x400.png"
-
-    },
-    {
-        title: "1",
-        image: "https://placehold.co/600x400.png"
-
-    },
-    {
-        title: "1",
-        image: "https://placehold.co/600x400.png"
-
-    }
-]
+import { useGetBrands } from "./brands.hooks";
 
 
 
-const products = [
-    {
-        name: "آحمر شفاه",
-        category: "MAC",
-        ratings: 3.5,
-        reviews: [
-            {
-                value: 5,
-                ownerName: "Amr",
-                review: "اعجبني جدااااا"
-            },
-            {
-                value: 4.5,
-                ownerName: "Ghaidaa",
-                review: "خطير اوي"
-            },
-            {
-                value: 1.5,
-                ownerName: "Sultan",
-                review: "لا معجبنيش خالص"
-            }
-        ],
-        price: 133,
-        image: "https://placehold.co/600x600.png"
 
-    },
-    {
-        name: "آحمر شفاه",
-        category: "MAC",
-        ratings: 4.5,
-        reviews: [
-            {
-                value: 5,
-                ownerName: "Amr",
-                review: "اعجبني جدااااا"
-            },
-            {
-                value: 4.5,
-                ownerName: "Ghaidaa",
-                review: "خطير اوي"
-            },
-            {
-                value: 1.5,
-                ownerName: "Sultan",
-                review: "لا معجبنيش خالص"
-            }
-        ],
-        price: 133,
-        image: "https://placehold.co/600x600.png"
 
-    },
-    {
-        name: "آحمر شفاه",
-        category: "MAC",
-        ratings: 1.5,
-        reviews: [
-            {
-                value: 5,
-                ownerName: "Amr",
-                review: "اعجبني جدااااا"
-            },
-            {
-                value: 4.5,
-                ownerName: "Ghaidaa",
-                review: "خطير اوي"
-            },
-            {
-                value: 1.5,
-                ownerName: "Sultan",
-                review: "لا معجبنيش خالص"
-            }
-        ],
-        price: 133,
-        image: "https://placehold.co/600x600.png"
-
-    },
-    {
-        name: "آحمر شفاه",
-        category: "MAC",
-        ratings: 1.5,
-        reviews: [
-            {
-                value: 5,
-                ownerName: "Amr",
-                review: "اعجبني جدااااا"
-            },
-            {
-                value: 4.5,
-                ownerName: "Ghaidaa",
-                review: "خطير اوي"
-            },
-            {
-                value: 1.5,
-                ownerName: "Sultan",
-                review: "لا معجبنيش خالص"
-            }
-        ],
-        price: 133,
-        image: "https://placehold.co/600x600.png"
-
-    },
-]
 
 function BrandsScreen() {
 
-    console.log("brands", brandsData)
+    const { data: brandsList, isError: isBrandsError, isLoading: isBrandsLoading } = useGetBrands()
+
+
+
+    console.log("brands", brandsList)
 
     const carouselRef = useRef(null);
     const data = [...new Array(6).keys()];
@@ -167,14 +53,14 @@ function BrandsScreen() {
 
 
     return (
-        <NIScreen title={t("brands")} headerProps={{ style: { marginBottom: 30 } }}>
-            <View style={{ flex: 1, paddingHorizontal: 15}}>
+        <NIScreen title={t("brands")} headerProps={{ style: { marginBottom: 0 } }}>
+            <View style={{ flex: 1, paddingHorizontal: 15 }}>
                 <FlatList
                     numColumns={2}
                     showsHorizontalScrollIndicator={false}
                     keyExtractor={(item, index) => index.toString()} style={{ width: '100%' }}
                     data={brandsData.brands}
-                    //contentContainerStyle={{ paddingHorizontal: 10, paddingBottom: 20 }}  // Add padding around the grid
+                    contentContainerStyle={{ paddingTop: 20 }}  // Add padding around the grid
 
                     renderItem={({ item, index }) => <BrandCard brand={item} />} />
             </View>

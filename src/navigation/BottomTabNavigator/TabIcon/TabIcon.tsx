@@ -11,7 +11,7 @@ type TabIconProps = {
     iconName: string;
 }
 
-const TabIcon: React.FC<TabIconProps> = ({ focused, iconName }) => {
+const TabIcon: React.FC<TabIconProps> = ({ focused, iconName, ...rest }) => {
     const tintColor = focused ? "#000000" : "#888888";
     const iconSource: ImageSourcePropType | undefined = getIconUrl(Images, iconName);
 

@@ -1,24 +1,25 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, Image } from 'react-native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { FONT_FAMILIES, Images } from '../../assets';
-import { getIconUrl } from '../../assets/icons';
-import navigationAdapter from '../../navigation/NavigationAdapter';
-import { Icon } from 'react-native-paper';
-import { FlatList } from 'react-native-gesture-handler';
+import { TouchableOpacity, Image } from 'react-native';
 import NIText from '../NIText/NIText';
+import i18next from "i18next";
 
 
 type Item = {
-    name: string
+    name: Record<string, string>; // or Partial<Record<LanguageCode, string>>
+    image: string;
+    id: string;
 }
 
 type FilterGroupItemProps = {
     item: Item;
-    isActive?: boolean
+    activeId: string,
+    onItemPress: (id: string) => void;
 };
 
-const FilterGroupItem: React.FC<FilterGroupItemProps> = ({ item, isActive = true }) => {
+const FilterGroupItem: React.FC<FilterGroupItemProps> = ({ item, activeId = "1", onItemPress }) => {
+
+
+    const isActive = item?.id === activeId;
 
     return (
         <TouchableOpacity style={{
@@ -31,7 +32,11 @@ const FilterGroupItem: React.FC<FilterGroupItemProps> = ({ item, isActive = true
             marginHorizontal: 5
             // paddingVertical: 15,
             // paddingHorizontal: 15
-        }}>
+        }}
+
+            onPress={() => onItemPress(item.id)}
+
+        >
             <Image
                 style={{
                     width: 70, height: 70, borderWidth: 1, borderColor: isActive ? "#000" : "#c2c2c2", borderRadius: 35,
@@ -41,7 +46,9 @@ const FilterGroupItem: React.FC<FilterGroupItemProps> = ({ item, isActive = true
                 source={{ uri: item.image }}
             //resizeMode={'cover'}
             />
-            <NIText style={{ color: '#000', height: 20, fontSize: 12, textAlign: "center" }}>{item?.name}</NIText>
+            <NIText style={{ color: '#000', height: 20, fontSize: 12, textAlign: "center" }}>{
+                item?.name[i18next.language] || item?.name['ar']
+            }</NIText>
         </TouchableOpacity>
     );
 };

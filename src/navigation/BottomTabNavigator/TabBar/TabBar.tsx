@@ -4,6 +4,7 @@ import { Text, PlatformPressable } from '@react-navigation/elements';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import HomeScreen from '../../../scenes/Home/HomeScreen';
 import TabIcon from '../TabIcon/TabIcon';
+import { Badge } from 'react-native-paper';
 
 const TabBar = ({ state, descriptors, navigation }) => {
     const { colors } = useTheme();
@@ -47,6 +48,8 @@ const TabBar = ({ state, descriptors, navigation }) => {
                     }
                 };
 
+                console.log("route.params", route.params)
+
                 const onLongPress = () => {
                     navigation.emit({
                         type: 'tabLongPress',
@@ -73,6 +76,7 @@ const TabBar = ({ state, descriptors, navigation }) => {
                     >
 
                         {isFocused && <View style={styles.activeBar} />}
+                        {route.params.badge && <Badge style={{ position: 'absolute', left: 16, top: 7 }}>3</Badge>}
                         <TabIcon focused={isFocused} iconName={route.params.icon} />
                         {/* <Text
                             style={{

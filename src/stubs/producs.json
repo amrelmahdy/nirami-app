@@ -1,0 +1,100 @@
+{
+    "products": [
+        {
+            "name": "آحمر شفاه",
+            "category": "MAC",
+            "ratings": 3.5,
+            "reviews": [
+                {
+                    "value": 5,
+                    "ownerName": "Amr",
+                    "review": "اعجبني جدااااا"
+                },
+                {
+                    "value": 4.5,
+                    "ownerName": "Ghaidaa",
+                    "review": "خطير اوي"
+                },
+                {
+                    "value": 1.5,
+                    "ownerName": "Sultan",
+                    "review": "لا معجبنيش خالص"
+                }
+            ],
+            "price": 133,
+            "image": "https://placehold.co/600x600.png"
+        },
+        {
+            "name": "آحمر شفاه",
+            "category": "MAC",
+            "ratings": 4.5,
+            "reviews": [
+                {
+                    "value": 5,
+                    "ownerName": "Amr",
+                    "review": "اعجبني جدااااا"
+                },
+                {
+                    "value": 4.5,
+                    "ownerName": "Ghaidaa",
+                    "review": "خطير اوي"
+                },
+                {
+                    "value": 1.5,
+                    "ownerName": "Sultan",
+                    "review": "لا معجبنيش خالص"
+                }
+            ],
+            "price": 133,
+            "image": "https://placehold.co/600x600.png"
+        },
+        {
+            "name": "آحمر شفاه",
+            "category": "MAC",
+            "ratings": 1.5,
+            "reviews": [
+                {
+                    "value": 5,
+                    "ownerName": "Amr",
+                    "review": "اعجبني جدااااا"
+                },
+                {
+                    "value": 4.5,
+                    "ownerName": "Ghaidaa",
+                    "review": "خطير اوي"
+                },
+                {
+                    "value": 1.5,
+                    "ownerName": "Sultan",
+                    "review": "لا معجبنيش خالص"
+                }
+            ],
+            "price": 133,
+            "image": "https://placehold.co/600x600.png"
+        },
+        {
+            "name": "آحمر شفاه",
+            "category": "MAC",
+            "ratings": 1.5,
+            "reviews": [
+                {
+                    "value": 5,
+                    "ownerName": "Amr",
+                    "review": "اعجبني جدااااا"
+                },
+                {
+                    "value": 4.5,
+                    "ownerName": "Ghaidaa",
+                    "review": "خطير اوي"
+                },
+                {
+                    "value": 1.5,
+                    "ownerName": "Sultan",
+                    "review": "لا معجبنيش خالص"
+                }
+            ],
+            "price": 133,
+            "image": "https://placehold.co/600x600.png"
+        }
+    ]
+}

@@ -2,7 +2,8 @@ import { createMaterialTopTabNavigator } from '@react-navigation/material-top-ta
 import React from 'react';
 import {
     StyleSheet,
-    View
+    View,
+    ActivityIndicator
 } from 'react-native';
 import { FONT_FAMILIES } from '../../assets';
 import HomeScreen from '../Home/HomeScreen';
@@ -10,6 +11,8 @@ import PageHeader from '../../components/PageHeader/PageHeader';
 import SearchInput from '../../components/SearchInput/SearchInput';
 import Makeup from './tabs/Makeup';
 import SkinCare from './tabs/SkinCare';
+import { useGetDepartments } from '../../hooks/departments.hooks';
+import DepTab from './tabs/DepTab';
 
 
 
@@ -17,25 +20,45 @@ const Tab = createMaterialTopTabNavigator();
 
 
 
-export default function DepartmentSearchScreen() {
+const DepartmentSearchScreen = () => {
+
+
+    const { data: departmentsList, isLoading: departmentsIsLoading, isError: departmentsIsError, refetch } = useGetDepartments()
+
+
+    const renderTabs = () => {
+        return departmentsList && !departmentsIsLoading && !departmentsIsError && departmentsList?.map((department) => {
+            return (
+                <Tab.Screen key={department.id} name={department.name.en} options={{ tabBarLabel: department.name.ar, }} component={() => <DepTab department={department} refetch={refetch} />} />
+            )
+        })
+    }
+
+
+
     return (
         <View style={{ flex: 1, backgroundColor: '#FFF' }}>
+
             <PageHeader headerLabel="الاقسام" withBorder={false} />
+            {departmentsIsLoading && <ActivityIndicator />}
             <View style={{ paddingHorizontal: 15, marginVertical: 20, backgroundColor: '#FFF' }}>
                 <SearchInput />
             </View>
 
-            <Tab.Navigator
-                initialRouteName='TAB1'
+            {departmentsList && !departmentsIsLoading && !departmentsIsError && departmentsList.length && <Tab.Navigator
+                initialRouteName={departmentsList ? departmentsList[1].name.en : 'Makeup'}
                 screenOptions={{
-                    tabBarLabelStyle: { fontSize: 18, fontFamily: FONT_FAMILIES.ALMARAI_REGULAR },
+                    tabBarLabelStyle: {
+                        fontSize: 18,
+                        fontFamily: FONT_FAMILIES.ALMARAI_REGULAR,
+                        height: 23
+                    },
                     // tabBarItemStyle: { width: 100 },
                     // tabBarStyle: { backgroundColor: 'powderblue' },
                 }}
             >
-                <Tab.Screen name='TAB1' options={{ tabBarLabel: 'العناية' }} component={SkinCare} />
-                <Tab.Screen name='TAB2' options={{ tabBarLabel: 'المكياج' }} component={Makeup} />
-            </Tab.Navigator>
+                {renderTabs()}
+            </Tab.Navigator>}
         </View>
     );
 }
@@ -43,3 +66,5 @@ export default function DepartmentSearchScreen() {
 const styles = StyleSheet.create({
 
 });
+
+export default DepartmentSearchScreen;

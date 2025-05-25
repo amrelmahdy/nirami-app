@@ -1,21 +1,20 @@
 import React from "react";
-import { View, Image, StyleSheet } from "react-native";
+import { View, Image, StyleSheet, ViewStyle } from "react-native";
 
 
 
 type BannerImageProps = {
     image: string;
+    style?: ViewStyle
 };
 
-const BannerImage: React.FC<BannerImageProps> = ({ image }) => {
+const BannerImage: React.FC<BannerImageProps> = ({ image, style }) => {
     return (
         <View
-            style={{
+            style={[{
                 flex: 1,
-                height: 300,
-                marginVertical: 30,
-                // justifyContent: "center",
-            }}
+                height: 300
+            }, style]}
         >
             <View style={styles.banner}>
                 <Image

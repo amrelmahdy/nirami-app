@@ -13,26 +13,12 @@ import Carousel, {
 import { useSharedValue } from "react-native-reanimated";
 import { TextInput, Icon } from "react-native-paper";
 import ProductCard from "../../components/ProductCard/ProductCard";
+import homeCarouselData from './../../stubs/home_carousel.json'
+import brandsData from './../../stubs/brands.json'
+import BrandCard from "../../components/BrandCard/BrandCard";
 
 
 
-const items = [
-    {
-        title: "1",
-        image: "https://placehold.co/600x400.png"
-
-    },
-    {
-        title: "1",
-        image: "https://placehold.co/600x400.png"
-
-    },
-    {
-        title: "1",
-        image: "https://placehold.co/600x400.png"
-
-    }
-]
 
 
 
@@ -222,7 +208,7 @@ function HomeScreen() {
                         ref={carouselRef}
                         width={width}
                         height={width / 2}
-                        data={items}
+                        data={homeCarouselData.items}
                         onProgressChange={progress}
                         renderItem={({ item, index }) => (
                             <View
@@ -244,7 +230,7 @@ function HomeScreen() {
 
                     <Pagination.Basic
                         progress={progress}
-                        data={items}
+                        data={homeCarouselData.items}
                         dotStyle={{ backgroundColor: "rgba(0,0,0,0.2)", borderRadius: 50 }}
                         containerStyle={{ gap: 5, marginTop: 20 }}
                         onPress={onPressPagination}
@@ -288,15 +274,15 @@ function HomeScreen() {
                 </View>
 
                 <View style={{ flex: 1, paddingHorizontal: 15 }}>
-                    <Text style={{ fontFamily: 'Almarai-Bold', textAlign: 'right', fontSize: 20, marginBottom: 20 }}>وصل حديثاً</Text>
+                    <Text style={{ fontFamily: 'Almarai-Bold', textAlign: 'right', fontSize: 20, marginBottom: 20 }}>إكتشف الماركات</Text>
                     <FlatList
                         horizontal
                         showsHorizontalScrollIndicator={false}
                         keyExtractor={(item, index) => index.toString()} style={{ width: '100%' }}
-                        data={products}
+                        data={brandsData.brands}
                         //contentContainerStyle={{ paddingHorizontal: 10, paddingBottom: 20 }}  // Add padding around the grid
 
-                        renderItem={({ item, index }) => <ProductCard product={item} />} />
+                        renderItem={({ item, index }) => <BrandCard brand={item} />} />
                 </View>
 
 

@@ -10,12 +10,16 @@ const NAVIGATION_ROUTES = {
   BOTTOM_TAB_NIRAMI: 'BTM_TAB_Nirami',
   BOTTOM_TAB_CART: 'BTM_TAB_Nirami',
   BOTTOM_TAB_SEARCH: 'BTM_TAB_Nirami',
+  BOTTOM_TAB_BRANDS: 'BTM_TAB_Brands',
+
 
   HOMEPAGE: 'HomePage',
   FAV_LIST: 'FavList',
+  BRANDS: 'Brands',
+  FILTERED_PRODUCTS_BY_BRAND: 'FilteredProductsByBrand',
   PRODUCT_DETAILS: 'ProductDetails',
-  DEPARTMENT_SEARCH_SCREEN: 'DepartmentSearchScreen',
-  FILTERED_PRODUCTS_SCREEN: 'FilteredProductsScreen',
+  DEPARTMENT_SEARCH: 'DepartmentSearch',
+  FILTERED_PRODUCTS: 'FilteredProducts',
   LOGIN_OR_REGISTER: 'LoginOrRegister',
   OTP: 'OTP',
   RESET_PASSWORD: 'ResetPasswordScreen',

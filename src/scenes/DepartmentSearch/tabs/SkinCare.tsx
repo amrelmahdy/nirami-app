@@ -4,7 +4,7 @@ import ImageBanner from "../../../components/ImageBanner/ImageBanner";
 import { getIconUrl } from "../../../assets/icons";
 import { Images } from "../../../assets";
 import { FlatList, ScrollView } from "react-native-gesture-handler";
-import DepartmentCard from "../../../components/DepartmentCard/DepartmentCard";
+import DepartmentCard from "../../../components/CategoryCard/CategoryCard";
 
 
 

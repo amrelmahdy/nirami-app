@@ -4,23 +4,40 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { FONT_FAMILIES, Images } from '../../assets';
 import { getIconUrl } from '../../assets/icons';
 import navigationAdapter from '../../navigation/NavigationAdapter';
-import { Icon } from 'react-native-paper';
+import { Badge, Icon } from 'react-native-paper';
 import { FlatList } from 'react-native-gesture-handler';
 import NIText from '../NIText/NIText';
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
 
 
 type Item = {
-    name: string;
+    type: string;
+    label: string;
     sheetRef: RefObject<BottomSheetModal | null>;
+    activeBrands: string;
+    setActiveBrands: (brands: string) => void;
 }
 
 type FilterByItemProps = {
     item: Item;
-    isActive?: boolean
+    isActive?: boolean,
+    withBrandFilter?: boolean,
 };
 
-const FilterByItem: React.FC<FilterByItemProps> = ({ item }) => {
+const FilterByItem: React.FC<FilterByItemProps> = ({ item, withBrandFilter = true }) => {
+
+    if (!withBrandFilter && item.type === 'brand') return null
+
+
+    console.log("item>>", item)
+
+
+    const getBorderColor = () => {
+        if (item.type === 'brand') {
+            return item.activeBrands && item.activeBrands !== "" ? "#000" : "#c2c2c2"
+        }
+        return "#c2c2c2"
+    }
 
     return (
         <TouchableOpacity
@@ -31,7 +48,7 @@ const FilterByItem: React.FC<FilterByItemProps> = ({ item }) => {
                 justifyContent: 'center',
                 alignItems: 'center',
                 borderWidth: 1,
-                borderColor: "#c2c2c2",
+                borderColor: getBorderColor(),
                 width: 100,
                 marginHorizontal: 5,
 
@@ -40,8 +57,32 @@ const FilterByItem: React.FC<FilterByItemProps> = ({ item }) => {
                 borderRadius: 10
             }}>
 
-            <NIText style={{ color: '#000', fontSize: 12, textAlign: "center" }}>{item?.label}</NIText>
-        </TouchableOpacity>
+            <NIText style={{ color: '#000', fontSize: 12, textAlign: "center" }}>
+                {item?.label}
+            </NIText>
+
+
+
+            {
+                item.activeBrands || item.activeSorting || item.activePrice && <View style={{
+                    position: 'absolute',
+                    backgroundColor: '#ed5565',
+                    width: 15,
+                    height: 15,
+                    borderRadius: 7.5,
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    left: 3
+                }}>
+                    {item.type === 'brand' && item.activeBrands !== "" && <Badge>
+                        {item.activeBrands?.trim().split(",").length}
+                    </Badge>}
+                </View>
+            }
+
+
+
+        </TouchableOpacity >
     );
 };
 

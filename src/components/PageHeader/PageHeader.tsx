@@ -34,9 +34,11 @@ const PageHeader: React.FC<PageHeaderProps> = ({ headerLabel, withBorder = true,
                 right: 15,
                 top: 0
             }}>
-                <TouchableOpacity onPress={() => navigationAdapter.goBack()}>
+                { 
+                    navigationAdapter.canGoBack && <TouchableOpacity onPress={() => navigationAdapter.goBack()}>
                     <Icon source={getIconUrl(Images, 'ic_weui_arrow_outlined')} size={24} />
                 </TouchableOpacity>
+                }
             </View>
         </View>
     );

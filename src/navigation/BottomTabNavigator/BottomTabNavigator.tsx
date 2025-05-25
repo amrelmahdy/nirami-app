@@ -14,6 +14,8 @@ import DepartmentSearchScreen from '../../scenes/DepartmentSearch/DepartmentSear
 import FilteredProductsScreen from '../../scenes/DepartmentSearch/FilteredProductsScreen';
 import CartScreen from '../../scenes/Cart/CartScreen';
 import BrandsScreen from '../../scenes/Brands/BrandsScreen';
+import FilteredProductsByBrandScreen from '../../scenes/Brands/FilteredProductsByBrandScreen';
+import AccountScreen from '../../scenes/Account/Account';
 
 
 const Stack = createStackNavigator()
@@ -30,23 +32,24 @@ const HomeStack = () => (
 
 const DepartmentStack = () => (
     <Stack.Navigator>
-        <Stack.Screen name={NAVIGATION_ROUTES.DEPARTMENT_SEARCH_SCREEN} options={{ headerShown: false }} component={DepartmentSearchScreen} />
-        <Stack.Screen name={NAVIGATION_ROUTES.FILTERED_PRODUCTS_SCREEN} options={{ headerShown: false }} component={FilteredProductsScreen} />
+        <Stack.Screen name={NAVIGATION_ROUTES.DEPARTMENT_SEARCH} options={{ headerShown: false }} component={DepartmentSearchScreen} />
+        <Stack.Screen name={NAVIGATION_ROUTES.FILTERED_PRODUCTS} options={{ headerShown: false }} component={FilteredProductsScreen} />
     </Stack.Navigator>
 )
 
 
 const CartStack = () => (
     <Stack.Navigator>
-        <Stack.Screen name={NAVIGATION_ROUTES.DEPARTMENT_SEARCH_SCREEN} options={{ headerShown: false }} component={CartScreen} />
-        <Stack.Screen name={NAVIGATION_ROUTES.FILTERED_PRODUCTS_SCREEN} options={{ headerShown: false }} component={FilteredProductsScreen} />
+        <Stack.Screen name={NAVIGATION_ROUTES.DEPARTMENT_SEARCH} options={{ headerShown: false }} component={CartScreen} />
+        <Stack.Screen name={NAVIGATION_ROUTES.FILTERED_PRODUCTS} options={{ headerShown: false }} component={FilteredProductsScreen} />
     </Stack.Navigator>
 )
 
 
 const BrandsStack = () => (
     <Stack.Navigator>
-        <Stack.Screen name={NAVIGATION_ROUTES.DEPARTMENT_SEARCH_SCREEN} options={{ headerShown: false }} component={BrandsScreen} />
+        <Stack.Screen name={NAVIGATION_ROUTES.BRANDS} options={{ headerShown: false }} component={BrandsScreen} />
+        <Stack.Screen name={NAVIGATION_ROUTES.FILTERED_PRODUCTS_BY_BRAND} options={{ headerShown: false }} component={FilteredProductsByBrandScreen} />
     </Stack.Navigator>
 )
 
@@ -54,8 +57,8 @@ const BrandsStack = () => (
 
 const AccountStack = () => (
     <Stack.Navigator>
-        <Stack.Screen name={NAVIGATION_ROUTES.DEPARTMENT_SEARCH_SCREEN} options={{ headerShown: false }} component={CartScreen} />
-        <Stack.Screen name={NAVIGATION_ROUTES.FILTERED_PRODUCTS_SCREEN} options={{ headerShown: false }} component={FilteredProductsScreen} />
+        <Stack.Screen name={NAVIGATION_ROUTES.DEPARTMENT_SEARCH} options={{ headerShown: false }} component={AccountScreen} />
+        {/* <Stack.Screen name={NAVIGATION_ROUTES.FILTERED_PRODUCTS} options={{ headerShown: false }} component={FilteredProductsScreen} /> */}
     </Stack.Navigator>
 )
 
@@ -130,7 +133,7 @@ const BottomTabBar = () => {
 
             <Tab.Screen options={{ tabBarShowLabel: false }} name="Nirami" component={HomeStack} initialParams={{ icon: 'ic_N_Gray' }} />
             <Tab.Screen options={{ tabBarShowLabel: false }} name="Search" component={DepartmentStack} initialParams={{ icon: 'ic_search' }} />
-            <Tab.Screen options={{ tabBarShowLabel: false }} name="Cart" component={CartStack} initialParams={{ icon: 'ic_famicons_bag_outline' }} />
+            <Tab.Screen options={{ tabBarShowLabel: false }} name="Cart" component={CartStack} initialParams={{ icon: 'ic_famicons_bag_outline', badge: 5 }} />
             <Tab.Screen options={{ tabBarShowLabel: false }} name="Brands" component={BrandsStack} initialParams={{ icon: 'ic_fluent_tag_regular' }} />
             <Tab.Screen options={{ tabBarShowLabel: false }} name="Account" component={AccountStack} initialParams={{ icon: 'ic_ph_user_circle_light' }} />
 

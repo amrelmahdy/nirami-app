@@ -6,10 +6,12 @@ import navigationAdapter from "../../navigation/NavigationAdapter";
 import NAVIGATION_ROUTES from "../../navigation/NavigationRoutes";
 import i18next, { t } from "i18next";
 import i18n from "../../i18n";
+import Config from "react-native-config";
 
 type ChooseLanguagenProps = {
     onFinish?: () => void;
 };
+
 
 const ChooseLanguage: React.FC<ChooseLanguagenProps> = ({ onFinish }) => {
 
@@ -20,7 +22,7 @@ const ChooseLanguage: React.FC<ChooseLanguagenProps> = ({ onFinish }) => {
             <View style={styles.logoWithSlogan}>
                 <Image source={getIconUrl(Images, 'login_logo_nirami')} style={styles.image} />
                 <Text style={styles.slogan}>{t("slogan")}</Text>
-            </View>
+        </View>
 
             <View style={styles.chooseLangWrapper}>
                 <Text style={styles.chooseLang}>{t("choose_lang")}</Text>

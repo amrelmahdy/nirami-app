@@ -14,11 +14,13 @@ type Filter = {
 }
 
 type FilterBarProps = {
-    filters: Filter[];
+    filters: any;
+    activeId: string;
+    onItemPress: (id: string) => void;
     withBorder?: boolean
 };
 
-const FilterBar: React.FC<FilterBarProps> = ({ filters, withBorder = true }) => {
+const FilterBar: React.FC<FilterBarProps> = ({ filters, activeId, onItemPress, withBorder = true }) => {
     const insets = useSafeAreaInsets();
 
     return (
@@ -38,7 +40,7 @@ const FilterBar: React.FC<FilterBarProps> = ({ filters, withBorder = true }) => 
                 showsHorizontalScrollIndicator={false}
                 data={filters}
                 keyExtractor={(item, index) => index.toString()} style={{ width: '100%' }}
-                renderItem={({ item, index }) => <FilterItem item={item} isActive={item?.id === 1} />}
+                renderItem={({ item, index }) => <FilterItem onItemPress={onItemPress} item={item} isActive={item?.id === activeId} />}
 
             />
         </View>

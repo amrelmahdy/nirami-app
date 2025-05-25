@@ -10,28 +10,37 @@ import NIText from '../NIText/NIText';
 
 
 type Item = {
-    name: string
+    name: string;
+    image: string;
+    id: string;
 }
 
 type FilterItemProps = {
     item: Item;
-    isActive?: boolean
+    isActive?: boolean;
+    onItemPress: (id: string) => void;
+    // onItemPress: (id: string) => void;
 };
 
-const FilterItem: React.FC<FilterItemProps> = ({ item, isActive = true }) => {
+const FilterItem: React.FC<FilterItemProps> = ({ item, onItemPress, isActive = true }) => {
 
     return (
         <TouchableOpacity style={{
-            backgroundColor: isActive ? '#3f2848' :'#e5e5e5' ,
+            backgroundColor: isActive ? '#3f2848' : '#e5e5e5',
             justifyContent: 'center',
             alignItems: 'center',
             // marginHorizontal: 3,
             paddingVertical: 15,
             paddingHorizontal: 15,
             marginHorizontal: 2
+        }}
 
-        }}>
-            <NIText style={{  color:  isActive ? '#FFF' :'#000' }}>{item?.name}</NIText>
+            onPress={() => {
+                onItemPress(item?.id);
+                // navigationAdapter.navigate(NAVIGATION_ROUTES.PRODUCTS, { id: item.id })
+            }}
+        >
+            <NIText style={{ color: isActive ? '#FFF' : '#000' }}>{item?.name?.ar}</NIText>
         </TouchableOpacity>
     );
 };

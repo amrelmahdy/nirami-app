@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { act, useRef } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { FONT_FAMILIES, Images } from '../../assets';
@@ -6,7 +6,6 @@ import { getIconUrl } from '../../assets/icons';
 import navigationAdapter from '../../navigation/NavigationAdapter';
 import { Icon, RadioButton } from 'react-native-paper';
 import { FlatList } from 'react-native-gesture-handler';
-import FilterItem from './FilterItem';
 import FilterByItem from './FilterByItem';
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
 import BottomSheet from '../BottomSheet/BottomSheet';
@@ -17,14 +16,32 @@ import PriceBottomSheet from '../../scenes/DepartmentSearch/bottom-sheets/PriceB
 
 
 type Filter = {
-    name: string
+    name: Record<string, string>; // or Partial<Record<LanguageCode, string>>
+    image: string;
+    id: string; 
 }
 
 type FilterByBarProps = {
-    withBorder?: boolean
+    withBorder?: boolean;
+    withBrandFilter?: boolean;
+    activeBrands?: string;
+    brands?: Filter[];
+    setActiveBrands?: (brands: string) => void;
+    activeSorting?: string;
+    setActiveSorting?: (sorting: string) => void;
+    activePrice?: string;   
+    setActivePrice?: (price: string) => void;
 };
 
-const FilterByBar: React.FC<FilterByBarProps> = ({ withBorder = true }) => {
+
+//   activeBrands={activeBrands}
+//                     setActiveSorting={setActiveSorting}
+//                     activeSorting={activeSorting}   
+//                     setActivePrice={setActivePrice}
+//                     activePrice={activePrice}
+
+
+const FilterByBar: React.FC<FilterByBarProps> = ({ withBorder = true, withBrandFilter,activeBrands, brands, setActiveBrands, activePrice, setActivePrice, activeSorting, setActiveSorting }) => {
 
     const sortBottomSheetRef = useRef<BottomSheetModal>(null);
     const colorBottomSheetRef = useRef<BottomSheetModal>(null);
@@ -35,8 +52,9 @@ const FilterByBar: React.FC<FilterByBarProps> = ({ withBorder = true }) => {
     const filters = [
         {
             type: 'sort',
-            label: 'الترتيب حسب',
-            sheetRef: sortBottomSheetRef
+            label: 'الترتيب',
+            sheetRef: sortBottomSheetRef,
+            activeSorting: activeSorting,
         },
         {
             type: 'color',
@@ -47,33 +65,34 @@ const FilterByBar: React.FC<FilterByBarProps> = ({ withBorder = true }) => {
         {
             type: 'brand',
             label: 'الماركة',
-            sheetRef: brandBottomSheetRef
-
+            sheetRef: brandBottomSheetRef,
+            activeBrands: activeBrands,
         },
         {
             type: 'price',
             label: 'السعر',
-            sheetRef: pricsBottomSheetRef
+            sheetRef: pricsBottomSheetRef,
+            activePrice: activePrice,
 
         }
     ]
 
     return (
         <>
-            <BottomSheet title='الترتيب علي حسب' bottomSheetModalRef={sortBottomSheetRef}>
-                <SortBottomSheet />
+            <BottomSheet title='الترتيب علي حسب' onReset={() => setActiveSorting(undefined)} bottomSheetModalRef={sortBottomSheetRef}>
+                <SortBottomSheet activeSorting={activeSorting} setActiveSorting={setActiveSorting} bottomSheetModalRef={sortBottomSheetRef} />
             </BottomSheet>
 
             <BottomSheet title='اللون' bottomSheetModalRef={colorBottomSheetRef}>
-               <ColorBottomSheet />
+                <ColorBottomSheet />
             </BottomSheet>
 
-            <BottomSheet title='الماركات' bottomSheetModalRef={brandBottomSheetRef}>
-                <BrandBottomSheet />
+            <BottomSheet onReset={() => setActiveBrands(undefined)} title='الماركات' bottomSheetModalRef={brandBottomSheetRef}>
+                <BrandBottomSheet brands={brands} activeBrands={activeBrands} setActiveBrands={setActiveBrands} brandBottomSheetRef={brandBottomSheetRef} />
             </BottomSheet>
 
-            <BottomSheet title='السعر' bottomSheetModalRef={pricsBottomSheetRef}>
-                <PriceBottomSheet />
+            <BottomSheet title='السعر' onReset={() => setActivePrice(undefined)} bottomSheetModalRef={pricsBottomSheetRef}>
+                <PriceBottomSheet activePrice={activePrice} setActivePrice={setActivePrice} bottomSheetModalRef={pricsBottomSheetRef}/>
             </BottomSheet>
 
             <View style={{
@@ -92,7 +111,7 @@ const FilterByBar: React.FC<FilterByBarProps> = ({ withBorder = true }) => {
                     showsHorizontalScrollIndicator={false}
                     data={filters}
                     keyExtractor={(item, index) => index.toString()} style={{ width: '100%' }}
-                    renderItem={({ item, index }) => <FilterByItem item={item} />}
+                    renderItem={({ item, index }) => <FilterByItem  withBrandFilter={withBrandFilter} item={item} />}
 
                 />
             </View>

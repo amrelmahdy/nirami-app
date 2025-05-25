@@ -12,28 +12,41 @@ import NIButton from '../../../components/NIButton/NIButton';
 type SortBottomSheetProps = {
 };
 
-const SortBottomSheet: React.FC<SortBottomSheetProps> = ({  }) => {
 
-    const [sortBy, setSortBy] = useState('new');
+// if (sortBy === 'isFeatured') {
+//     filter.isFeatured = true;
+// } else if (sortBy === 'isOnSale') {
+//     filter.isOnSale = true;
+// } else if (sortBy === 'priceUp') {
+//     sort.price = 1;
+// } else if (sortBy === 'priceDown') {
+//     sort.price = -1;
+// } else if (sortBy === 'new') {
+//     sort.createdAt = -1;
+// }
+
+const SortBottomSheet: React.FC<SortBottomSheetProps> = ({ setActiveSorting, activeSorting, bottomSheetModalRef }) => {
+
+    const [sortBy, setSortBy] = useState(activeSorting || 'isFeatured');
 
     const [popularity, setpo] = useState(false)
 
     return (
 
         <View style={{}}>
-            <RadioButton.Group  onValueChange={value => { console.log("vakl", value) }} value="x">
+            <RadioButton.Group onValueChange={value => { setSortBy(value) }} value={  sortBy  }>
                 <RadioButton.Item
-                    value="x"
+                    value="isFeatured"
                     label='الاكثر شعبية'
                     labelStyle={{ fontFamily: FONT_FAMILIES.ALMARAI_REGULAR, textAlign: 'right' }}
                     status='checked'
                     mode='android'
                     color="#000"
                     rippleColor="transparent"
-                    
+
                 />
                 <RadioButton.Item
-                    value="first"
+                    value="new"
                     label='الجديد'
                     labelStyle={{ fontFamily: FONT_FAMILIES.ALMARAI_REGULAR, textAlign: 'right' }}
                     status='checked'
@@ -43,22 +56,22 @@ const SortBottomSheet: React.FC<SortBottomSheetProps> = ({  }) => {
 
                 />
                 <RadioButton.Item
-                    value="first"
+                    value="isOnSale"
                     label='العروض'
                     labelStyle={{ fontFamily: FONT_FAMILIES.ALMARAI_REGULAR, textAlign: 'right' }}
                     status='checked'
-                   
+
                     mode='android'
                     color="#000"
                     rippleColor="transparent"
 
                 />
                 <RadioButton.Item
-                    value="first"
+                    value="priceDown"
                     label='السعر الاعلي الي الاقل'
                     labelStyle={{ fontFamily: FONT_FAMILIES.ALMARAI_REGULAR, textAlign: 'right' }}
                     status='checked'
-                   
+
                     mode='android'
                     color="#000"
                     rippleColor="transparent"
@@ -66,18 +79,21 @@ const SortBottomSheet: React.FC<SortBottomSheetProps> = ({  }) => {
                 />
 
                 <RadioButton.Item
-                    value="first"
+                    value="priceUp"
                     label='السعر الاقل الي الاعلي'
                     labelStyle={{ fontFamily: FONT_FAMILIES.ALMARAI_REGULAR, textAlign: 'right' }}
                     status='checked'
-                   
+
                     mode='android'
                     color="#000"
                     rippleColor="transparent"
                 />
             </RadioButton.Group>
-            <View style={{ width: '100%',  paddingHorizontal: 15, marginBottom: 20 }}>
-                <NIButton type='secondary'>تفعيل</NIButton>
+            <View style={{ width: '100%', paddingHorizontal: 15, marginBottom: 20 }}>
+                <NIButton type='secondary' onPress={() => {
+                    setActiveSorting(sortBy)
+                    bottomSheetModalRef.current?.close()
+                }}>تفعيل</NIButton>
             </View>
         </View>
     )

@@ -1,17 +1,24 @@
 import React, { RefObject, useRef, useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, Image, ScrollView } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import BottomSheet from '../../../components/BottomSheet/BottomSheet';
 import { RadioButton } from 'react-native-paper';
 import { FONT_FAMILIES } from '../../../assets';
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
-import Slider, { MarkerProps } from '@react-native-community/slider';
+// import Slider, { MarkerProps } from '@react-native-community/slider';
 import NIText from '../../../components/NIText/NIText';
 import NIButton from '../../../components/NIButton/NIButton';
-
+import i18next, { t } from 'i18next';
+import { toArabicDigits } from '../../../utils/helpers';
+import MultiSlider from '@ptomasroos/react-native-multi-slider'
+// import Slider from '@mui/material/Slider';
+import Slider, { Range } from 'rc-slider';
 
 
 type PriceBottomSheetProps = {
+    setActivePrice: (price: string) => void;
+    activePrice?: string;
+    bottomSheetModalRef?: RefObject<BottomSheetModal | null>;
 };
 
 const CONSTANTS = {
@@ -24,50 +31,92 @@ const CONSTANTS = {
 
 
 
-const toArabicDigits = (num: number | string) => {
-    const arabicDigits = ['٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩'];
-    return num
-        .toString()
-        .replace(/\d/g, d => arabicDigits[parseInt(d)]);
-};
 
 
-const PriceBottomSheet: React.FC<PriceBottomSheetProps> = ({ }) => {
-    const [value, setValue] = useState(0);
+const PriceBottomSheet: React.FC<PriceBottomSheetProps> = ({
+    setActivePrice,
+    activePrice,
+    bottomSheetModalRef
+}) => {
+    const [value, setValue] = useState([20, 80]);
 
-    const [sortBy, setSortBy] = useState('new');
+    const [multiSliderValue, setMultiSliderValue] = useState([0, 100])
 
-    const [popularity, setpo] = useState(false)
+    // const multiSliderValuesChange = (values) => setMultiSliderValue(values)
+
+
 
     return (
 
         <View style={styles.container}>
 
-            <View style={{  }}>
-                <View style={styles.minMaxLabelContainer}>
-                    <NIText style={styles.minMaxText}>٥٠٠ رس</NIText>
-                    <NIText style={styles.minMaxText}>
-                        {toArabicDigits(+value.toFixed(0))}
+            <View style={{}}>
+                <View style={[styles.minMaxLabelContainer, {
+                    flexDirection: i18next.language === 'ar' ? 'row' : 'row-reverse',
+                }]}>
+                    <NIText style={styles.minMaxText}>{ }
+                        {i18next.language === 'ar' ? toArabicDigits(500) : 500}
                         &nbsp;
-                        رس
+                        {t('sar')}
                     </NIText>
-                    <NIText style={styles.minMaxText}>١٧ رس</NIText>
+                    <NIText style={styles.minMaxText}>
+                        {/* {i18next.language === 'ar' ? toArabicDigits(+value.toFixed(0)) : value.toFixed(0)} */}
+                        &nbsp;
+                        {t('sar')}
+                    </NIText>
+                    <NIText style={styles.minMaxText}>{
+                        i18next.language === 'ar' ? toArabicDigits(17) : 17
+                    }
+                        &nbsp;
+                        {t('sar')}
+                    </NIText>
                 </View>
 
-                <Slider
-                    style={styles.slider}
+                {/* <ScrollView keyboardShouldPersistTaps="handled">
+                    <MultiSlider
+     sliderLength={200}
+ 
+                        values={[multiSliderValue[0], multiSliderValue[1]]}
+                        onValuesChange={multiSliderValuesChange}
+                        min={0}
+                        max={100}
+                        allowOverlap={false}
+                        minMarkerOverlapDistance={10}
+                    />
+
+                </ScrollView> */}
+
+                {/* <Slider
+                    getAriaLabel={() => 'Temperature range'}
+                    value={value}
+                    onChange={() => setValue(value)}
+                    valueLabelDisplay="auto"
+                    // getAriaValueText={valuetext}
+                /> */}
+
+
+                <Slider range />
+                {/* <Slider
+                    style={[styles.slider, {
+                        transform: [{ scaleX: i18next.language === 'ar' ? -1 : 1 }]
+                    }]}
                     minimumValue={CONSTANTS.MIN_VALUE}
                     maximumValue={CONSTANTS.MAX_VALUE}
+                    // value={value}
                     value={value}
                     onValueChange={setValue}
                     tapToSeek
                     inverted
                     minimumTrackTintColor={'#000'}
                     maximumTrackTintColor={'#979EA4'}
-                />
+                /> */}
             </View>
             <View style={{ width: '100%' }}>
-                <NIButton type='secondary'>تفعيل</NIButton>
+                <NIButton type='secondary' onPress={() => {
+                    // setActivePrice(value.toFixed(0));
+                    // Close the bottom sheet
+                    bottomSheetModalRef?.current?.close();
+                }}>تفعيل</NIButton>
             </View>
         </View>
     )
@@ -204,7 +253,8 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         alignItems: 'center',
         paddingHorizontal: 15,
-        paddingVertical: 20
+        paddingVertical: 20,
+
     },
     outerSmall: {
         width: 4,
@@ -237,7 +287,6 @@ const styles = StyleSheet.create({
     },
     minMaxLabelContainer: {
         width: 300, // should match your slider width
-        flexDirection: 'row',
         justifyContent: 'space-between',
         paddingHorizontal: 4,
         marginBottom: 4,

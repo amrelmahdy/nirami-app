@@ -39,7 +39,7 @@ const BrandCard: React.FC<FilterByBarProps> = ({ brand }) => {
             }}
             activeOpacity={0.8} // Slight click effect
             onPress={() => {
-                //navigationAdapter.navigate(NAVIGATION_ROUTES.PRODUCT_DETAILS, { brand })
+                navigationAdapter.navigate(NAVIGATION_ROUTES.FILTERED_PRODUCTS_BY_BRAND, { brand })
             }}
         >
 

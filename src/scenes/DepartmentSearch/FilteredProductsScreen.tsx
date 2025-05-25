@@ -1,5 +1,5 @@
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
-import React, { useCallback, useRef } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import {
     FlatList,
     StyleSheet,
@@ -20,151 +20,56 @@ import FilterByBar from '../../components/FilterByBar/FilterByBar';
 import BottomSheet from '../../components/BottomSheet/BottomSheet';
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
 import { RadioButton } from 'react-native-paper';
+import { useGetDepartments } from '../../hooks/departments.hooks';
+import { useGetCategories } from '../../hooks/categories.hooks';
+import { useGetGroups } from '../../hooks/groups.hooks';
+import { useGetProducts } from '../../hooks/products.hooks';
+import { useGetBrands } from '../Brands/brands.hooks';
 
 
 
-
-const filters = [
-    {
-        id: 1,
-        name: 'مكياج الوجه',
-        image: "https://placehold.co/100x100.png"
-    },
-    {
-        id: 2,
-        name: 'مكياج الحواجب',
-        image: "https://placehold.co/100x100.png"
-    },
-    {
-        id: 3,
-        name: 'مكياج العيون',
-        image: "https://placehold.co/100x100.png"
-    },
-    {
-        id: 4,
-        name: 'مكياج الخدود',
-        image: "https://placehold.co/100x100.png"
-    },
-    {
-        id: 5,
-        name: 'مكياج الشفاه',
-        image: "https://placehold.co/100x100.png"
-    },
-    {
-        id: 6,
-        name: 'فرش المكياج',
-        image: "https://placehold.co/100x100.png"
-    }
-]
-
-
-const products = [
-    {
-        name: "آحمر شفاه",
-        category: "MAC",
-        ratings: 3.5,
-        reviews: [
-            {
-                value: 5,
-                ownerName: "Amr",
-                review: "اعجبني جدااااا"
-            },
-            {
-                value: 4.5,
-                ownerName: "Ghaidaa",
-                review: "خطير اوي"
-            },
-            {
-                value: 1.5,
-                ownerName: "Sultan",
-                review: "لا معجبنيش خالص"
-            }
-        ],
-        price: 133,
-        image: "https://placehold.co/600x600.png"
-
-    },
-    {
-        name: "آحمر شفاه",
-        category: "MAC",
-        ratings: 4.5,
-        reviews: [
-            {
-                value: 5,
-                ownerName: "Amr",
-                review: "اعجبني جدااااا"
-            },
-            {
-                value: 4.5,
-                ownerName: "Ghaidaa",
-                review: "خطير اوي"
-            },
-            {
-                value: 1.5,
-                ownerName: "Sultan",
-                review: "لا معجبنيش خالص"
-            }
-        ],
-        price: 133,
-        image: "https://placehold.co/600x600.png"
-
-    },
-    {
-        name: "آحمر شفاه",
-        category: "MAC",
-        ratings: 1.5,
-        reviews: [
-            {
-                value: 5,
-                ownerName: "Amr",
-                review: "اعجبني جدااااا"
-            },
-            {
-                value: 4.5,
-                ownerName: "Ghaidaa",
-                review: "خطير اوي"
-            },
-            {
-                value: 1.5,
-                ownerName: "Sultan",
-                review: "لا معجبنيش خالص"
-            }
-        ],
-        price: 133,
-        image: "https://placehold.co/600x600.png"
-
-    },
-    {
-        name: "آحمر شفاه",
-        category: "MAC",
-        ratings: 1.5,
-        reviews: [
-            {
-                value: 5,
-                ownerName: "Amr",
-                review: "اعجبني جدااااا"
-            },
-            {
-                value: 4.5,
-                ownerName: "Ghaidaa",
-                review: "خطير اوي"
-            },
-            {
-                value: 1.5,
-                ownerName: "Sultan",
-                review: "لا معجبنيش خالص"
-            }
-        ],
-        price: 133,
-        image: "https://placehold.co/600x600.png"
-
-    },
-]
 
 
 const FilteredProductsScreen = ({ route }) => {
 
-    const selectedDepartment = route.params.department;
+
+
+
+    const selectedCategory = route.params.category;
+
+
+    const [activeCategory, setActiveCategory] = useState(selectedCategory.id);
+    const [activeGroup, setActiveGroup] = useState("1");
+    const [activeBrands, setActiveBrands] = useState();
+    const [activeSorting, setActiveSorting] = useState();
+    const [activePrice, setActivePrice] = useState();
+
+
+
+
+    const { data: categoriesList, isError: isCategoriesError, isLoading: isCategoriesLoading } = useGetCategories({ departmentId: selectedCategory.department });
+
+    const { data: groupsList, isError: isGroupsError, isLoading: isGroupsLoading, refetch: refetchGroups } = useGetGroups({ categoryId: activeCategory });
+
+    const { data: productsData, isError: isOroductsError, isLoading: isProductsLoading, refetch: refetchProducts } = useGetProducts({ groupId: activeGroup, categoryId: activeCategory, brandId: activeBrands, sortBy: activeSorting, price: activePrice });
+
+    const { data: brandsList, isError: isBrandsError, isLoading: isBrandsLoading, refetch: refetchBrands } = useGetBrands();
+
+
+
+    console.log("productsList", productsData, activeGroup)
+
+
+    const handleOnSetActiveCategory = (categoryId: string) => {
+        setActiveCategory(categoryId);
+        setActiveGroup("1");
+        //refetchGroups();
+
+        // Fetch groups based on the selected category
+        // fetchGroups(categoryId);
+    }
+
+
 
     const sortBottomSheetRef = useRef<BottomSheetModal>(null);
     const colorBottomSheetRef = useRef<BottomSheetModal>(null);
@@ -174,25 +79,67 @@ const FilteredProductsScreen = ({ route }) => {
     // callbacks
 
 
-    console.log("department", selectedDepartment)
+
+
+    // When categories (departments) are fetched
+    useEffect(() => {
+        if (categoriesList && categoriesList.length > 0) {
+            // console.log('Fetched Categories:', categoriesList);
+
+            // Example: auto-select the first category
+            //setActiveCategory(categoriesList[0]?.id);
+
+
+            // You can perform more actions here
+        }
+    }, [categoriesList]);
+
+    // When groups are fetched
+    useEffect(() => {
+        if (groupsList && groupsList.length > 0) {
+            console.log('Fetched Groups:', groupsList);
+
+            // Example: auto-select the first group
+            // setActiveGroup(groupsList ? [0].id);
+
+            // More logic here
+        }
+    }, [groupsList]);
+
+
+
+    console.tron("activeCategory", activeCategory)
+    console.tron("activeGroup", activeGroup)
+
 
     return (
         <View style={{ flex: 1, backgroundColor: '#FFF' }}>
-            <PageHeader headerLabel={selectedDepartment?.name} withBorder={false} />
+            <PageHeader headerLabel={selectedCategory?.name?.ar} withBorder={false} />
 
-            <FilterBar filters={filters} />
-            <FilterGroupBar filters={filters} />
+            <FilterBar onItemPress={handleOnSetActiveCategory} activeId={activeCategory} filters={categoriesList} />
+
+            <FilterGroupBar onItemPress={setActiveGroup} activeId={activeGroup} filters={groupsList} />
+
+
             <View>
-                <FilterByBar />
+                <FilterByBar
+                    brands={brandsList}
+                    setActiveBrands={setActiveBrands}
+                    activeBrands={activeBrands}
+                    setActiveSorting={setActiveSorting}
+                    activeSorting={activeSorting}   
+                    setActivePrice={setActivePrice}
+                    activePrice={activePrice}
+                />
             </View>
 
-            <View style={{ flex: 1, paddingHorizontal: 15 }}>
+            <View style={{ flex: 1, direction: 'rtl' }}>
                 <FlatList
                     numColumns={2}  // Set two columns per row
                     keyExtractor={(item, index) => index.toString()} style={{ width: '100%' }}
-                    data={products}
-                    //contentContainerStyle={{ paddingHorizontal: 10, paddingBottom: 20 }}  // Add padding around the grid
-
+                    data={productsData?.products}
+                    contentContainerStyle={{}}  // Add padding around the grid
+                    showsVerticalScrollIndicator={false}
                     renderItem={({ item, index }) => <ProductCard product={item} />} />
             </View>
 

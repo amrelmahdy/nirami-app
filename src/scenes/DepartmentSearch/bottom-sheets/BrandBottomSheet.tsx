@@ -1,83 +1,94 @@
-import React, { RefObject, useRef, useState } from 'react';
+import React, { RefObject, useRef, useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import BottomSheet from '../../../components/BottomSheet/BottomSheet';
-import { RadioButton } from 'react-native-paper';
+import { RadioButton, Checkbox } from 'react-native-paper';
 import { FONT_FAMILIES } from '../../../assets';
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
 import NIButton from '../../../components/NIButton/NIButton';
+import i18next from 'i18next';
+import { Brand } from '../../Brands/brands.hooks';
 
 
 
 type BrandBottomSheetProps = {
+    brands: Brand[];
+    setActiveBrands: (brands: string) => void;
+    brandBottomSheetRef: RefObject<BottomSheetModal | null>;
+    // onClose?: () => void;
+    // children: ReactNode;
 };
 
-const BrandBottomSheet: React.FC<BrandBottomSheetProps> = ({ }) => {
+const BrandBottomSheet: React.FC<BrandBottomSheetProps> = ({ activeBrands, brands, setActiveBrands, brandBottomSheetRef }) => {
+
+
+    
+
+
+    const [filteredBrands, setFilteredBrands] = useState<string[]>([]);
+
+    // Sync filteredBrands with activeBrands each time the sheet is opened
+    useEffect(() => {
+        if (brandBottomSheetRef?.current) {
+            // If the sheet is open, sync filteredBrands with activeBrands
+            // You may need to adjust this logic if you have a more explicit open/close state
+            setFilteredBrands(
+                activeBrands
+                    ? activeBrands.split(',').filter(Boolean)
+                    : []
+            );
+        }
+    }, [activeBrands, brandBottomSheetRef?.current]);
 
     const [sortBy, setSortBy] = useState('1');
 
     const [popularity, setpo] = useState(false)
 
+    console.log("brandsMMMMM", activeBrands?.split(','))
+
     return (
 
-        <View style={{}}>
-            <RadioButton.Group onValueChange={value => { console.log("vakl", value) }} value="1">
-                <RadioButton.Item
-                    value="1"
-                    label='ماك'
-                    labelStyle={{ fontFamily: FONT_FAMILIES.ALMARAI_REGULAR, textAlign: 'right' }}
-                    status='checked'
-                    mode='android'
-                    color='#000'
-                    rippleColor="transparent"
+        <View style={{ paddingHorizontal: 15 }}>
 
-                />
-                <RadioButton.Item
-                    value="2"
-                    label='لوريال'
-                    labelStyle={{ fontFamily: FONT_FAMILIES.ALMARAI_REGULAR, textAlign: 'right' }}
-                    status='unchecked'
-                    mode='android'
-                    color='#000'
-                    rippleColor="transparent"
 
-                />
-                <RadioButton.Item
-                    value="3"
-                    label='هدي بيوتي'
-                    labelStyle={{ fontFamily: FONT_FAMILIES.ALMARAI_REGULAR, textAlign: 'right' }}
-                    status='checked'
-                    onPress={() => { }}
-                    mode='android'
-                    color='#000'
-                    rippleColor="transparent"
+            <View style={{ marginBottom: 10 }}>
+                {
+                    brands && brands.length && brands.map((item: Brand, index) => {
+                        const checked = filteredBrands.includes(item.id);
+                        return (
+                            <View style={{ marginBottom: 5 }} key={item.id}>
+                                <Checkbox.Item
+                                    key={index}
+                                    label={item?.name[i18next.language as 'en' | 'ar'] || item?.name['ar']}
+                                    labelStyle={{ fontFamily: FONT_FAMILIES.ALMARAI_REGULAR, textAlign: 'right' }}
+                                    color='#000'
+                                    uncheckedColor='#000'
+                                    mode='android'
+                                    rippleColor="transparent"
+                                    onPress={() => {
+                                        setFilteredBrands(prev =>
+                                            checked
+                                                ? prev.filter(id => id !== item.id)
+                                                : [...prev, item.id]
+                                        );
+                                    }}
+                                    status={checked ? 'checked' : 'unchecked'}
+                                    style={{ marginVertical: 0, paddingVertical: 0, paddingHorizontal: 0 }}
+                                    theme={{ colors: { primary: '#000' } }}
 
-                />
-                <RadioButton.Item
-                    value="4"
-                    label='بيودسرما'
-                    labelStyle={{ fontFamily: FONT_FAMILIES.ALMARAI_REGULAR, textAlign: 'right' }}
-                    status='checked'
-                    onPress={() => { }}
-                    mode='android'
-                    color='#000'
-                    rippleColor="transparent"
+                                />
+                            </View>
+                        )
+                    })
+                }
+            </View>
 
-                />
-
-                <RadioButton.Item
-                    value="5"
-                    label='ميليبين'
-                    labelStyle={{ fontFamily: FONT_FAMILIES.ALMARAI_REGULAR, textAlign: 'right' }}
-                    status='checked'
-                    onPress={() => { }}
-                    mode='android'
-                    color='#000'
-                    rippleColor="transparent"
-                />
-            </RadioButton.Group>
-            <View style={{ width: '100%',  paddingHorizontal: 15, marginBottom: 20 }}>
-                <NIButton type='secondary'>تفعيل</NIButton>
+        
+            <View style={{ width: '100%', marginBottom: 20 }}>
+                <NIButton type='secondary' onPress={() => {
+                    setActiveBrands(filteredBrands.join(','))
+                    brandBottomSheetRef.current?.close()
+                }}>تفعيل</NIButton>
             </View>
         </View>
     )

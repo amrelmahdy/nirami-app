@@ -21,6 +21,7 @@ import { Images } from '../../assets';
 interface BottomSheetProps {
     bottomSheetModalRef: RefObject<BottomSheetModal | null>;
     onClose?: () => void;
+    onReset?: () => void;
     children: ReactNode;
     title: string;
 }
@@ -28,6 +29,7 @@ interface BottomSheetProps {
 const BottomSheet: React.FC<BottomSheetProps> = ({
     bottomSheetModalRef,
     onClose = () => { },
+    onReset=() => { },
     title,
     children,
 }) => {
@@ -53,7 +55,11 @@ const BottomSheet: React.FC<BottomSheetProps> = ({
         >
             <BottomSheetView style={styles.sheetContainer}>
                 <View style={styles.header}>
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={() => {
+                        onReset?.();
+                        bottomSheetModalRef.current?.close();
+                        onClose?.();
+                    }}>
                         <NIText>استعادة</NIText>
                     </TouchableOpacity>
                     <NIText>{title}</NIText>

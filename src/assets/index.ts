@@ -21,11 +21,26 @@ export const Images: IconMap = {
 
 
 
-  ic_cart: Image.resolveAssetSource(require('./icons/cart.png')),
 
+  ic_ion_language_outline: Image.resolveAssetSource(require('./icons/ion_language-outline.png')),
+  ic_ep_user: Image.resolveAssetSource(require('./icons/ep_user.png')),
+  ic_account: Image.resolveAssetSource(require('./icons/account.png')),
+  ic_ph_address_book: Image.resolveAssetSource(require('./icons/ph_address-book.png')),
+  ic_iconamoon_gift_light: Image.resolveAssetSource(require('./icons/iconamoon_gift-light.png')),
+  ic_customer_support: Image.resolveAssetSource(require('./icons/customer_support.png')),
+  ic_mdi_about_circle_outline: Image.resolveAssetSource(require('./icons/mdi_about-circle-outline.png')),
+  ic_tax: Image.resolveAssetSource(require('./icons/tax.png')),
+  ic_lucide_book: Image.resolveAssetSource(require('./icons/lucide_book.png')),
+  ic_angle_left: Image.resolveAssetSource(require('./icons/angle_left.png')),
+
+
+
+  ic_cart: Image.resolveAssetSource(require('./icons/cart.png')),
+  ic_circle_close: Image.resolveAssetSource(require('./icons/circle_close.png')),
+  ic_plus: Image.resolveAssetSource(require('./icons/plus.png')),
+  ic_minus: Image.resolveAssetSource(require('./icons/minus.png')),
   ic_close: Image.resolveAssetSource(require('./icons/close.png')),
   ic_lsicon_share_outline: Image.resolveAssetSource(require('./icons/lsicon_share-outline.png')),
-
   ic_angle_bottom: Image.resolveAssetSource(require('./icons/angle_bottom.png')),
   ic_ei_like: Image.resolveAssetSource(require('./icons/ei_like.png')),
   saudi_riyal_symbol: Image.resolveAssetSource(require('./icons/Saudi_Riyal_Symbol.png')),

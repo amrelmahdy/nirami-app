@@ -15,102 +15,46 @@ import { TextInput, Icon } from "react-native-paper";
 import ProductCard from "../../components/ProductCard/ProductCard";
 import PageHeader from "../../components/PageHeader/PageHeader";
 import NiScreen from "../../components/NIScreen/NiScreen";
+import cartData from './../../stubs/cart.json'
+import CartItem from "../../components/CartItem/CartItem";
+import NIText from "../../components/NIText/NIText";
+import NIButton from "../../components/NIButton/NIButton";
 
 
-
-
-
-const products = [
-    {
-        name: "آحمر شفاه",
-        category: "MAC",
-        ratings: 3.5,
-        price: 133,
-        image: "https://placehold.co/600x600.png"
-
-    },
-    {
-        name: "آحمر شفاه",
-        category: "MAC",
-        ratings: 4.5,
-        price: 133,
-        image: "https://placehold.co/600x600.png"
-
-    },
-    {
-        name: "آحمر شفاه",
-        category: "MAC",
-        ratings: 1.5,
-        price: 133,
-        image: "https://placehold.co/600x600.png"
-
-    },
-    {
-        name: "آحمر شفاه",
-        category: "MAC",
-        ratings: 1.5,
-        price: 133,
-        image: "https://placehold.co/600x600.png"
-
-    },
-
-    {
-        name: "آحمر شفاه",
-        category: "MAC",
-        ratings: 1.5,
-        price: 133,
-        image: "https://placehold.co/600x600.png"
-
-    },
-    {
-        name: "آحمر شفاه",
-        category: "MAC",
-        ratings: 1.5,
-        price: 133,
-        image: "https://placehold.co/600x600.png"
-
-    },
-
-]
 
 function CartScreen() {
 
-    const insets = useSafeAreaInsets();
+    // const insets = useSafeAreaInsets();
 
-    const carouselRef = useRef(null);
-    const data = [...new Array(6).keys()];
-    const width = Dimensions.get("window").width;
-    const progress = useSharedValue<number>(0);
+    // const carouselRef = useRef(null);
+    // const data = [...new Array(6).keys()];
+    // const width = Dimensions.get("window").width;
+    // const progress = useSharedValue<number>(0);
 
-
-    const onPressPagination = (index: number) => {
-        carouselRef.current?.scrollTo({
-            /**
-             * Calculate the difference between the current index and the target index
-             * to ensure that the carousel scrolls to the nearest index
-             */
-            count: index - progress.value,
-            animated: true,
-        });
-    };
-
-
-
-
-    const renderItem = ({ item, index }) => {
-        return (
-            <View style={styles.slide}>
-                <Text style={styles.title}>{item.title}</Text>
-            </View>
-        );
-    }
 
 
 
     return (
         // <SafeAreaView style={{ flex: 1 }}>
         <NiScreen title="عربة التسوق">
-
+            <View style={{ flex: 1, paddingHorizontal: 15 }}>
+                <FlatList
+                    keyExtractor={(item, index) => index.toString()} style={{ width: '100%' }}
+                    data={cartData.items}
+                    contentContainerStyle={{ paddingTop: 20 }}
+                    renderItem={({ item, index }) => <CartItem item={item}
+                    />} />
+                <View style={{ marginBottom: 15 }}>
+                    <View style={{ flexDirection: 'row-reverse', justifyContent: 'space-between', marginBottom: 15 }}>
+                        <NIText type='light' style={{ fontSize: 16 }}>المجموع الفرعي</NIText>
+                        <View style={{ flexDirection: 'row', justifyContent: 'flex-end', marginBottom: 5 }}>
+                            <Icon source={getIconUrl(Images, 'saudi_riyal_symbol')} size={16} />
+                            <Text style={{ fontSize: 16, fontWeight: "bold", color: "#000", textAlign: 'right', }}>175</Text>
+                        </View>
+                    </View>
+                    <NIButton>عملية الدفع</NIButton>
+                </View>
+            </View>
         </NiScreen>
 
         // <>

@@ -8,13 +8,17 @@ import i18n from './../i18n'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 
 
+
+if (__DEV__) {
+  import("./../../ReactotronConfig")
+}
+
+
 function App(): React.JSX.Element {
 
     const { t } = useTranslation();
 
     const queryClient = new QueryClient();
-
-
 
     return (
         <SafeAreaProvider>

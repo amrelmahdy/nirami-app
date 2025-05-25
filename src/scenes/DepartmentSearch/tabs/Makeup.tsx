@@ -1,10 +1,10 @@
 import React, { useEffect, useRef } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View, ScrollView, FlatList, RefreshControl } from "react-native";
 import ImageBanner from "../../../components/ImageBanner/ImageBanner";
 import { getIconUrl } from "../../../assets/icons";
 import { Images } from "../../../assets";
-import { FlatList, ScrollView } from "react-native-gesture-handler";
-import DepartmentCard from "../../../components/DepartmentCard/DepartmentCard";
+// import { FlatList, ScrollView } from "react-native-gesture-handler";
+import DepartmentCard from "../../../components/CategoryCard/CategoryCard";
 
 
 
@@ -38,10 +38,22 @@ const departments = [
 
 
 function Makeup() {
+    const [refreshing, setRefreshing] = React.useState(false);
 
+    const onRefresh = React.useCallback(() => {
+        setRefreshing(true);
+        setTimeout(() => {
+            setRefreshing(false);
+        }, 2000);
+    }, []);
 
     return (
-        <ScrollView>
+        <ScrollView
+            contentContainerStyle={styles.scrollView}
+            refreshControl={
+                <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+            }>
+
             <ImageBanner image={getIconUrl(Images, 'skin_care_tab_bg')} />
             <View style={{ marginTop: 20 }}>
                 <FlatList
@@ -72,7 +84,13 @@ const styles = StyleSheet.create({
         width: "100%",
         height: "100%",
         resizeMode: "cover",
-    }
+    },
+    scrollView: {
+        // flex: 1,
+        // backgroundColor: 'pink',
+        // alignItems: 'center',
+        // justifyContent: 'center',
+    },
 })
 
 
