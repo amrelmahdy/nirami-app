@@ -43,7 +43,8 @@ const FilteredProductsScreen = ({ route }) => {
     const [activeBrands, setActiveBrands] = useState();
     const [activeSorting, setActiveSorting] = useState();
     const [activePrice, setActivePrice] = useState();
-
+    const [activePriceFrom, setActivePriceFrom] = useState(0);
+    const [activePriceTo, setActivePriceFromTo] = useState(500);
 
 
 
@@ -51,7 +52,7 @@ const FilteredProductsScreen = ({ route }) => {
 
     const { data: groupsList, isError: isGroupsError, isLoading: isGroupsLoading, refetch: refetchGroups } = useGetGroups({ categoryId: activeCategory });
 
-    const { data: productsData, isError: isOroductsError, isLoading: isProductsLoading, refetch: refetchProducts } = useGetProducts({ groupId: activeGroup, categoryId: activeCategory, brandId: activeBrands, sortBy: activeSorting, price: activePrice });
+    const { data: productsData, isError: isOroductsError, isLoading: isProductsLoading, refetch: refetchProducts } = useGetProducts({ groupId: activeGroup, categoryId: activeCategory, brandId: activeBrands, sortBy: activeSorting, priceFrom: activePriceFrom !== 0 ? `${activePriceFrom}` : undefined, priceTo:  activePriceTo !== 500 ? `${activePriceTo}` : undefined });
 
     const { data: brandsList, isError: isBrandsError, isLoading: isBrandsLoading, refetch: refetchBrands } = useGetBrands();
 
@@ -121,15 +122,23 @@ const FilteredProductsScreen = ({ route }) => {
             <FilterGroupBar onItemPress={setActiveGroup} activeId={activeGroup} filters={groupsList} />
 
 
+
+
+
             <View>
                 <FilterByBar
+                    appliedFilters={productsData?.appliedFilters}
                     brands={brandsList}
                     setActiveBrands={setActiveBrands}
                     activeBrands={activeBrands}
                     setActiveSorting={setActiveSorting}
-                    activeSorting={activeSorting}   
+                    activeSorting={activeSorting}
                     setActivePrice={setActivePrice}
                     activePrice={activePrice}
+                    setActivePriceFrom={setActivePriceFrom}
+                    activePriceFrom={activePriceFrom}
+                    setActivePriceTo={setActivePriceFromTo}
+                    activePriceTo={activePriceTo}
                 />
             </View>
 

@@ -11,8 +11,7 @@ import NIButton from '../../../components/NIButton/NIButton';
 import i18next, { t } from 'i18next';
 import { toArabicDigits } from '../../../utils/helpers';
 import MultiSlider from '@ptomasroos/react-native-multi-slider'
-// import Slider from '@mui/material/Slider';
-import Slider, { Range } from 'rc-slider';
+import { Slider } from '@miblanchard/react-native-slider';
 
 
 type PriceBottomSheetProps = {
@@ -23,8 +22,8 @@ type PriceBottomSheetProps = {
 
 const CONSTANTS = {
     MAX_VALUE: 500,
-    MIN_VALUE: 17,
-    STEP: 400,
+    MIN_VALUE: 0,
+    STEP: 1,
     DEFAULT_STEP_RESOLUTION: 100,
 } as const;
 
@@ -36,15 +35,22 @@ const CONSTANTS = {
 const PriceBottomSheet: React.FC<PriceBottomSheetProps> = ({
     setActivePrice,
     activePrice,
-    bottomSheetModalRef
+    bottomSheetModalRef,
+    setIsSliding,
+    setActivePriceFrom,
+    activePriceFrom,
+    setActivePriceTo,
+    activePriceTo
 }) => {
-    const [value, setValue] = useState([20, 80]);
+    const [value, setValue] = useState([i18next.language === 'ar' ? 500 - activePriceTo : activePriceFrom, i18next.language === 'ar' ? 500 - activePriceFrom : activePriceTo]);
 
     const [multiSliderValue, setMultiSliderValue] = useState([0, 100])
 
     // const multiSliderValuesChange = (values) => setMultiSliderValue(values)
 
 
+    console.log(value[0], "value in price bottom sheet0");
+    console.log(value[1], "value in price bottom sheet1");
 
     return (
 
@@ -55,64 +61,81 @@ const PriceBottomSheet: React.FC<PriceBottomSheetProps> = ({
                     flexDirection: i18next.language === 'ar' ? 'row' : 'row-reverse',
                 }]}>
                     <NIText style={styles.minMaxText}>{ }
-                        {i18next.language === 'ar' ? toArabicDigits(500) : 500}
+                        {
+                            i18next.language === 'ar' ?
+                                toArabicDigits(500 - value[0]) || 0 : value[1] || 0
+                        }
                         &nbsp;
                         {t('sar')}
                     </NIText>
-                    <NIText style={styles.minMaxText}>
-                        {/* {i18next.language === 'ar' ? toArabicDigits(+value.toFixed(0)) : value.toFixed(0)} */}
+                    {/* <NIText style={styles.minMaxText}>
+                        {i18next.language === 'ar' ? toArabicDigits(+value.toFixed(0)) : value.toFixed(0)}
                         &nbsp;
                         {t('sar')}
-                    </NIText>
+                    </NIText> */}
                     <NIText style={styles.minMaxText}>{
-                        i18next.language === 'ar' ? toArabicDigits(17) : 17
+
+                        i18next.language === 'ar' ?
+                            toArabicDigits(500 - value[1]) || 500 : (value[0]) || 0
                     }
+
+
+
                         &nbsp;
                         {t('sar')}
                     </NIText>
                 </View>
 
-                {/* <ScrollView keyboardShouldPersistTaps="handled">
-                    <MultiSlider
-     sliderLength={200}
- 
-                        values={[multiSliderValue[0], multiSliderValue[1]]}
-                        onValuesChange={multiSliderValuesChange}
-                        min={0}
-                        max={100}
-                        allowOverlap={false}
-                        minMarkerOverlapDistance={10}
-                    />
-
-                </ScrollView> */}
-
-                {/* <Slider
-                    getAriaLabel={() => 'Temperature range'}
-                    value={value}
-                    onChange={() => setValue(value)}
-                    valueLabelDisplay="auto"
-                    // getAriaValueText={valuetext}
-                /> */}
 
 
-                <Slider range />
-                {/* <Slider
-                    style={[styles.slider, {
-                        transform: [{ scaleX: i18next.language === 'ar' ? -1 : 1 }]
-                    }]}
+
+
+
+                <Slider
+
+                    containerStyle={{
+
+                        //direction: i18next.language === 'ar' ? 'rtl' : 'ltr',
+                        transform: [{ scaleY: i18next.language === 'ar' ? -1 : -1 }]
+                    }}
+                    minimumTrackTintColor={'#000'}
+                    maximumTrackTintColor={'#DDD'}
                     minimumValue={CONSTANTS.MIN_VALUE}
                     maximumValue={CONSTANTS.MAX_VALUE}
-                    // value={value}
-                    value={value}
-                    onValueChange={setValue}
-                    tapToSeek
-                    inverted
-                    minimumTrackTintColor={'#000'}
-                    maximumTrackTintColor={'#979EA4'}
-                /> */}
+                    // inverted={true}  // Flips the direction of the slider
+                    // thumbTintColor={Colors.themeColor}
+                    value={[value[1], value[0]]}
+                    onValueChange={([low, high]) => {
+                        console.log("Low:", low, "High:", high);
+                        // const lowValue = i18next.language === 'ar' ? low : low
+                        // const highValue = i18next.language === 'ar' ? high : high
+                        setValue([parseInt(low.toString()), parseInt(high.toString())]);
+                        // console.log(parseInt(low), parseInt(high));
+                        // // setLow(parseInt(low));
+                        // // setHigh(parseInt(high));
+                    }}
+                />
+
+
             </View>
             <View style={{ width: '100%' }}>
                 <NIButton type='secondary' onPress={() => {
+
+                    if (i18next.language === 'ar') {
+                        setActivePriceFrom(500 - value[1]);
+                        setActivePriceTo(500 - value[0])
+                    } else {
+                        setActivePriceFrom(value[0]);
+                        setActivePriceTo(value[1]);
+                    }
+
+                    console.log("Selected Price Range: low", 500 - value[1]);
+                    console.log("Selected Price Range: high", 500 - value[0]);
+
+                    console.log("EEEEESelected Price Range: low", value[0]);
+                    console.log("EEESelected Price Range: high", value[1]);
+
+                    // setActivePrice(`${value[0]}-${value[1]}`);
                     // setActivePrice(value.toFixed(0));
                     // Close the bottom sheet
                     bottomSheetModalRef?.current?.close();
@@ -249,6 +272,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#0F0FFF',
     },
     container: {
+        // transform: [{ scaleX: -1 }],
         height: 250,
         justifyContent: 'space-between',
         alignItems: 'center',

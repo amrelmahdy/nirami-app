@@ -64,7 +64,8 @@ export interface ProductFilters {
   categoryId?: string;
   brandId?: string;
   sortBy?: string;
-  price?: string;
+  priceFrom?: string;
+  priceTo?: string;
 }
 
 

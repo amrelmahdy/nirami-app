@@ -16,20 +16,31 @@ type Item = {
     sheetRef: RefObject<BottomSheetModal | null>;
     activeBrands: string;
     setActiveBrands: (brands: string) => void;
+    activeSorting?: string;
+    setActiveSorting: (sorting: string) => void;
+    activePrice: string;
+    setActivePrice: (price: string) => void;
 }
 
 type FilterByItemProps = {
     item: Item;
     isActive?: boolean,
     withBrandFilter?: boolean,
+
 };
 
-const FilterByItem: React.FC<FilterByItemProps> = ({ item, withBrandFilter = true }) => {
+const FilterByItem: React.FC<FilterByItemProps> = ({ item, withBrandFilter = true, appliedFilters }) => {
+
+
+
+    console.log("appliedFiltersappliedFiltersappliedFiltersappliedFilters>>", appliedFilters);
+
+
+
 
     if (!withBrandFilter && item.type === 'brand') return null
 
 
-    console.log("item>>", item)
 
 
     const getBorderColor = () => {
@@ -63,18 +74,23 @@ const FilterByItem: React.FC<FilterByItemProps> = ({ item, withBrandFilter = tru
 
 
 
+
+
             {
-                item.activeBrands || item.activeSorting || item.activePrice && <View style={{
-                    position: 'absolute',
-                    backgroundColor: '#ed5565',
-                    width: 15,
-                    height: 15,
-                    borderRadius: 7.5,
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    left: 3
-                }}>
-                    {item.type === 'brand' && item.activeBrands !== "" && <Badge>
+                ((
+                    item.type === 'brand' && appliedFilters?.brandId) ||
+                    item.type === 'sort' && appliedFilters?.sortBy ||
+                    item.type === 'price' && (appliedFilters?.priceFrom || appliedFilters?.priceTo)) && <View style={{
+                        position: 'absolute',
+                        backgroundColor: '#ed5565',
+                        width: 15,
+                        height: 15,
+                        borderRadius: 7.5,
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        left: 3
+                    }}>
+                    {item.type === 'brand' && appliedFilters?.brandId && <Badge>
                         {item.activeBrands?.trim().split(",").length}
                     </Badge>}
                 </View>

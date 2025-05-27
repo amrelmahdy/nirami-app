@@ -18,7 +18,7 @@ import PriceBottomSheet from '../../scenes/DepartmentSearch/bottom-sheets/PriceB
 type Filter = {
     name: Record<string, string>; // or Partial<Record<LanguageCode, string>>
     image: string;
-    id: string; 
+    id: string;
 }
 
 type FilterByBarProps = {
@@ -29,7 +29,7 @@ type FilterByBarProps = {
     setActiveBrands?: (brands: string) => void;
     activeSorting?: string;
     setActiveSorting?: (sorting: string) => void;
-    activePrice?: string;   
+    activePrice?: string;
     setActivePrice?: (price: string) => void;
 };
 
@@ -41,7 +41,23 @@ type FilterByBarProps = {
 //                     activePrice={activePrice}
 
 
-const FilterByBar: React.FC<FilterByBarProps> = ({ withBorder = true, withBrandFilter,activeBrands, brands, setActiveBrands, activePrice, setActivePrice, activeSorting, setActiveSorting }) => {
+const FilterByBar: React.FC<FilterByBarProps> = ({
+    withBorder = true,
+    withBrandFilter,
+    appliedFilters,
+    activeBrands,
+    brands,
+    setActiveBrands,
+    activePrice,
+    setActivePrice,
+    activeSorting,
+    setActiveSorting,
+    setActivePriceFrom,
+    activePriceFrom,
+    setActivePriceTo,
+    activePriceTo,
+}) => {
+
 
     const sortBottomSheetRef = useRef<BottomSheetModal>(null);
     const colorBottomSheetRef = useRef<BottomSheetModal>(null);
@@ -73,13 +89,18 @@ const FilterByBar: React.FC<FilterByBarProps> = ({ withBorder = true, withBrandF
             label: 'السعر',
             sheetRef: pricsBottomSheetRef,
             activePrice: activePrice,
+            activePriceFrom: activePriceFrom,
+            activePriceTo: activePriceTo,
 
         }
     ]
 
     return (
         <>
-            <BottomSheet title='الترتيب علي حسب' onReset={() => setActiveSorting(undefined)} bottomSheetModalRef={sortBottomSheetRef}>
+            <BottomSheet
+                title='الترتيب علي حسب'
+                onReset={() => setActiveSorting(undefined)}
+                bottomSheetModalRef={sortBottomSheetRef}>
                 <SortBottomSheet activeSorting={activeSorting} setActiveSorting={setActiveSorting} bottomSheetModalRef={sortBottomSheetRef} />
             </BottomSheet>
 
@@ -87,12 +108,31 @@ const FilterByBar: React.FC<FilterByBarProps> = ({ withBorder = true, withBrandF
                 <ColorBottomSheet />
             </BottomSheet>
 
-            <BottomSheet onReset={() => setActiveBrands(undefined)} title='الماركات' bottomSheetModalRef={brandBottomSheetRef}>
-                <BrandBottomSheet brands={brands} activeBrands={activeBrands} setActiveBrands={setActiveBrands} brandBottomSheetRef={brandBottomSheetRef} />
+            <BottomSheet
+                onReset={() => setActiveBrands(undefined)}
+                title='الماركات' bottomSheetModalRef={brandBottomSheetRef}>
+                <BrandBottomSheet
+                    brands={brands}
+                    activeBrands={activeBrands}
+                    setActiveBrands={setActiveBrands}
+                    brandBottomSheetRef={brandBottomSheetRef} />
             </BottomSheet>
 
-            <BottomSheet title='السعر' onReset={() => setActivePrice(undefined)} bottomSheetModalRef={pricsBottomSheetRef}>
-                <PriceBottomSheet activePrice={activePrice} setActivePrice={setActivePrice} bottomSheetModalRef={pricsBottomSheetRef}/>
+            <BottomSheet
+                title='السعر'
+                onReset={() => {
+                    setActivePriceFrom(0);
+                    setActivePriceTo(500);  
+                }}
+                bottomSheetModalRef={pricsBottomSheetRef}>
+                <PriceBottomSheet
+                    activePrice={activePrice}
+                    setActivePrice={setActivePrice}
+                    setActivePriceFrom={setActivePriceFrom}
+                    activePriceFrom={activePriceFrom}
+                    setActivePriceTo={setActivePriceTo}
+                    activePriceTo={activePriceTo}
+                    bottomSheetModalRef={pricsBottomSheetRef} />
             </BottomSheet>
 
             <View style={{
@@ -111,7 +151,7 @@ const FilterByBar: React.FC<FilterByBarProps> = ({ withBorder = true, withBrandF
                     showsHorizontalScrollIndicator={false}
                     data={filters}
                     keyExtractor={(item, index) => index.toString()} style={{ width: '100%' }}
-                    renderItem={({ item, index }) => <FilterByItem  withBrandFilter={withBrandFilter} item={item} />}
+                    renderItem={({ item, index }) => <FilterByItem withBrandFilter={withBrandFilter} item={item} appliedFilters={appliedFilters} />}
 
                 />
             </View>

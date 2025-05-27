@@ -17,6 +17,7 @@ import NIText from '../NIText/NIText';
 import { Icon } from 'react-native-paper';
 import { getIconUrl } from '../../assets/icons';
 import { Images } from '../../assets';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 interface BottomSheetProps {
     bottomSheetModalRef: RefObject<BottomSheetModal | null>;
@@ -29,7 +30,7 @@ interface BottomSheetProps {
 const BottomSheet: React.FC<BottomSheetProps> = ({
     bottomSheetModalRef,
     onClose = () => { },
-    onReset=() => { },
+    onReset = () => { },
     title,
     children,
 }) => {
@@ -47,34 +48,40 @@ const BottomSheet: React.FC<BottomSheetProps> = ({
     ), []);
 
     return (
-        <BottomSheetModal
-            ref={bottomSheetModalRef}
-            onChange={handleSheetChanges}
-            enableDynamicSizing
-            backdropComponent={renderBackdrop}
-        >
-            <BottomSheetView style={styles.sheetContainer}>
-                <View style={styles.header}>
-                    <TouchableOpacity onPress={() => {
-                        onReset?.();
-                        bottomSheetModalRef.current?.close();
-                        onClose?.();
-                    }}>
-                        <NIText>استعادة</NIText>
-                    </TouchableOpacity>
-                    <NIText>{title}</NIText>
-                    <TouchableOpacity onPress={() => {
-                        bottomSheetModalRef.current?.close();
-                        onClose?.()
-                    }}>
-                        <Icon source={getIconUrl(Images, 'ic_angle_bottom')} size={15} />
-                    </TouchableOpacity>
-                </View>
-                <View style={styles.content}>
-                    {children}
-                </View>
-            </BottomSheetView>
-        </BottomSheetModal>
+        <GestureHandlerRootView style={{ flex: 1 }}>
+
+            <BottomSheetModal
+                ref={bottomSheetModalRef}
+                onChange={handleSheetChanges}
+                enableDynamicSizing
+                backdropComponent={renderBackdrop}
+                enablePanDownToClose={true}
+                enableContentPanningGesture={false} // 👈 optional
+            >
+
+                <BottomSheetView style={styles.sheetContainer}>
+                    <View style={styles.header}>
+                        <TouchableOpacity onPress={() => {
+                            onReset?.();
+                            bottomSheetModalRef.current?.close();
+                            onClose?.();
+                        }}>
+                            <NIText>استعادة</NIText>
+                        </TouchableOpacity>
+                        <NIText>{title}</NIText>
+                        <TouchableOpacity onPress={() => {
+                            bottomSheetModalRef.current?.close();
+                            onClose?.()
+                        }}>
+                            <Icon source={getIconUrl(Images, 'ic_angle_bottom')} size={15} />
+                        </TouchableOpacity>
+                    </View>
+                    <View style={styles.content}>
+                        {children}
+                    </View>
+                </BottomSheetView>
+            </BottomSheetModal>
+        </GestureHandlerRootView>
     );
 };
 
