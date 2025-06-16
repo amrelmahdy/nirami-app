@@ -9,6 +9,7 @@ export default {
         register: "Register",
         login: "Login",
         brands: "Brands",
+        what_are_you_looking_for: "What are you looking for ?",
     }
 }
 

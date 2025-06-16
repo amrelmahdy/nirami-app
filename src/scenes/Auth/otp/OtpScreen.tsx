@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Button, View, ImageBackground, StyleSheet, Image, TouchableOpacity, TextInput } from "react-native";
+import { Button, View, ImageBackground, StyleSheet, Image, TouchableOpacity, TextInput, Alert } from "react-native";
 import { Text } from "react-native-gesture-handler";
 import { Images } from "../../../assets";
 import { getIconUrl } from "../../../assets/icons";
@@ -9,91 +9,163 @@ import { SafeAreaView, SafeAreaProvider } from 'react-native-safe-area-context';
 import { OtpInput } from "react-native-otp-entry";
 import navigationAdapter from "../../../navigation/NavigationAdapter";
 import NAVIGATION_ROUTES from "../../../navigation/NavigationRoutes";
+import { login, register, verifyOTPForLoginOrRegister } from "../../../api/auth.api";
+import NIText from "../../../components/NIText/NIText";
+import { RouteProp } from '@react-navigation/native';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-function OtpScreen() {
+type OtpScreenRouteProp = {
+    params?: {
+        emailOrPhone?: string;
+        type?: number; // 0 for login, 1 for register
+    };
+};
+
+function OtpScreen({ route }: { route: OtpScreenRouteProp }) {
+
+    const emailOrPhone = route.params?.emailOrPhone ?? '';
+    const type = route.params?.type;
+
+    const [inputError, setInputError] = React.useState<string | null>(null);
+
+
+    const handleonFilled = async (text: string) => {
+        if (type === 0) {
+            const res = await login(emailOrPhone, text)
+            if (res && res.accessToken) {
+                const accessToken = res.accessToken;
+                const refreshToken = res.refreshToken;
+                const expiresIn = res.expiresIn;
+                const expiresAt = res.expiresAt;
+                await AsyncStorage.multiSet([
+                    ['access-token', accessToken],
+                    ['refresh-token', refreshToken],
+                    ['expires-in', expiresIn],
+                    ['expires-at', expiresAt]
+                ]);
+                navigationAdapter.replace(NAVIGATION_ROUTES.BOTTOM_TAB_BAR);
+            }
+        } else {
+            try {
+                const res = await verifyOTPForLoginOrRegister(emailOrPhone, text)
+                if (!res.success) {
+                    setInputError(res.message);
+                    return;
+                }
+                // register a new user
+                const resRegister = await register(emailOrPhone);
+                if (resRegister && resRegister.accessToken) {
+                    const accessToken = resRegister.accessToken;
+                    const refreshToken = res.refreshToken;
+                    const expiresIn = res.expiresIn;
+                    const expiresAt = res.expiresAt;
+                    await AsyncStorage.multiSet([
+                        ['access-token', accessToken],
+                        ['refresh-token', refreshToken],
+                        ['expires-in', expiresIn],
+                        ['expires-at', expiresAt]
+                    ]);
+                    navigationAdapter.replace(NAVIGATION_ROUTES.BOTTOM_TAB_BAR);
+                }
+            } catch (error: any) {
+                console.log("Error verifying OTP:", error, JSON.stringify(error, Object.getOwnPropertyNames(error)));
+                setInputError(error?.message || 'حدث خطأ غير متوقع');
+            }
+        }
+
+
+    }
 
     return (
 
 
-       
-            <SafeAreaView style={styles.container} >
-                {/* ic_weui_arrow_outlined */}
 
-                <View style={{ flexDirection: 'row', justifyContent: 'flex-end' }}>
-                    <TouchableOpacity style={styles.backBtnWrapper} onPress={() => {
-                        navigationAdapter.goBack()
-                    }}>
-                        <Image style={styles.backBtnIcon} source={getIconUrl(Images, "ic_weui_arrow_outlined")} />
-                    </TouchableOpacity>
-                </View>
+        <SafeAreaView style={styles.container} >
+            {/* ic_weui_arrow_outlined */}
 
-                <View>
-                    <Text style={styles.header}>قم بتاكيد رقم هاتفك</Text>
-                    <Text style={styles.otpDesc}>لقد أرسلنا رسالة نصية تحتوي على رمز التفعيل الى هاتفك 0546665576</Text>
-                </View>
+            <View style={{ flexDirection: 'row', justifyContent: 'flex-end' }}>
+                <TouchableOpacity style={styles.backBtnWrapper} onPress={() => {
+                    navigationAdapter.goBack()
+                }}>
+                    <Image style={styles.backBtnIcon} source={getIconUrl(Images, "ic_weui_arrow_outlined")} />
+                </TouchableOpacity>
+            </View>
+
+            <View>
+                <Text style={styles.header}>قم بتاكيد رقم هاتفك</Text>
+                <Text style={styles.otpDesc}>لقد أرسلنا رسالة نصية تحتوي على رمز التفعيل الى هاتفك 0546665576</Text>
+            </View>
 
 
-                <OtpInput
-                    numberOfDigits={5}
-                    focusColor="#452347"
-                    autoFocus={false}
-                    hideStick={true}
-                    // placeholder="******"
-                    blurOnFilled={true}
-                    disabled={false}
-                    type="numeric"
-                    secureTextEntry={false}
-                    focusStickBlinkingDuration={400}
-                    onFocus={() => console.log("Focused")}
-                    onBlur={() => console.log("Blurred")}
-                    onTextChange={(text) => console.log(text)}
-                    onFilled={(text) => navigationAdapter.replace(NAVIGATION_ROUTES.BOTTOM_TAB_BAR)}
-                    textInputProps={{
-                        accessibilityLabel: "One-Time Password",
-                    }}
-                    theme={{
-                        containerStyle: {
-                            direction: 'rtl'
-                        },
-                        pinCodeContainerStyle: {
-                            width: 58,
-                            height: 58,
-                            borderRadius: 12,
-                        }
+            <OtpInput
+                numberOfDigits={6}
+                focusColor="#452347"
+                autoFocus={false}
+                hideStick={true}
+                // placeholder="******"
+                blurOnFilled={true}
+                disabled={false}
+                type="numeric"
+                secureTextEntry={false}
+                focusStickBlinkingDuration={400}
+                onFocus={() => console.log("Focused")}
+                onBlur={() => console.log("Blurred")}
+                onTextChange={(text) => console.log(text)}
+                onFilled={handleonFilled}
+                textInputProps={{
+                    accessibilityLabel: "One-Time Password",
+                }}
+                theme={{
+                    containerStyle: {
+                        direction: 'rtl'
+                    },
+                    pinCodeContainerStyle: {
+                        width: 58,
+                        height: 58,
+                        borderRadius: 12,
                     }
-                        //     {
-                        //     containerStyle: styles.container,
-                        //     pinCodeContainerStyle: styles.pinCodeContainer,
-                        //     pinCodeTextStyle: styles.pinCodeText,
-                        //     focusStickStyle: styles.focusStick,
-                        //     focusedPinCodeContainerStyle: styles.activePinCodeContainer,
-                        //     placeholderTextStyle: styles.placeholderText,
-                        //     filledPinCodeContainerStyle: styles.filledPinCodeContainer,
-                        //     disabledPinCodeContainerStyle: styles.disabledPinCodeContainer,
-                        // }
-                    }
-                />
+                }
+                    //     {
+                    //     containerStyle: styles.container,
+                    //     pinCodeContainerStyle: styles.pinCodeContainer,
+                    //     pinCodeTextStyle: styles.pinCodeText,
+                    //     focusStickStyle: styles.focusStick,
+                    //     focusedPinCodeContainerStyle: styles.activePinCodeContainer,
+                    //     placeholderTextStyle: styles.placeholderText,
+                    //     filledPinCodeContainerStyle: styles.filledPinCodeContainer,
+                    //     disabledPinCodeContainerStyle: styles.disabledPinCodeContainer,
+                    // }
+                }
+            />
 
-                <View style={{}}>
-                    <Text style={styles.resendHeader}>لم تتلقي رمز التحقق ؟</Text>
-                    <Text style={styles.resendText}> أرسل الرمز مرة اخري 02:30</Text>
-                </View>
+            <View>
+                {inputError && (
+                    <NIText style={{ color: 'red', textAlign: 'center', marginTop: 20, fontFamily: 'Almarai-Regular' }}>
+                        {inputError}
+                    </NIText>
+                )}
+            </View>
+
+            <View style={{}}>
+                <Text style={styles.resendHeader}>لم تتلقي رمز التحقق ؟</Text>
+                <Text style={styles.resendText}> أرسل الرمز مرة اخري 02:30</Text>
+            </View>
 
 
-                <View style={{ flexDirection: 'row', justifyContent: 'center', paddingHorizontal: 20 }}>
-                    <TouchableOpacity style={styles.smsTextBox} >
-                        <Text style={styles.smsText}>الرسائل النصية</Text>
-                        <Image style={styles.resendTextIcon} source={getIconUrl(Images, "ic_material_symbols_sms_rounded")} />
-                    </TouchableOpacity>
-                    {/* <TouchableOpacity style={styles.whatsappTextBox} >
+            <View style={{ flexDirection: 'row', justifyContent: 'center', paddingHorizontal: 20 }}>
+                <TouchableOpacity style={styles.smsTextBox} >
+                    <Text style={styles.smsText}>الرسائل النصية</Text>
+                    <Image style={styles.resendTextIcon} source={getIconUrl(Images, "ic_material_symbols_sms_rounded")} />
+                </TouchableOpacity>
+                {/* <TouchableOpacity style={styles.whatsappTextBox} >
                         <Text style={styles.whatsappText}>الواتس اب</Text>
                         <Image style={styles.resendTextIcon} source={getIconUrl(Images, "ic_dashicons_whatsapp")} />
                     </TouchableOpacity> */}
 
-                </View>
+            </View>
 
-            </SafeAreaView>
-     
+        </SafeAreaView>
+
     );
 }
 

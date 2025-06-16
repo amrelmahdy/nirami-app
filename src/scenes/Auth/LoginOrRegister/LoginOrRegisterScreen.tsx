@@ -7,15 +7,58 @@ import { SafeAreaView, SafeAreaProvider } from 'react-native-safe-area-context';
 import NAVIGATION_ROUTES from "../../../navigation/NavigationRoutes";
 import navigationAdapter from "../../../navigation/NavigationAdapter";
 import i18next, { t } from "i18next";
+import { sendAnOTPForLoginOrRegister } from "../../../api/auth.api";
+import { isValidEmailOrSaudiPhone } from "../../../utils/helpers";
 // import { TextInput } from 'react-native-paper';
 // import { InputOutline, InputStandard } from 'react-native-input-outline';
 
 // import NavigationAdapterImpl from '../../navigation/NavigationAdapterImpl'
 // import NAVIGATION_ROUTES from "../../navigation/NavigationRoutes";
 
+
+
 function LoginOrRegister() {
 
     const [activeTab, setActiveTab] = React.useState('login');
+    const [emailOrPhone, setEmailOrPhone] = React.useState('');
+    const [inputError, setInputError] = React.useState<string | null>(null);
+
+
+    const handleEmailOrPhoneChange = (text: string) => {
+        setEmailOrPhone(text);
+        setInputError(null);
+    };
+
+    const handleContinuePress = async () => {
+        try {
+            if (!isValidEmailOrSaudiPhone(emailOrPhone)) {
+                setInputError('يرجى إدخال بريد إلكتروني صحيح أو رقم جوال سعودي صحيح');
+                return;
+            }
+            const res = await sendAnOTPForLoginOrRegister(emailOrPhone);
+            if (!res.success) {
+                setInputError(res.error);
+                return;
+            }
+            navigationAdapter.navigate(NAVIGATION_ROUTES.OTP, { emailOrPhone, type: activeTab !== 'register' ? 0 : 1 }); // Pass emailOrPhone to OTP screen
+
+        } catch (error) {
+            // Handle Axios or Fetch-style backend error format
+            let message = 'حدث خطأ أثناء إرسال رمز التحقق';
+
+            if (error?.response?.data?.code) {
+                // e.g. NestJS returns { message: 'user_not_found' }
+                message = typeof error.response.data.code === 'string'
+                    ? error.response.data.code
+                    : error.response.data.code[0]; // In case it's an array
+            } else if (error?.message) {
+                message = error.message;
+            }
+
+            setInputError(message);
+
+        }
+    };
 
     // useEffect(() => {
     //     console.log("Current Screen Name: ", NavigationAdapterImpl.getCurrentScreenName())
@@ -46,15 +89,18 @@ function LoginOrRegister() {
                     <Text style={{ textAlign: 'right', fontFamily: 'Almarai-Regular', height: 20 }}>البريد الإلكتروني او رقم الجوال</Text>
                     <TextInput
                         style={styles.input}
-                        onChangeText={() => { }}
-                        //value={number}
+                        onChangeText={handleEmailOrPhoneChange}
+                        value={emailOrPhone}
                         // placeholder=" البريد الإلكتروني او رقم الجوال"
                         keyboardType="numeric"
                     />
+                    {inputError && (
+                        <Text style={{ color: 'red', textAlign: 'right', marginBottom: 40, fontFamily: 'Almarai-Regular' }}>
+                            {t(inputError)}
+                        </Text>
+                    )}
                     <View style={styles.continueBtnContainer}>
-                        <TouchableOpacity style={{}} onPress={() => {
-                            navigationAdapter.navigate(NAVIGATION_ROUTES.OTP)
-                        }}>
+                        <TouchableOpacity style={{}} onPress={handleContinuePress}>
                             <Text style={styles.continueBtn}>استمرار</Text>
                         </TouchableOpacity>
                     </View>
@@ -141,7 +187,7 @@ const styles = StyleSheet.create({
         textAlign: "right",
         borderColor: 'rgb(190, 190, 190)',
         borderRadius: 5,
-        marginBottom: 40
+
     },
     continueBtnContainer: {
         alignItems: 'center'

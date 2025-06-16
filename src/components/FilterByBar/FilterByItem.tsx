@@ -77,7 +77,7 @@ const FilterByItem: React.FC<FilterByItemProps> = ({ item, withBrandFilter = tru
 
 
             {
-                ((
+                ((            
                     item.type === 'brand' && appliedFilters?.brandId) ||
                     item.type === 'sort' && appliedFilters?.sortBy ||
                     item.type === 'price' && (appliedFilters?.priceFrom || appliedFilters?.priceTo)) && <View style={{

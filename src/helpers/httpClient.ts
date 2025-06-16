@@ -1,19 +1,30 @@
-import axios, { AxiosInstance } from 'axios';
+import axios, { AxiosInstance, InternalAxiosRequestConfig } from 'axios';
 import Config from 'react-native-config';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const httpClient: AxiosInstance = axios.create({
   baseURL: Config.SERVER_BASE_URL, // Use server base URL from react-native-config
   // You can add other static config options here
 });
 
-// Request interceptor
+
+const attachToken = async (config)  => {
+  try {
+    const accessToken = await AsyncStorage.getItem('access-token');
+    if (accessToken) {
+      config.headers = config.headers || {};
+      config.headers.Authorization = `Bearer ${accessToken}`;
+    }
+  } catch (e) {
+  }
+  return config;
+}
+
 httpClient.interceptors.request.use(
-  config => {
-    // Modify request config if needed
-    return config;
-  },
+  (config) => Promise.resolve(attachToken(config)),
   error => Promise.reject(error)
 );
+
 
 // Response interceptor
 httpClient.interceptors.response.use(

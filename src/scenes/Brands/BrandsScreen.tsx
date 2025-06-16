@@ -59,7 +59,7 @@ function BrandsScreen() {
                     numColumns={2}
                     showsHorizontalScrollIndicator={false}
                     keyExtractor={(item, index) => index.toString()} style={{ width: '100%' }}
-                    data={brandsData.brands}
+                    data={brandsList}
                     contentContainerStyle={{ paddingTop: 20 }}  // Add padding around the grid
 
                     renderItem={({ item, index }) => <BrandCard brand={item} />} />

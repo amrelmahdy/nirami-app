@@ -18,6 +18,7 @@ import { t } from "i18next";
 import brandsData from './../../stubs/brands.json'
 import BrandCard from "../../components/BrandCard/BrandCard";
 import NIText from "../../components/NIText/NIText";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 
 
@@ -25,6 +26,16 @@ import NIText from "../../components/NIText/NIText";
 
 
 function AccountScreen() {
+
+    const handleLogOut = async () => {
+        await AsyncStorage.multiRemove(
+            ['access-token', 'refresh-token',
+                'expires-in',
+                'expires-at',
+            ]);
+        // NavigationAdapter.navigate(NAVIGATION_ROUTES.LOGIN);
+    }
+
 
     console.log("brands", brandsData)
 
@@ -39,54 +50,70 @@ function AccountScreen() {
         {
             label: 'العربية',
             icon: "ic_ion_language_outline",
-            screen_key: 'lang'
+            screen_key: 'lang',
+            onPress: () => { }
+
         },
         {
             label: 'الصفحة الخاصة',
             icon: "ic_ep_user",
-            screen_key: 'profile'
+            screen_key: 'profile',
+            onPress: () => { }
+
         },
         {
             label: 'الطلبات',
             icon: "ic_account",
-            screen_key: 'orders'
+            screen_key: 'orders',
+            onPress: () => { }
+
         },
         {
             label: 'العناوين',
             icon: "ic_ph_address_book",
-            screen_key: 'addresses'
+            screen_key: 'addresses',
+            onPress: () => { }
+
         },
         {
             label: 'خدمة الولاء',
             icon: "ic_iconamoon_gift_light",
-            screen_key: 'loyality'
+            screen_key: 'loyality',
+            onPress: () => { }
+
         },
         {
             label: 'خدمة العملاء',
             icon: "ic_customer_support",
-            screen_key: 'cutomer_care'
+            screen_key: 'cutomer_care',
+            onPress: () => { }
+
         },
         {
             label: 'نبذة عنا',
             icon: "ic_mdi_about_circle_outline",
-            screen_key: 'about_support'
+            screen_key: 'about_support',
+            onPress: () => { }
+
         },
         {
             label: 'شهادة القيمة المضافة',
             icon: "ic_tax",
-            screen_key: 'VAT_cert'
+            screen_key: 'VAT_cert',
+            onPress: () => { }
         },
         {
             label: 'تسجيل الخروج',
             icon: "ic_lucide_book",
-            screen_key: 'logout'
+            screen_key: 'logout',
+            onPress: handleLogOut
         }
     ]
 
 
 
     const renderCell = (item) => {
-        return <TouchableOpacity style={{ flexDirection: 'row-reverse', justifyContent: 'space-between', paddingVertical: 20, alignItems: 'center' }}>
+        return <TouchableOpacity onPress={item.onPress} style={{ flexDirection: 'row-reverse', justifyContent: 'space-between', paddingVertical: 20, alignItems: 'center' }}>
             <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                 <NIText style={{ fontSize: 15, marginRight: 15 }}>{item.label}</NIText>
                 <Icon source={getIconUrl(Images, item.icon)} size={20} />

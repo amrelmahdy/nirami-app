@@ -64,7 +64,6 @@ const FilterByBar: React.FC<FilterByBarProps> = ({
     const brandBottomSheetRef = useRef<BottomSheetModal>(null);
     const pricsBottomSheetRef = useRef<BottomSheetModal>(null);
 
-    // callbacks
     const filters = [
         {
             type: 'sort',
@@ -72,12 +71,12 @@ const FilterByBar: React.FC<FilterByBarProps> = ({
             sheetRef: sortBottomSheetRef,
             activeSorting: activeSorting,
         },
-        {
-            type: 'color',
-            label: 'اللون',
-            sheetRef: colorBottomSheetRef
+        // {
+        //     type: 'color',
+        //     label: 'اللون',
+        //     sheetRef: colorBottomSheetRef
 
-        },
+        // },
         {
             type: 'brand',
             label: 'الماركة',
@@ -122,7 +121,7 @@ const FilterByBar: React.FC<FilterByBarProps> = ({
                 title='السعر'
                 onReset={() => {
                     setActivePriceFrom(0);
-                    setActivePriceTo(500);  
+                    setActivePriceTo(500);
                 }}
                 bottomSheetModalRef={pricsBottomSheetRef}>
                 <PriceBottomSheet

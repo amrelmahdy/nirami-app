@@ -11,7 +11,7 @@ export const getGroups = async (filters: GroupFilters = {}) => {
     if (filters.query) params.append('query', filters.query);
     if (filters.categoryId) params.append('categoryId', filters.categoryId);
 
-    const url = `http://localhost:3000/groups?${params.toString()}`;
+    const url = `/groups?${params.toString()}`;
     const result = await httpClient.get(url);
     return result.data;
 };

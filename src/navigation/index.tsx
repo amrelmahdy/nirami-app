@@ -8,8 +8,8 @@ import { Text } from 'react-native-gesture-handler';
 import SplashScreen from '../scenes/Splash/SplashScreen';
 import BottomTabBar from './BottomTabNavigator/BottomTabNavigator';
 import ChooseLanguage from '../scenes/ChooseLanguage/ChooseLanguage';
-import LoginOrRegister from '../scenes/Auth/login_or_register/LoginOrRegisterScreen';
 import OtpScreen from '../scenes/Auth/otp/OtpScreen';
+import LoginOrRegister from '../scenes/Auth/LoginOrRegister/LoginOrRegisterScreen';
 
 const Stack = createStackNavigator();
 

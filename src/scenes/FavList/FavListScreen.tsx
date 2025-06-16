@@ -127,20 +127,9 @@ function FavList() {
     return (
         // <SafeAreaView style={{ flex: 1 }}>
 
-        <>
-            {/* <SafeAreaView style={{ borderBottomWidth: 1, borderColor: '#bfbfbf', paddingTop: 0, paddingBottom: 0, paddingHorizontal: 15  }}> */}
-            {/* <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: insets.top, paddingBottom: 20,borderBottomWidth: 1, borderColor: '#bfbfbf',  paddingHorizontal: 15 }}>
-                    <View></View>
-                    <Text style={{ fontFamily: FONT_FAMILIES.ALMARAI_BOLD }}>المفضلة</Text>
-                    <View>
-                        <TouchableOpacity onPress={() => NavigationAdapter.goBack()}>
-                            <Icon source={getIconUrl(Images, 'ic_weui_arrow_outlined')} size={24} />
-                        </TouchableOpacity>
-                    </View>
-                </View> */}
-
+        <View style={{ flex: 1, backgroundColor: '#FFF' }}>
+    
             <PageHeader headerLabel="المفضلة" />
-            {/* </SafeAreaView> */}
             <ScrollView style={{}}>
 
                 <View style={{ flex: 1, paddingTop: 20, paddingHorizontal: 15, marginBottom: 50 }}>
@@ -153,7 +142,7 @@ function FavList() {
                         renderItem={({ item, index }) => <ProductCard product={item} />} />
                 </View>
             </ScrollView>
-        </>
+        </View>
 
     );
 }

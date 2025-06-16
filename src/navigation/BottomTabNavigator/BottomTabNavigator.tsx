@@ -16,6 +16,7 @@ import CartScreen from '../../scenes/Cart/CartScreen';
 import BrandsScreen from '../../scenes/Brands/BrandsScreen';
 import FilteredProductsByBrandScreen from '../../scenes/Brands/FilteredProductsByBrandScreen';
 import AccountScreen from '../../scenes/Account/Account';
+import ProductsScreen from '../../scenes/Products/ProductsScreen';
 
 
 const Stack = createStackNavigator()
@@ -26,6 +27,8 @@ const HomeStack = () => (
         <Stack.Screen options={{ headerShown: false }} name={NAVIGATION_ROUTES.HOMEPAGE} component={HomeScreen} />
         <Stack.Screen options={{ headerShown: false }} name={NAVIGATION_ROUTES.FAV_LIST} component={FavListScreen} />
         <Stack.Screen options={{ headerShown: false }} name={NAVIGATION_ROUTES.PRODUCT_DETAILS} component={ProductDetailsScreen} />
+        <Stack.Screen options={{ headerShown: false }} name={NAVIGATION_ROUTES.PRODUCTS} component={ProductsScreen} />
+
     </Stack.Navigator>
 )
 

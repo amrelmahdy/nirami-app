@@ -16,6 +16,7 @@ const NAVIGATION_ROUTES = {
   HOMEPAGE: 'HomePage',
   FAV_LIST: 'FavList',
   BRANDS: 'Brands',
+  PRODUCTS: 'Products',
   FILTERED_PRODUCTS_BY_BRAND: 'FilteredProductsByBrand',
   PRODUCT_DETAILS: 'ProductDetails',
   DEPARTMENT_SEARCH: 'DepartmentSearch',

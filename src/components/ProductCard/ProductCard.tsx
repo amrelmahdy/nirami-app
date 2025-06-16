@@ -24,6 +24,7 @@ export default function ProductCard({ product }: ProductCardProps) {
                 borderColor: '#bebebe',
                 borderRadius: 2,
                 overflow: 'hidden',
+                direction: 'rtl', // Ensures text and icons are aligned correctly for RTL languages
                 // paddingHorizontal: 15, 
                 marginRight: 15, // Adds spacing between cards
                 marginBottom: 15,
