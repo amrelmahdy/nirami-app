@@ -5,8 +5,13 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import HomeScreen from '../../../scenes/Home/HomeScreen';
 import TabIcon from '../TabIcon/TabIcon';
 import { Badge } from 'react-native-paper';
+import { useGetCart } from '../../../hooks/cart.hooks';
 
 const TabBar = ({ state, descriptors, navigation }) => {
+
+    const { data: cartData, isLoading: cartDataIsLoading, isError: cartDataIstError, refetch } = useGetCart();
+
+
     const { colors } = useTheme();
     const { buildHref } = useLinkBuilder();
 
@@ -76,7 +81,10 @@ const TabBar = ({ state, descriptors, navigation }) => {
                     >
 
                         {isFocused && <View style={styles.activeBar} />}
-                        {route.params.badge && <Badge style={{ position: 'absolute', left: 16, top: 7 }}>3</Badge>}
+                        {route.name === "Cart" && cartData && !cartDataIsLoading && !cartDataIstError && cartData.items.length > 0 &&
+                            <Badge style={{ position: 'absolute', left: 16, top: 7 }}>{
+                                cartData.items.length
+                            }</Badge>}
                         <TabIcon focused={isFocused} iconName={route.params.icon} />
                         {/* <Text
                             style={{

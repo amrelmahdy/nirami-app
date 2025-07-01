@@ -19,10 +19,13 @@ import cartData from './../../stubs/cart.json'
 import CartItem from "../../components/CartItem/CartItem";
 import NIText from "../../components/NIText/NIText";
 import NIButton from "../../components/NIButton/NIButton";
+import { useGetCart } from "../../hooks/cart.hooks";
+import navigationAdapter from "../../navigation/NavigationAdapter";
 
 
 
 function CartScreen() {
+    const { data: cartData, isLoading: cartDataIsLoading, isError: cartDataIstError, refetch } = useGetCart();
 
     // const insets = useSafeAreaInsets();
 
@@ -38,22 +41,82 @@ function CartScreen() {
         // <SafeAreaView style={{ flex: 1 }}>
         <NiScreen title="عربة التسوق">
             <View style={{ flex: 1, paddingHorizontal: 15 }}>
-                <FlatList
-                    keyExtractor={(item, index) => index.toString()} style={{ width: '100%' }}
-                    data={cartData.items}
-                    contentContainerStyle={{ paddingTop: 20 }}
-                    renderItem={({ item, index }) => <CartItem item={item}
-                    />} />
-                <View style={{ marginBottom: 15 }}>
-                    <View style={{ flexDirection: 'row-reverse', justifyContent: 'space-between', marginBottom: 15 }}>
-                        <NIText type='light' style={{ fontSize: 16 }}>المجموع الفرعي</NIText>
-                        <View style={{ flexDirection: 'row', justifyContent: 'flex-end', marginBottom: 5 }}>
-                            <Icon source={getIconUrl(Images, 'saudi_riyal_symbol')} size={16} />
-                            <Text style={{ fontSize: 16, fontWeight: "bold", color: "#000", textAlign: 'right', }}>175</Text>
-                        </View>
-                    </View>
-                    <NIButton>عملية الدفع</NIButton>
-                </View>
+                {
+                    cartData &&
+                        !cartDataIsLoading &&
+                        !cartDataIstError &&
+                        cartData.items
+                        ? <>
+                            <FlatList
+                                // numColumns={1} // Set one column per row
+                                // contentContainerStyle={{ paddingHorizontal: 10, paddingBottom: 20 }}
+                                showsVerticalScrollIndicator={false}
+                                showsHorizontalScrollIndicator={false}
+                                // style={{ width: '100%' }}
+                                // style={{ flex: 1, paddingTop: 20, paddingHorizontal: 15, marginBottom: 50 }}
+                                // style={{ flex: 1, paddingTop: 20, paddingHorizontal: 15, marginBottom: 50 }}
+                                // style={{ flex: 1, paddingTop: 20, paddingHorizontal: 15, marginBottom:       50 }}                       
+                                ListEmptyComponent={() => <View>
+                                    <Image source={getIconUrl(Images, 'ic_fam_icons_bag_outline')} style={{ alignSelf: 'center' }} />
+                                    <NIText type='light' style={{ height: 40, fontSize: 22, textAlign: 'center', marginVertical: 20 }}>لا توجد منتجات في عربة التسوق</NIText>
+                                    <NIButton type='primary' onPress={() => NavigationAdapter.goBack()}>العودة للتسوق</NIButton>
+                                    {/* <TouchableOpacity onPress={() => NavigationAdapter.goBack()} style={{ alignItems: 'center', marginTop: 20 }}>
+                                       
+                                       
+                                       
+                                        <NIButton type='light' style={{ fontSize: 16, textAlign: 'center', marginTop: 10, color: '#007bff' }}>العودة للتسوق</NIText>                  
+                                    </TouchableOpacity> */}
+                                </View>}
+
+                                refreshing={cartDataIsLoading}
+                                onRefresh={refetch}
+                                keyExtractor={(item, index) => index.toString()} style={{ width: '100%' }}
+                                data={cartData.items}
+                                contentContainerStyle={{ paddingTop: 20 }}
+                                renderItem={({ item, index }) => <CartItem item={item}
+
+
+                                />} />
+                            {cartData &&
+                                !cartDataIsLoading &&
+                                !cartDataIstError &&
+                                cartData.items && cartData.items.length && <View style={{ marginBottom: 15 }}>
+                                    <View style={{ flexDirection: 'row-reverse', justifyContent: 'space-between', marginBottom: 15 }}>
+                                        <NIText type='light' style={{ fontSize: 20, height: 25 }}>الملخص</NIText>
+                                        {/* <View style={{ flexDirection: 'row', justifyContent: 'flex-end', marginBottom: 5 }}>
+                                            <Icon source={getIconUrl(Images, 'saudi_riyal_symbol')} size={16} />
+                                            <Text style={{ fontSize: 16, fontWeight: "bold", color: "#000", textAlign: 'right', }}>175</Text>
+                                        </View> */}
+                                    </View>
+                                    <View style={{ flexDirection: 'row-reverse', justifyContent: 'space-between', marginBottom: 15 }}>
+                                        <NIText type='light' style={{ fontSize: 16 }}>المجموع الفرعي</NIText>
+                                        <View style={{ flexDirection: 'row', justifyContent: 'flex-end', marginBottom: 5 }}>
+                                            <Icon source={getIconUrl(Images, 'saudi_riyal_symbol')} size={16} />
+                                            <Text style={{ fontSize: 16, fontWeight: "bold", color: "#000", textAlign: 'right', }}>{cartData.totalPrice}</Text>
+                                        </View>
+                                    </View>
+
+                                    <View style={{ flexDirection: 'row-reverse', justifyContent: 'space-between', marginBottom: 15 }}>
+                                        <NIText type='light' style={{ fontSize: 16 }}>التوصيل العادي</NIText>
+                                        <View style={{ flexDirection: 'row', justifyContent: 'flex-end', marginBottom: 5 }}>
+                                            <Icon source={getIconUrl(Images, 'saudi_riyal_symbol')} size={16} />
+                                            <Text style={{ fontSize: 16, fontWeight: "bold", color: "#000", textAlign: 'right', }}>25</Text>
+                                        </View>
+                                    </View>
+
+                                    <View style={{ flexDirection: 'row-reverse', justifyContent: 'space-between', marginBottom: 15 }}>
+                                        <NIText type='light' style={{ fontSize: 16 }}>المجموع ( شامل ضريبة القيمة المضافة )</NIText>
+                                        <View style={{ flexDirection: 'row', justifyContent: 'flex-end', marginBottom: 5 }}>
+                                            <Icon source={getIconUrl(Images, 'saudi_riyal_symbol')} size={16} />
+                                            <Text style={{ fontSize: 16, fontWeight: "bold", color: "#000", textAlign: 'right', }}>175</Text>
+                                        </View>
+                                    </View>
+                                    <NIButton onPress={() => {
+                                        navigationAdapter.navigate(NAVIGATION_ROUTES.ChECKOUT)
+                                    }}>عملية الدفع</NIButton>
+                                </View>}
+                        </> : <></>
+                }
             </View>
         </NiScreen>
 

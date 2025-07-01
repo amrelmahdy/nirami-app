@@ -22,7 +22,7 @@ const NIText: React.FC<NITextProps> = ({ children, type = fontMap.regular, style
     const fontFamily = fontMap[type] || FONT_FAMILIES.ALMARAI_REGULAR;
 
     return (
-        <Text style={[{ fontFamily, color: "#000", textAlign: "right" }, style]} {...props}>
+        <Text style={[{ fontFamily, color: "#000", textAlign: "right", lineHeight: 20 }, style]} {...props}>
             {children}
         </Text>
     );

@@ -36,6 +36,12 @@ export const Images: IconMap = {
 
 
   ic_cart: Image.resolveAssetSource(require('./icons/cart.png')),
+  ic_mdi_cart: Image.resolveAssetSource(require('./icons/mdi_cart.png')),
+  ic_mdi_bordred_cart: Image.resolveAssetSource(require('./icons/mdi_bordred_cart.png')),
+  ic_fam_icons_bag_outline: Image.resolveAssetSource(require('./icons/famicons_bag-outline.png')),
+
+
+  ic_fav_cross: Image.resolveAssetSource(require('./icons/fav_cross.png')),
   ic_circle_close: Image.resolveAssetSource(require('./icons/circle_close.png')),
   ic_plus: Image.resolveAssetSource(require('./icons/plus.png')),
   ic_minus: Image.resolveAssetSource(require('./icons/minus.png')),
@@ -47,7 +53,15 @@ export const Images: IconMap = {
   ic_weui_arrow_outlined: Image.resolveAssetSource(require('./icons/weui_arrow-outlined.png')),
   ic_weui_arrow_outlined_left_angle: Image.resolveAssetSource(require('./icons/weui_arrow_outlined_left_angle.png')),
   ic_mynaui_search: Image.resolveAssetSource(require('./icons/mynaui_search.png')),
+
   ic_mdi_light_heart: Image.resolveAssetSource(require('./icons/mdi-light_heart.png')),
+  ic_mdi_botdered_heart: Image.resolveAssetSource(require('./icons/mdi_light_heart.png')),
+  ic_mdi_filled_heart: Image.resolveAssetSource(require('./icons/mdi_filled_heart.png')),
+
+  ic_arrow_up_outlined: Image.resolveAssetSource(require('./icons/arrow_up_outlined.png')),
+  ic_arrow_down_outlined: Image.resolveAssetSource(require('./icons/arrow_down_outlined.png')),
+
+
   ic_icon_notifications_outline: Image.resolveAssetSource(require('./icons/ion_notifications-outline.png')),
   ic_ph_user_circle_light: Image.resolveAssetSource(require('./icons/bottom_bar/ph_user-circle-light.png')),
   ic_fluent_tag_regular: Image.resolveAssetSource(require('./icons/bottom_bar/fluent_tag_regular.png')),

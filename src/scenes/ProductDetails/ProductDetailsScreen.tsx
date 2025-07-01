@@ -11,80 +11,44 @@ import Carousel, {
     Pagination,
 } from "react-native-reanimated-carousel";
 import { useSharedValue } from "react-native-reanimated";
-import { TextInput, Icon, Divider } from "react-native-paper";
+import { TextInput, Icon, Divider, ActivityIndicator } from "react-native-paper";
 import ProductCard from "../../components/ProductCard/ProductCard";
 import { Rating } from "react-native-ratings";
 import NIText from "../../components/NIText/NIText";
 import NIButton from "../../components/NIButton/NIButton";
+import i18next from "i18next";
+import { Product, useGetProduct, useGetProductVariants } from "../../hooks/products.hooks";
+import { useAddProductToCart } from "../../hooks/cart.hooks";
 
 
 
-const items = [
-    {
-        title: "1",
-        image: "https://placehold.co/600x400.png"
-
-    },
-    {
-        title: "1",
-        image: "https://placehold.co/600x400.png"
-
-    },
-    {
-        title: "1",
-        image: "https://placehold.co/600x400.png"
-
+type ProductDetailsScreenProps = {
+    route: {
+        params: {
+            product: Product
+        }
     }
-]
+}
+
+function ProductDetailsScreen({ route }: ProductDetailsScreenProps) {
+
+     const addToCart = useAddProductToCart();
+
+    const [selectedVariant, setSelectedVariant] = React.useState(route.params.product._id);
 
 
 
-const products = [
-    {
-        name: "آحمر شفاه",
-        category: "MAC",
-        ratings: 3.5,
-        price: 133,
-        image: "https://placehold.co/900x900.png"
-
-    },
-    {
-        name: "آحمر شفاه",
-        category: "MAC",
-        ratings: 4.5,
-        price: 133,
-        image: "https://placehold.co/900x900.png"
-
-    },
-    {
-        name: "آحمر شفاه",
-        category: "MAC",
-        ratings: 1.5,
-        price: 133,
-        image: "https://placehold.co/900x900.png"
-
-    },
-    {
-        name: "آحمر شفاه",
-        category: "MAC",
-        ratings: 1.5,
-        price: 133,
-        image: "https://placehold.co/900x900.png"
-
-    },
-]
-
-function ProductDetailsScreen({ route }) {
+    const { data: product, isLoading: isProductLoading, isError: isProductError } = useGetProduct(selectedVariant || route.params.product._id);
+    const { data: productVariants, isLoading: isProductVariantsLoading, isError: isProductVariantsError } = useGetProductVariants(route.params.product._id)
 
     const carouselRef = useRef(null);
     const data = [...new Array(6).keys()];
     const width = Dimensions.get("window").width;
     const progress = useSharedValue<number>(0);
 
-    const product = route.params.product
 
 
-    console.log("Route", product)
+    console.log("Route", selectedVariant)
 
 
     const onPressPagination = (index: number) => {
@@ -136,6 +100,12 @@ function ProductDetailsScreen({ route }) {
     }
 
 
+    if (isProductLoading) {
+        return <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+            <ActivityIndicator size="large" color="#0000ff" />
+        </View>
+    }
+
 
     return (
         // <SafeAreaView style={{ flex: 1 }}>
@@ -154,7 +124,7 @@ function ProductDetailsScreen({ route }) {
                         </View>
 
                         <View>
-                            <TouchableOpacity>
+                            <TouchableOpacity onPress={() => NavigationAdapter.pop()}>
                                 <Icon source={getIconUrl(Images, 'ic_close')} size={30} />
                             </TouchableOpacity>
                         </View>
@@ -165,7 +135,7 @@ function ProductDetailsScreen({ route }) {
                             ref={carouselRef}
                             width={width}
                             height={300}
-                            data={products}
+                            data={product.images}
                             onProgressChange={progress}
                             renderItem={({ item, index }) => (
                                 <View
@@ -177,7 +147,7 @@ function ProductDetailsScreen({ route }) {
                                     <View style={styles.slide}>
                                         <Image
                                             style={styles.image}
-                                            source={{ uri: item.image }}
+                                            source={{ uri: item.url }}
                                             resizeMode={'cover'}
                                         />
                                     </View>
@@ -187,7 +157,7 @@ function ProductDetailsScreen({ route }) {
 
                         <Pagination.Basic
                             progress={progress}
-                            data={items}
+                            data={product.images}
                             dotStyle={{ backgroundColor: "rgba(0,0,0,0.2)", borderRadius: 50 }}
                             containerStyle={{ gap: 5, marginTop: 20 }}
                             onPress={onPressPagination}
@@ -195,8 +165,8 @@ function ProductDetailsScreen({ route }) {
                     </View>
 
                     <View style={{ marginTop: 10, paddingHorizontal: 10 }}>
-                        <Text style={{ fontSize: 18, color: "#000", textAlign: 'right', fontWeight: 'bold' }}>{product.category}</Text>
-                        <Text style={{ fontSize: 16, marginVertical: 4, textAlign: 'right', fontFamily: 'Almarai-Light', color: '#a2a2a3', marginBottom: 10 }}>{product.name}</Text>
+                        <NIText style={{ fontSize: 18, color: "#000", textAlign: 'right', fontWeight: 'bold' }}>{product.brand?.name[i18next.language as 'ar' | 'en']}</NIText>
+                        <NIText style={{ fontSize: 16, marginVertical: 4, textAlign: 'right', color: '#a2a2a3', marginBottom: 10 }}>{product?.name[i18next.language as 'ar' | 'en']}</NIText>
                         <View style={{ flexDirection: 'row-reverse' }}>
                             <Rating
                                 type='custom'
@@ -206,63 +176,58 @@ function ProductDetailsScreen({ route }) {
                                 style={{ paddingVertical: 0, direction: 'rtl', alignItems: 'flex-start', marginBottom: 20 }}
                                 readonly
                                 ratingColor='#000000'
-                                startingValue={product.ratings}
+                                // startingValue={product.ratings}
                                 tintColor="#FFF"
                                 ratingBackgroundColor="#bebebe"
                                 ratingTextColor="red"
                             />
                             <NIText style={{ fontSize: 12, marginHorizontal: 4, marginTop: 1 }}>4.5</NIText>
                         </View>
-                        <View style={{ flexDirection: 'row', justifyContent: 'flex-end' }}>
+
+                        {product.isOnSale && <View style={{ flexDirection: 'row', justifyContent: 'flex-end' }}>
                             <Icon source={getIconUrl(Images, 'saudi_riyal_symbol')} size={15} />
-                            <Text style={{ fontSize: 12, fontWeight: "bold", color: "#828282", }}>150</Text>
+                            <Text style={{ fontSize: 12, fontWeight: "bold", color: "#828282", }}>{product.price}</Text>
                             <Text style={{ fontSize: 12, fontFamily: 'Almarai-Light', marginLeft: 5, color: '#828282' }}>السعر قبل الخصم</Text>
-                        </View>
+                        </View>}
+
                         <View style={{ flexDirection: 'row', justifyContent: 'flex-end', marginBottom: 5 }}>
                             <Icon source={getIconUrl(Images, 'saudi_riyal_symbol')} size={15} />
-                            <Text style={{ fontSize: 18, fontWeight: "bold", color: "#000", textAlign: 'right', }}>{product.price}</Text>
+                            <Text style={{ fontSize: 18, fontWeight: "bold", color: "#000", textAlign: 'right', }}>{product.isOnSale ? product.salesPrice : product.price}</Text>
                         </View>
 
 
-                        <View style={{ direction: 'rtl', marginVertical: 20, }}>
+                        {productVariants && productVariants.length && productVariants.length > 1 && <View style={{ direction: 'rtl', marginVertical: 20, }}>
                             <FlatList
                                 showsHorizontalScrollIndicator={false}
                                 horizontal={true}
                                 keyExtractor={(item, index) => index.toString()} style={{ width: '100%' }}
-                                data={[
-                                    {
-                                        id: 1,
-                                        name: 'زهري',
-                                        color: 'rgb(159,98,105)'
-                                    },
-                                    {
-                                        id: 1,
-                                        name: 'زهري',
-                                        color: 'rgb(165,46,86)'
-                                    },
-                                    {
-                                        id: 1,
-                                        name: 'زهري',
-                                        color: 'rgb(189,126,130)'
-                                    },
-                                    {
-                                        id: 1,
-                                        name: 'زهري',
-                                        color: 'rgb(114,45,50)'
-                                    }
-                                ]}
-                                renderItem={({ item, index }) => <TouchableOpacity style={{ borderWidth: 1, borderColor: '#bdbdbd', padding: 10, marginLeft: 10, flexDirection: 'row', borderRadius: 10 }}>
-                                    <NIText>{item.name}</NIText>
-                                    <View style={{ width: 20, height: 20, backgroundColor: item.color, borderRadius: 10, marginHorizontal: 5 }} />
+                                data={productVariants.filter(variant => variant?.color) || []}
+                                //contentContainerStyle={{ paddingHorizontal: 10, paddingBottom: 20 }}
+                                renderItem={({ item, index }) => <TouchableOpacity onPress={() => {
+                                    setSelectedVariant(item.id);
+                                }} style={{ borderWidth: 1, borderColor: selectedVariant === item.id ? '#3f2848' : '#bdbdbd', padding: 10, marginLeft: 10, flexDirection: 'row', borderRadius: 10 }}>
+                                    <NIText>{
+                                        item?.color?.name[i18next.language as 'ar' | 'en']
+                                    }</NIText>
+                                    <View style={{ width: 20, height: 20, backgroundColor: item?.color?.value, borderRadius: 10, marginHorizontal: 5 }} />
                                 </TouchableOpacity>} />
+
+                            <Divider style={{ marginTop: 10 }} />
+
+                        </View>}
+
+
+
+                        <View style={{ marginTop: 10 }} >
+                            <NIText type='bold' style={{ fontSize: 15, marginBottom: 10 }}>الوصف</NIText>
+                            <NIText style={{ lineHeight: 20 }}>{product?.description[i18next.language as 'ar' | 'en']}</NIText>
                         </View>
 
-                        <Divider style={{ marginVertical: 10 }} />
+                        <Divider style={{ marginVertical: 20 }} />
 
-
-                        <View>
-                            <NIText type='bold' style={{ fontSize: 15, marginBottom: 10 }}>الوصف</NIText>
-                            <NIText style={{ lineHeight: 20 }}>أحمر شفاه سوبر ستاي فينيل إنك يدوم طويلاً ومقاوم للنقل، 35 تشيكي</NIText>
+                        <View style={{ marginVertical: 0 }}>
+                            <NIText type='bold' style={{ fontSize: 15, marginBottom: 10 }}>المكونات</NIText>
+                            <NIText style={{ lineHeight: 20 }}>{product?.components[i18next.language as 'ar' | 'en']}</NIText>
                         </View>
 
                         <Divider style={{ marginVertical: 20 }} />
@@ -279,7 +244,7 @@ function ProductDetailsScreen({ route }) {
                                     style={{ paddingVertical: 0, backgroundColor: 'green' }}
                                     readonly
                                     ratingColor='#000000'
-                                    startingValue={product.ratings}
+                                    // startingValue={product.ratings}
                                     tintColor="#FFF"
                                     ratingBackgroundColor="#bebebe"
                                     ratingTextColor="red"
@@ -292,7 +257,7 @@ function ProductDetailsScreen({ route }) {
 
 
                         <View>
-                            {renderReview(product.reviews)}
+                            {/* {renderReview(product.reviews)} */}
                             <NIButton type='outline' style={{ marginBottom: 20 }}>جميع التقييمات</NIButton>
                             <NIButton type='outline'>اضف تقييماً</NIButton>
 
@@ -346,7 +311,17 @@ function ProductDetailsScreen({ route }) {
                 // borderColor: "#ddd",
                 alignItems: "center",
             }}>
-                <NIButton type="primary" style={{ width: '100%' }}>اضف الي العربة</NIButton>
+                <NIButton onPress={() => {
+                    addToCart.mutate(selectedVariant || route.params.product._id, {
+                        onSuccess: () => {
+                            // Optionally, you can show a success message or update the UI
+                            console.log('Product added to cart successfully');
+                        },
+                        onError: (error) => {
+                            //Alert.alert("Error", error.message || "Failed to add product to cart.");
+                        }
+                    });     
+                }} type="primary" style={{ width: '100%' }}>اضف الي العربة</NIButton>
             </View>
 
         </View>

@@ -1,13 +1,13 @@
 
 import { useMutation, UseMutationResult, useQuery, useQueryClient, UseQueryResult } from "@tanstack/react-query"
-import { getMostSaledProducts, getProductDetails, getProducts } from "../api/products.api";
+import { addProductToFav, getMostSaledProducts, getProductDetails, getProducts, getProductVariants } from "../api/products.api";
 import { Category } from "./categories.hooks";
 import { Brand } from "./brands.hooks";
 import { Group } from "./groups.hooks";
 
 
 export type Variant = {
-    id?: string
+    id?: string;
     name: { ar: string; en: string };
     sku: string;
     price: number;
@@ -22,6 +22,8 @@ export type Variant = {
 }
 
 export type Product = {
+     id: string;
+     _id: string;
     name: {
         en: string;
         ar: string;
@@ -56,7 +58,6 @@ export type Product = {
     createdAt: string;
     updatedAt: string;
     reviews: any[];
-    id: string;
 };
 export interface ProductFilters {
     query?: string;
@@ -97,4 +98,37 @@ export const useGetProduct = (id: string): UseQueryResult<Product> => {
         enabled: !!id, // optional: prevents the query from running if id is falsy
     });
 };
+
+
+export const useGetProductVariants = (id: string): UseQueryResult<Product[]> => {
+    return useQuery({
+        queryKey: ['product-variants', id],
+        queryFn: () => getProductVariants(id),
+        enabled: !!id, // optional: prevents the query from running if id is falsy
+    });
+};
+
+
+
+export const useAddProductToFav = (): UseMutationResult<Product, Error, string> => {
+    const queryClient = useQueryClient();
+    return useMutation({
+        mutationFn: addProductToFav,
+        onSuccess: (data, productId) => {
+            // Invalidate the products query to refetch the updated list
+            queryClient.invalidateQueries({ queryKey: ['products'] });
+             // Invalidate the products query to refetch the updated list
+            queryClient.invalidateQueries({ queryKey: ['most-saled-products'] });
+            // Optionally, you can also update the specific product in the cache
+            queryClient.setQueryData(['product', productId], data);
+            // Invalidate current user query to refetch the user data
+            queryClient.invalidateQueries({ queryKey: ['user'] });
+        }
+    });
+};
+
+
+
+
+
 

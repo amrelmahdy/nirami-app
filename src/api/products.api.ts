@@ -26,3 +26,14 @@ export const getProductDetails = async (productId: string) => {
     const result = await httpClient.get(`/products/${productId}`);
     return result.data;
 }
+
+export const getProductVariants = async (productId: string) => {
+    const result = await httpClient.get(`/products/${productId}/variants`);
+    return result.data;
+}
+
+
+export const addProductToFav = async (productId: string) => {
+    const result = await httpClient.post(`/products/${productId}/favourite`);
+    return result.data;
+};

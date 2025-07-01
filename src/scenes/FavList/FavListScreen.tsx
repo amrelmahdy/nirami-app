@@ -14,6 +14,7 @@ import { useSharedValue } from "react-native-reanimated";
 import { TextInput, Icon } from "react-native-paper";
 import ProductCard from "../../components/ProductCard/ProductCard";
 import PageHeader from "../../components/PageHeader/PageHeader";
+import { useGetCurrentUser } from "../../hooks/user.hooks";
 
 
 
@@ -92,6 +93,9 @@ const products = [
 
 function FavList() {
 
+    const { data: currentUser, isError: currentUserError, isLoading: currentUserIsLoading } = useGetCurrentUser();
+
+
     const insets = useSafeAreaInsets();
 
     const carouselRef = useRef(null);
@@ -128,19 +132,23 @@ function FavList() {
         // <SafeAreaView style={{ flex: 1 }}>
 
         <View style={{ flex: 1, backgroundColor: '#FFF' }}>
-    
+
             <PageHeader headerLabel="المفضلة" />
             <ScrollView style={{}}>
 
-                <View style={{ flex: 1, paddingTop: 20, paddingHorizontal: 15, marginBottom: 50 }}>
+              { 
+              
+              currentUser && currentUser.favList && currentUser.favList.length > 0 &&
+              <View style={{ flex: 1, paddingTop: 20, paddingHorizontal: 15, marginBottom: 50 }}>
                     <FlatList
                         numColumns={2}  // Set two columns per row
                         keyExtractor={(item, index) => index.toString()} style={{ width: '100%' }}
-                        data={products}
+                        data={currentUser.favList}
                         //contentContainerStyle={{ paddingHorizontal: 10, paddingBottom: 20 }}  // Add padding around the grid
 
                         renderItem={({ item, index }) => <ProductCard product={item} />} />
                 </View>
+                }
             </ScrollView>
         </View>
 

@@ -23,7 +23,9 @@ const NAVIGATION_ROUTES = {
   FILTERED_PRODUCTS: 'FilteredProducts',
   LOGIN_OR_REGISTER: 'LoginOrRegister',
   OTP: 'OTP',
-  RESET_PASSWORD: 'ResetPasswordScreen',
+  RESET_PASSWORD: 'ResetPassword',
+  ChECKOUT: 'Checkout',
+  ChECKOUT_DELIVERY_ADDRESS: 'CheckoutDeliveryAddress',
 };
 
 export default NAVIGATION_ROUTES;

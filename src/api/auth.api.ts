@@ -39,5 +39,11 @@ export const refreshAccessToken = async (refresh: string) => {
     return result.data;
 }
 
+export const getCurrentUser = async () => {
+    const result = await httpClient.get("/auth/user");
+    return result.data;
+}
+
+
 
 

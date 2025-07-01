@@ -41,9 +41,9 @@ const DepartmentSearchScreen = () => {
 
             <PageHeader headerLabel="الاقسام" withBorder={false} />
             {departmentsIsLoading && <ActivityIndicator />}
-            <View style={{ paddingHorizontal: 15, marginVertical: 20, backgroundColor: '#FFF' }}>
+            {/* <View style={{ paddingHorizontal: 15, marginVertical: 20, backgroundColor: '#FFF' }}>
                 <SearchInput />
-            </View>
+            </View> */}
 
             {departmentsList && !departmentsIsLoading && !departmentsIsError && departmentsList.length && <Tab.Navigator
                 initialRouteName={departmentsList ? departmentsList[1].name.en : 'Makeup'}
