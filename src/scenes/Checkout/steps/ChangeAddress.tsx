@@ -11,6 +11,7 @@ import NIText from "../../../components/NIText/NIText";
 import NIButton from "../../../components/NIButton/NIButton";
 import { getIconUrl } from "../../../assets/icons";
 import { FONT_FAMILIES, Images } from "../../../assets";
+import AddressCard from "../../../components/AddressCard/AddressCard";
 
 
 
@@ -108,19 +109,7 @@ function ChangeAddress({ onNext }: ChangeAddressProps) {
                     <NIText type='light' style={{ fontSize: 23, height: 25, marginTop: 20 }}>عنوان التوصيل</NIText>
                 </View>
 
-                <View style={{ flexDirection: 'row-reverse', justifyContent: 'space-between', borderWidth: 1, borderColor: '#efefef', marginHorizontal: 15, borderRadius: 10, marginVertical: 10, overflow: 'hidden' }}>
-                    <View style={{ padding: 15, backgroundColor: '#FFF' }}>
-
-                        <NIText type='light' style={{ fontSize: 15 }}>Miss Ghaida Alsharef</NIText>
-                        <NIText type='light' style={{ fontSize: 15 }}>+966540521583</NIText>
-                        <NIText type='light' style={{ fontSize: 15 }}>الشافعي</NIText>
-                    </View>
-                    <View style={{ padding: 15 }}>
-                        <TouchableOpacity >
-                            <NIText style={{ fontSize: 15, color: '#79777f' }}>تعديل العنوان</NIText>
-                        </TouchableOpacity>
-                    </View>
-                </View>
+                <AddressCard />
 
 
             </View>

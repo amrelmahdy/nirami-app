@@ -9,6 +9,7 @@ import NAVIGATION_ROUTES from "../../navigation/NavigationRoutes";
 import NIText from "../NIText/NIText";
 import i18next from "i18next";
 import { useAddProductToCart, useRemoveProductFromCart } from "../../hooks/cart.hooks";
+import { useRoute } from "@react-navigation/native";
 
 
 type CartItem = {
@@ -23,6 +24,9 @@ type CartItemProps = {
 }
 
 const CartItem: React.FC<CartItemProps> = ({ item }) => {
+    const route = useRoute();
+
+    console.log(`CartItem:`,  route);
 
     const addToCart = useAddProductToCart();
     const removeFromCart = useRemoveProductFromCart();
@@ -37,7 +41,7 @@ const CartItem: React.FC<CartItemProps> = ({ item }) => {
                 // borderRadius: 2,
                 // overflow: 'hidden',
                 // padding: 15,
-                marginRight: 15, // Adds spacing between cards
+                //marginRight: 15, // Adds spacing between cards
                 marginBottom: 20,
                 // width: Dimensions.get('screen').width / 2 - 23, // Slightly smaller for better fit in grid 
                 // shadowColor: "#000", 
@@ -87,7 +91,7 @@ const CartItem: React.FC<CartItemProps> = ({ item }) => {
 
 
 
-                    <View style={{ justifyContent: 'space-between', flexDirection: 'row-reverse', marginTop: 10, alignItems: 'center' }}>
+                   { route.name === NAVIGATION_ROUTES.CART && <View style={{ justifyContent: 'space-between', flexDirection: 'row-reverse', marginTop: 10, alignItems: 'center' }}>
                         <View style={{ flexDirection: 'row-reverse', alignItems: 'center' }}>
                             <TouchableOpacity
                                 onPress={() => addToCart.mutate(item?.product?.id, {
@@ -141,7 +145,7 @@ const CartItem: React.FC<CartItemProps> = ({ item }) => {
                                 <Icon source={getIconUrl(Images, 'ic_circle_close')} size={25} />
                             </TouchableOpacity>
                         </View>
-                    </View>
+                    </View>}
                 </View>
             </View>
         </TouchableOpacity>

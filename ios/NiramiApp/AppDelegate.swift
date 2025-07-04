@@ -2,10 +2,15 @@ import UIKit
 import React
 import React_RCTAppDelegate
 import ReactAppDependencyProvider
+import GoogleMaps
+
 
 @main
 class AppDelegate: RCTAppDelegate {
   override func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
+    
+    GMSServices.provideAPIKey("AIzaSyCW22p8CNcDqSl8_8SG7wcP7AfNPiEu51w")
+
     self.moduleName = "NiramiApp"
     self.dependencyProvider = RCTAppDependencyProvider()
 

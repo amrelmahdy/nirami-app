@@ -70,4 +70,14 @@ export const Images: IconMap = {
   ic_search: Image.resolveAssetSource(require('./icons/bottom_bar/search.png')),
   ic_dashicons_whatsapp: Image.resolveAssetSource(require('./icons/otp/dashicons_whatsapp.png')),
   ic_material_symbols_sms_rounded: Image.resolveAssetSource(require('./icons/otp/material_symbols_sms_rounded.png')),
+
+
+  ic_logos_mastercard: Image.resolveAssetSource(require('./icons/logos_mastercard.png')),
+  ic_visa: Image.resolveAssetSource(require('./icons/visa.png')),
+  ic_kisspng_logo_american_express: Image.resolveAssetSource(require('./icons/kisspng-logo-american-express.png')),
+  ic_mada: Image.resolveAssetSource(require('./icons/mada.png')),
+  ic_tamara: Image.resolveAssetSource(require('./icons/tamara.png')),
+  ic_tabby: Image.resolveAssetSource(require('./icons/tabby.png')),
+  ic_logos_apple_pay: Image.resolveAssetSource(require('./icons/logos_apple-pay.png')),
+  ic_cash_on_delivery: Image.resolveAssetSource(require('./icons/cash_on_delivery.png')),
 };

@@ -51,7 +51,7 @@ function AccountScreen() {
             label: 'العربية',
             icon: "ic_ion_language_outline",
             screen_key: 'lang',
-            onPress: () => { }
+            onPress: () => { NavigationAdapter.navigate(NAVIGATION_ROUTES.CHOOSE_LANG) }
 
         },
         {
@@ -72,7 +72,7 @@ function AccountScreen() {
             label: 'العناوين',
             icon: "ic_ph_address_book",
             screen_key: 'addresses',
-            onPress: () => { }
+            onPress: () => { NavigationAdapter.navigate(NAVIGATION_ROUTES.ADDRESSES) }
 
         },
         {

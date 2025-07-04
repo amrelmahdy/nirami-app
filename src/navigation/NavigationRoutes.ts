@@ -16,6 +16,8 @@ const NAVIGATION_ROUTES = {
   HOMEPAGE: 'HomePage',
   FAV_LIST: 'FavList',
   BRANDS: 'Brands',
+  CART: 'Cart',
+
   PRODUCTS: 'Products',
   FILTERED_PRODUCTS_BY_BRAND: 'FilteredProductsByBrand',
   PRODUCT_DETAILS: 'ProductDetails',
@@ -24,6 +26,13 @@ const NAVIGATION_ROUTES = {
   LOGIN_OR_REGISTER: 'LoginOrRegister',
   OTP: 'OTP',
   RESET_PASSWORD: 'ResetPassword',
+
+  ACCOUNT: 'Account',
+  PROFILE: 'Profile',
+
+  ADDRESSES: 'Addresses',
+  ADD_ADDRESS: 'AddAddress',
+
   ChECKOUT: 'Checkout',
   ChECKOUT_DELIVERY_ADDRESS: 'CheckoutDeliveryAddress',
 };

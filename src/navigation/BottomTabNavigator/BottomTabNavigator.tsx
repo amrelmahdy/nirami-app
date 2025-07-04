@@ -20,6 +20,8 @@ import ProductsScreen from '../../scenes/Products/ProductsScreen';
 import ChooseAddressScreen from '../../scenes/Checkout/ChooseAddressScreen';
 import CheckoutDeliveryAddressScreen from '../../scenes/Checkout/ChooseAddressScreen';
 import CheckoutScreen from '../../scenes/Checkout/CheckoutScreen';
+import AddAddressScreen from '../../scenes/Addresses/AddAddressScreen';
+import AddressesScreen from '../../scenes/Addresses/AddressesScreen';
 
 
 const Stack = createStackNavigator()
@@ -47,11 +49,11 @@ const DepartmentStack = () => (
 
 const CartStack = () => (
     <Stack.Navigator>
-        <Stack.Screen name={NAVIGATION_ROUTES.DEPARTMENT_SEARCH} options={{ headerShown: false }} component={CartScreen} />
+        <Stack.Screen name={NAVIGATION_ROUTES.CART} options={{ headerShown: false }} component={CartScreen} />
         <Stack.Screen name={NAVIGATION_ROUTES.FILTERED_PRODUCTS} options={{ headerShown: false }} component={FilteredProductsScreen} />
         <Stack.Screen name={NAVIGATION_ROUTES.ChECKOUT} options={{ headerShown: false }} component={CheckoutScreen} />
 
-        
+
     </Stack.Navigator>
 )
 
@@ -67,7 +69,10 @@ const BrandsStack = () => (
 
 const AccountStack = () => (
     <Stack.Navigator>
-        <Stack.Screen name={NAVIGATION_ROUTES.DEPARTMENT_SEARCH} options={{ headerShown: false }} component={AccountScreen} />
+        <Stack.Screen name={NAVIGATION_ROUTES.ACCOUNT} options={{ headerShown: false }} component={AccountScreen} />
+        <Stack.Screen name={NAVIGATION_ROUTES.ADDRESSES} options={{ headerShown: false }} component={AddressesScreen} />
+        <Stack.Screen name={NAVIGATION_ROUTES.ADD_ADDRESS} options={{ headerShown: false }} component={AddAddressScreen} />
+
         {/* <Stack.Screen name={NAVIGATION_ROUTES.FILTERED_PRODUCTS} options={{ headerShown: false }} component={FilteredProductsScreen} /> */}
     </Stack.Navigator>
 )
