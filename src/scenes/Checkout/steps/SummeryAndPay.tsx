@@ -11,19 +11,50 @@ import { useGetCart } from "../../../hooks/cart.hooks";
 import { Image } from "react-native-reanimated/lib/typescript/Animated";
 import CartItem from "../../../components/CartItem/CartItem";
 import AddressCard from "../../../components/AddressCard/AddressCard";
+import { useGetCurrentUser } from "../../../hooks/user.hooks";
+import { useCheckout } from "../../../hooks/orders.hooks";
 
 
 
 type SummeryAndPayProps = {
     onNext?: () => void;
+    setOrderId: (orderId: string) => void;
 };
 
-function SummeryAndPay({ onNext }: SummeryAndPayProps) {
+function SummeryAndPay({ onNext, setOrderId }: SummeryAndPayProps) {
 
 
     const [paymentMethod, setPaymentMethod] = useState<string>('credit_card'); // Default selected payment method
-
     const { data: cartData, isLoading: cartDataIsLoading, isError: cartDataIstError, refetch } = useGetCart();
+    const { data: currentUser, isError: currentUserError, isLoading: currentUserIsLoading } = useGetCurrentUser();
+
+
+    const checkout = useCheckout()
+
+
+    const defaultAddress = currentUser?.addresses?.find((address) => address.isDefault);
+
+
+
+
+    const handlePayment = async () => {
+        const newOrder = {
+            paymentMethod: paymentMethod,
+            paymentStatus: "unpaid",
+            shippingAddress: defaultAddress?.id,
+            status: "pending"
+        }
+
+        checkout.mutate(newOrder, {
+            onSuccess: (order) => {
+               order && order.id && setOrderId(order.id);
+                onNext?.()
+            }, onError: () => {
+
+            }
+        })
+    }
+
 
     return (
         <ScrollView >
@@ -36,40 +67,40 @@ function SummeryAndPay({ onNext }: SummeryAndPayProps) {
                     <View style={{ marginHorizontal: 15 }}>
                         {
                             cartData &&
-                                !cartDataIsLoading &&
-                                !cartDataIstError &&
-                                cartData.items
-                                ?
-                                <FlatList
-                                    // numColumns={1} // Set one column per row
-                                    // contentContainerStyle={{ paddingHorizontal: 10, paddingBottom: 20 }}
-                                    showsVerticalScrollIndicator={false}
-                                    showsHorizontalScrollIndicator={false}
-                                    // style={{ width: '100%' }}
-                                    // style={{ flex: 1, paddingTop: 20, paddingHorizontal: 15, marginBottom: 50 }}
-                                    // style={{ flex: 1, paddingTop: 20, paddingHorizontal: 15, marginBottom: 50 }}
-                                    // style={{ flex: 1, paddingTop: 20, paddingHorizontal: 15, marginBottom:       50 }}                       
-                                    // ListEmptyComponent={() => <View>
-                                    //     <Image source={getIconUrl(Images, 'ic_fam_icons_bag_outline')} style={{ alignSelf: 'center' }} />
-                                    //     <NIText type='light' style={{ height: 40, fontSize: 22, textAlign: 'center', marginVertical: 20 }}>لا توجد منتجات في عربة التسوق</NIText>
-                                    //     <NIButton type='primary' onPress={() => NavigationAdapter.goBack()}>العودة للتسوق</NIButton>
-                                    //     {/* <TouchableOpacity onPress={() => NavigationAdapter.goBack()} style={{ alignItems: 'center', marginTop: 20 }}>
+                            !cartDataIsLoading &&
+                            !cartDataIstError &&
+                            cartData.items
+                            &&
+                            <FlatList
+                                // numColumns={1} // Set one column per row
+                                // contentContainerStyle={{ paddingHorizontal: 10, paddingBottom: 20 }}
+                                showsVerticalScrollIndicator={false}
+                                showsHorizontalScrollIndicator={false}
+                                // style={{ width: '100%' }}
+                                // style={{ flex: 1, paddingTop: 20, paddingHorizontal: 15, marginBottom: 50 }}
+                                // style={{ flex: 1, paddingTop: 20, paddingHorizontal: 15, marginBottom: 50 }}
+                                // style={{ flex: 1, paddingTop: 20, paddingHorizontal: 15, marginBottom:       50 }}                       
+                                // ListEmptyComponent={() => <View>
+                                //     <Image source={getIconUrl(Images, 'ic_fam_icons_bag_outline')} style={{ alignSelf: 'center' }} />
+                                //     <NIText type='light' style={{ height: 40, fontSize: 22, textAlign: 'center', marginVertical: 20 }}>لا توجد منتجات في عربة التسوق</NIText>
+                                //     <NIButton type='primary' onPress={() => NavigationAdapter.goBack()}>العودة للتسوق</NIButton>
+                                //     {/* <TouchableOpacity onPress={() => NavigationAdapter.goBack()} style={{ alignItems: 'center', marginTop: 20 }}>
 
 
 
-                                    //         <NIButton type='light' style={{ fontSize: 16, textAlign: 'center', marginTop: 10, color: '#007bff' }}>العودة للتسوق</NIText>                  
-                                    //     </TouchableOpacity> */}
-                                    // </View>}
+                                //         <NIButton type='light' style={{ fontSize: 16, textAlign: 'center', marginTop: 10, color: '#007bff' }}>العودة للتسوق</NIText>                  
+                                //     </TouchableOpacity> */}
+                                // </View>}
 
-                                    refreshing={cartDataIsLoading}
-                                    onRefresh={refetch}
-                                    keyExtractor={(item, index) => index.toString()} style={{ width: '100%' }}
-                                    data={cartData.items}
-                                    contentContainerStyle={{ paddingTop: 20 }}
-                                    renderItem={({ item, index }) => <CartItem item={item}
+                                refreshing={cartDataIsLoading}
+                                onRefresh={refetch}
+                                keyExtractor={(item, index) => index.toString()} style={{ width: '100%' }}
+                                data={cartData.items}
+                                contentContainerStyle={{ paddingTop: 20 }}
+                                renderItem={({ item, index }) => <CartItem item={item}
 
 
-                                    />} /> : <></>
+                                />} />
                         }
                     </View>
 
@@ -95,9 +126,17 @@ function SummeryAndPay({ onNext }: SummeryAndPayProps) {
                             <NIText type='light' style={{ fontSize: 16 }}>المجموع الفرعي</NIText>
                             <View style={{ flexDirection: 'row', justifyContent: 'flex-end', marginBottom: 5 }}>
                                 <Icon source={getIconUrl(Images, 'saudi_riyal_symbol')} size={16} />
-                                <Text style={{ fontSize: 16, fontWeight: "bold", color: "#000", textAlign: 'right', }}>{cartData.totalPrice}</Text>
+                                <Text style={{ fontSize: 16, fontWeight: "bold", color: "#000", textAlign: 'right', }}>{cartData.finalPrice}</Text>
                             </View>
                         </View>
+
+                        {cartData?.discount && <View style={{ flexDirection: 'row-reverse', justifyContent: 'space-between', marginBottom: 15 }}>
+                            <NIText type='light' style={{ fontSize: 16 }}>الخصم</NIText>
+                            <View style={{ flexDirection: 'row', justifyContent: 'flex-end', marginBottom: 5 }}>
+                                <Icon source={getIconUrl(Images, 'saudi_riyal_symbol')} size={16} />
+                                <Text style={{ fontSize: 16, fontWeight: "bold", color: "#000", textAlign: 'right', }}>{cartData?.discount?.value}</Text>
+                            </View>
+                        </View>}
 
                         <View style={{ flexDirection: 'row-reverse', justifyContent: 'space-between', marginBottom: 15 }}>
                             <NIText type='light' style={{ fontSize: 16 }}>التوصيل العادي</NIText>
@@ -122,7 +161,7 @@ function SummeryAndPay({ onNext }: SummeryAndPayProps) {
                             <NIText type='light' style={{ fontSize: 23, height: 25, marginTop: 20 }}>عنوان التوصيل</NIText>
                         </View>
 
-                        <AddressCard />
+                        {defaultAddress && <AddressCard address={defaultAddress} hideDelete />}
                     </View>
 
 
@@ -264,7 +303,7 @@ function SummeryAndPay({ onNext }: SummeryAndPayProps) {
                 </View>
 
                 <View style={{ padding: 15, backgroundColor: '#FFF' }}>
-                    <NIButton style={{ marginBottom: 10 }} onPress={onNext}>دفع</NIButton>
+                    <NIButton style={{ marginBottom: 10 }} onPress={handlePayment}>دفع</NIButton>
 
                 </View>
             </View>

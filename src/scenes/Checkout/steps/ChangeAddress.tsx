@@ -12,6 +12,9 @@ import NIButton from "../../../components/NIButton/NIButton";
 import { getIconUrl } from "../../../assets/icons";
 import { FONT_FAMILIES, Images } from "../../../assets";
 import AddressCard from "../../../components/AddressCard/AddressCard";
+import { useGetCurrentUser } from "../../../hooks/user.hooks";
+import navigationAdapter from "../../../navigation/NavigationAdapter";
+import NAVIGATION_ROUTES from "../../../navigation/NavigationRoutes";
 
 
 
@@ -23,6 +26,10 @@ type ChangeAddressProps = {
 };
 
 function ChangeAddress({ onNext }: ChangeAddressProps) {
+
+    const { data: currentUser, isError: currentUserError, isLoading: currentUserIsLoading } = useGetCurrentUser();
+
+
     const [isCollapsed, setIsCollapsed] = useState(true);
     const animation = useRef(new Animated.Value(0)).current;
 
@@ -36,6 +43,11 @@ function ChangeAddress({ onNext }: ChangeAddressProps) {
         }).start();
         setIsCollapsed(!isCollapsed);
     };
+
+
+    const defaultAddress = currentUser?.addresses?.find((address) => address.isDefault);
+
+
 
     const renderTabs = () => {
         return (
@@ -109,7 +121,8 @@ function ChangeAddress({ onNext }: ChangeAddressProps) {
                     <NIText type='light' style={{ fontSize: 23, height: 25, marginTop: 20 }}>عنوان التوصيل</NIText>
                 </View>
 
-                <AddressCard />
+
+               {defaultAddress &&  <AddressCard address={defaultAddress} hideDelete />}
 
 
             </View>
@@ -117,7 +130,7 @@ function ChangeAddress({ onNext }: ChangeAddressProps) {
 
             <View style={{ padding: 15, backgroundColor: '#FFF' }}>
                 <NIButton style={{ marginBottom: 10 }} onPress={() => {
-                    //navigationAdapter.navigate(NAVIGATION_ROUTES.ChECKOUT)
+                    navigationAdapter.navigate(NAVIGATION_ROUTES.ADDRESSES)
                 }}>إضافة عنوان جديد</NIButton>
 
                 <NIButton type='secondary' onPress={() => {

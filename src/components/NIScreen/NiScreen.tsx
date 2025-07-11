@@ -3,7 +3,8 @@ import React from 'react';
 import {
     StyleSheet,
     View,
-    ViewComponent
+    ViewComponent,
+    ViewStyle
 } from 'react-native';
 import { FONT_FAMILIES } from '../../assets';
 import PageHeader, { PageHeaderProps } from '../../components/PageHeader/PageHeader';
@@ -15,11 +16,12 @@ interface NIScreenProps {
     children?: React.ReactNode | undefined;
     title?: string;
     headerProps?: PageHeaderProps;
+    style?: ViewStyle;
 }
 
 
 
-const NIScreen: React.FC<NIScreenProps> = ({ children, title, headerProps  }) => {
+const NIScreen: React.FC<NIScreenProps> = ({ children, title, headerProps }) => {
     return (
         <View style={{ flex: 1, backgroundColor: '#FFF' }}>
             <PageHeader headerLabel={title} {...headerProps} />

@@ -5,8 +5,13 @@ export const getOrders = async () => {
     return result.data;
 }
 
-export const checkout = async (productId: string) => {
-    const result = await httpClient.post(`/orders/checkout}`);
+export const checkout = async (order: { 
+    paymentMethod: string;
+    paymentStatus: string;
+    shippingAddress?: string;
+    status: string;
+}) => {
+    const result = await httpClient.post(`/orders/checkout`, order);
     return result.data;
 }
 

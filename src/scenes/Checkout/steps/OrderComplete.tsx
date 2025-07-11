@@ -1,22 +1,45 @@
 import React, { useState } from "react";
 import { Dimensions, StyleSheet, TouchableOpacity, View } from "react-native";
 import { Text } from "react-native-gesture-handler";
-import { List } from "react-native-paper";
+import { Icon, List } from "react-native-paper";
 import NIText from "../../../components/NIText/NIText";
 import NIButton from "../../../components/NIButton/NIButton";
+import { getIconUrl } from "../../../assets/icons";
+import { FONT_FAMILIES, Images } from "../../../assets";
+import navigationAdapter from "../../../navigation/NavigationAdapter";
+import NAVIGATION_ROUTES from "../../../navigation/NavigationRoutes";
 
-function CheckoutScreen() {
+
+type ChangeAddressProps = {
+    onNext?: () => void;
+};
+
+const OrderComplete = ({ onNext, orderId }: ChangeAddressProps) => {
 
 
     return (
-        <View style={{ flex: 1, paddingHorizontal: 15 }}>
-            <NIText>Affresses</NIText>
+        <View style={{ flex: 1, paddingHorizontal: 15, width: '100%' }}>
+            <NIText style={{ fontSize: 20, marginBottom: 20 }}>شكرا لك لطلبك من نيرامي</NIText>
+            <View style={{ flexDirection: 'row-reverse' }}>
+                <Icon source={getIconUrl(Images, 'ic_check')} size={40} />
+
+                <View>
+                    <NIText style={{ fontSize: 20, marginBottom: 5 }}> تم تاكيد الطلب</NIText>
+                    <NIText style={{ fontSize: 14, marginBottom: 15, fontFamily: FONT_FAMILIES.ALMARAI_LIGHT }}>  رقم الطلب 22477655</NIText>
+
+                </View>
+            </View>
+
+
             <NIButton onPress={() => {
-                //navigationAdapter.navigate(NAVIGATION_ROUTES.ChECKOUT)
-            }}>عملية الدفع</NIButton>
+                navigationAdapter.navigate(NAVIGATION_ROUTES.ORDER_DETAILS, { orderId  });
+            }}>الذهاب لتفاصيل الطلب</NIButton>
         </View>
     );
 }
+
+
+
 
 const circleSize = 20;
 
@@ -91,4 +114,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default CheckoutScreen;
+export default OrderComplete;

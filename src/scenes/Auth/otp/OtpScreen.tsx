@@ -9,7 +9,7 @@ import { SafeAreaView, SafeAreaProvider } from 'react-native-safe-area-context';
 import { OtpInput } from "react-native-otp-entry";
 import navigationAdapter from "../../../navigation/NavigationAdapter";
 import NAVIGATION_ROUTES from "../../../navigation/NavigationRoutes";
-import { login, register, verifyOTPForLoginOrRegister } from "../../../api/auth.api";
+import { login, verifyOTPForLoginOrRegister } from "../../../api/auth.api";
 import NIText from "../../../components/NIText/NIText";
 import { RouteProp } from '@react-navigation/native';
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -30,7 +30,7 @@ function OtpScreen({ route }: { route: OtpScreenRouteProp }) {
 
 
     const handleonFilled = async (text: string) => {
-        if (type === 0) {
+        try {
             const res = await login(emailOrPhone, text)
             if (res && res.accessToken) {
                 const accessToken = res.accessToken;
@@ -45,39 +45,14 @@ function OtpScreen({ route }: { route: OtpScreenRouteProp }) {
                 ]);
                 navigationAdapter.replace(NAVIGATION_ROUTES.BOTTOM_TAB_BAR);
             }
-        } else {
-            try {
-                const res = await verifyOTPForLoginOrRegister(emailOrPhone, text)
-                if (!res.success) {
-                    setInputError(res.message);
-                    return;
-                }
-                // register a new user
-                const resRegister = await register(emailOrPhone);
-                if (resRegister && resRegister.accessToken) {
-                    const accessToken = resRegister.accessToken;
-                    const refreshToken = res.refreshToken;
-                    const expiresIn = res.expiresIn;
-                    const expiresAt = res.expiresAt;
-                    await AsyncStorage.multiSet([
-                        ['access-token', accessToken],
-                        ['refresh-token', refreshToken],
-                        ['expires-in', expiresIn],
-                        ['expires-at', expiresAt]
-                    ]);
-                    navigationAdapter.replace(NAVIGATION_ROUTES.BOTTOM_TAB_BAR);
-                }
-            } catch (error: any) {
-                console.log("Error verifying OTP:", error, JSON.stringify(error, Object.getOwnPropertyNames(error)));
-                setInputError(error?.message || 'حدث خطأ غير متوقع');
-            }
+        } catch (error: any) {
+            console.log("Error verifying OTP:", error, JSON.stringify(error, Object.getOwnPropertyNames(error)));
+            setInputError(error?.message || 'حدث خطأ غير متوقع');
         }
-
 
     }
 
     return (
-
 
 
         <SafeAreaView style={styles.container} >

@@ -24,7 +24,8 @@ interface BottomSheetProps {
     onClose?: () => void;
     onReset?: () => void;
     children: ReactNode;
-    title: string;
+    title?: string;
+    withHeader?: boolean;
 }
 
 const BottomSheet: React.FC<BottomSheetProps> = ({
@@ -32,6 +33,7 @@ const BottomSheet: React.FC<BottomSheetProps> = ({
     onClose = () => { },
     onReset = () => { },
     title,
+    withHeader = true,
     children,
 }) => {
     const handleSheetChanges = useCallback((index: number) => {
@@ -60,7 +62,7 @@ const BottomSheet: React.FC<BottomSheetProps> = ({
             >
 
                 <BottomSheetView style={styles.sheetContainer}>
-                    <View style={styles.header}>
+                    {withHeader && <View style={styles.header}>
                         <TouchableOpacity onPress={() => {
                             onReset?.();
                             bottomSheetModalRef.current?.close();
@@ -76,6 +78,7 @@ const BottomSheet: React.FC<BottomSheetProps> = ({
                             <Icon source={getIconUrl(Images, 'ic_angle_bottom')} size={15} />
                         </TouchableOpacity>
                     </View>
+                    }
                     <View style={styles.content}>
                         {children}
                     </View>

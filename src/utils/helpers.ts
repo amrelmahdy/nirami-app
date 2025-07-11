@@ -1,3 +1,5 @@
+import { OrderStatus } from "../hooks/orders.hooks";
+
 export const toArabicDigits = (num: number | string): string => {
     const arabicDigits: string[] = ['٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩'];
     return num
@@ -15,3 +17,64 @@ export const isValidEmailOrSaudiPhone = (input: string): boolean  => {
 }
 
 
+// ---------- New (grouped) statuses ----------
+export type GroupedOrderStatus =
+  | 'new'
+  | 'processing'
+  | 'shipping'
+  | 'out_for_delivery'
+  | 'delivered'
+  | 'cancelled'
+  | 'returned';
+
+// ---------- Mapping table ----------
+const statusGroupMap: Record<OrderStatus, GroupedOrderStatus> = {
+  // 1️⃣ new
+  pending: 'new',
+  awaiting_payment: 'new',
+  payment_failed: 'new',
+
+  // 2️⃣ processing
+  processing: 'processing',
+  on_hold: 'processing',
+  ready_for_pickup: 'processing',
+
+  // 3️⃣ shipping
+  shipped: 'shipping',
+  partially_shipped: 'shipping',
+
+  // 4️⃣ out_for_delivery
+  out_for_delivery: 'out_for_delivery',
+
+  // 5️⃣ delivered
+  delivered: 'delivered',
+  completed: 'delivered',
+
+  // 6️⃣ cancelled
+  cancelled: 'cancelled',
+  failed: 'cancelled',
+
+  // 7️⃣ returned
+  returned: 'returned',
+  refunded: 'returned',
+  partially_refunded: 'returned',
+} as const;
+
+// ---------- Mapping function ----------
+/**
+ * Maps any legacy order status to its new grouped status.
+ * @param status A value from `LegacyOrderStatus`
+ * @returns The corresponding `GroupedOrderStatus`
+ */
+export function mapOrderStatus(
+  status: LegacyOrderStatus,
+): GroupedOrderStatus {
+  return statusGroupMap[status];
+}
+
+// ---------- Example ----------
+/*
+console.log(mapOrderStatus('shipped'));           // "shipping"
+console.log(mapOrderStatus('out_for_delivery'));  // "out_for_delivery"
+console.log(mapOrderStatus('refunded'));          // "returned"
+*/

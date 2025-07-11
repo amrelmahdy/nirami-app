@@ -22,7 +22,6 @@ import BottomSheet from '../../components/BottomSheet/BottomSheet';
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
 import { RadioButton } from 'react-native-paper';
 import BannerImage from '../../components/BannerImage/BannerImage';
-import { useGetBrands } from './brands.hooks';
 import { useGetProducts } from '../../hooks/products.hooks';
 import i18next from 'i18next';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -31,9 +30,16 @@ import { getIconUrl } from '../../assets/icons';
 
 
 
+type ProductsScreenProps = {
+    route: {
+        params?: {
+            query?: string;
+        };
+    }
+};
 
 
-const ProductsScreen = ({ route }) => {
+const ProductsScreen = ({ route }: ProductsScreenProps) => {
 
     const searchQuery = route.params?.query;
 

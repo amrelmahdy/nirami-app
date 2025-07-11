@@ -80,4 +80,8 @@ export const Images: IconMap = {
   ic_tabby: Image.resolveAssetSource(require('./icons/tabby.png')),
   ic_logos_apple_pay: Image.resolveAssetSource(require('./icons/logos_apple-pay.png')),
   ic_cash_on_delivery: Image.resolveAssetSource(require('./icons/cash_on_delivery.png')),
+  ic_map_pin: Image.resolveAssetSource(require('./icons/map_pin.png')),
+  ic_saudi_ar_flag: Image.resolveAssetSource(require('./icons/saudi_ar_flag.png')),
+  ic_check: Image.resolveAssetSource(require('./icons/check.png')),
+
 };

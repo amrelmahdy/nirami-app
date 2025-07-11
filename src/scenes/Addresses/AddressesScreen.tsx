@@ -13,6 +13,8 @@ import NIScreen from "../../components/NIScreen/NiScreen";
 import NIButton from "../../components/NIButton/NIButton";
 import navigationAdapter from "../../navigation/NavigationAdapter";
 import NAVIGATION_ROUTES from "../../navigation/NavigationRoutes";
+import AddressCard from "../../components/AddressCard/AddressCard";
+import { useGetAddresses } from "../../hooks/addresses.hooks";
 
 
 
@@ -22,25 +24,33 @@ import NAVIGATION_ROUTES from "../../navigation/NavigationRoutes";
 
 function AddressesScreen() {
 
-    //const { data: brandsList, isError: isBrandsError, isLoading: isBrandsLoading } = useGetBrands()
+
+
+
+    const { data: addresses, isError: isAddressesError, isLoading: isAddressesLoading } = useGetAddresses()
+
+
 
 
 
 
     return (
-        <NIScreen title={t("Addresses Screen")} headerProps={{ style: { marginBottom: 0 } }}>
+        <NIScreen title={t("العناوين")} headerProps={{ style: { marginBottom: 0 } }}>
             <View style={{ flex: 1, paddingHorizontal: 15 }}>
-                {/* <FlatList
-                    numColumns={2}
-                    showsHorizontalScrollIndicator={false}
-                    keyExtractor={(item, index) => index.toString()} style={{ width: '100%' }}
-                    data={brandsList}
-                    contentContainerStyle={{ paddingTop: 20 }}  // Add padding around the grid
 
-                    renderItem={({ item, index }) => <BrandCard brand={item} />} /> */}
+                {/* <AddressCard /> */}
+                <FlatList
+                    //numColumns={2} // Display 2 items per row
+                    showsVerticalScrollIndicator={false}
+                    keyExtractor={(item, index) => index.toString()}
+                    style={{ width: '100%' }}
+                    data={addresses}
+                    contentContainerStyle={{}}  // Add padding around the grid
+                    renderItem={({ item, index }) => <AddressCard address={item} />} />
 
-                <NIButton type='primary' onPress={() => navigationAdapter.navigate(NAVIGATION_ROUTES.ADD_ADDRESS)}>إضافة عنوان جديد</NIButton>
-
+                <View style={{ marginBottom: 20 }}>
+                    <NIButton type='primary' onPress={() => navigationAdapter.navigate(NAVIGATION_ROUTES.ADD_ADDRESS)}>إضافة عنوان جديد</NIButton>
+                </View>
             </View>
 
         </NIScreen>

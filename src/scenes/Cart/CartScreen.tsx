@@ -100,7 +100,7 @@ function CartScreen() {
                                         <NIText type='light' style={{ fontSize: 16 }}>التوصيل العادي</NIText>
                                         <View style={{ flexDirection: 'row', justifyContent: 'flex-end', marginBottom: 5 }}>
                                             <Icon source={getIconUrl(Images, 'saudi_riyal_symbol')} size={16} />
-                                            <Text style={{ fontSize: 16, fontWeight: "bold", color: "#000", textAlign: 'right', }}>25</Text>
+                                            <Text style={{ fontSize: 16, fontWeight: "bold", color: "#000", textAlign: 'right', }}>{cartData.shippingCost}</Text>
                                         </View>
                                     </View>
 
@@ -108,14 +108,24 @@ function CartScreen() {
                                         <NIText type='light' style={{ fontSize: 16 }}>المجموع ( شامل ضريبة القيمة المضافة )</NIText>
                                         <View style={{ flexDirection: 'row', justifyContent: 'flex-end', marginBottom: 5 }}>
                                             <Icon source={getIconUrl(Images, 'saudi_riyal_symbol')} size={16} />
-                                            <Text style={{ fontSize: 16, fontWeight: "bold", color: "#000", textAlign: 'right', }}>175</Text>
+                                            <Text style={{ fontSize: 16, fontWeight: "bold", color: "#000", textAlign: 'right', }}>{cartData.finalPrice}</Text>
                                         </View>
                                     </View>
                                     <NIButton onPress={() => {
                                         navigationAdapter.navigate(NAVIGATION_ROUTES.ChECKOUT)
                                     }}>عملية الدفع</NIButton>
                                 </View>}
-                        </> : <></>
+                        </> : <View>
+                            <Image source={getIconUrl(Images, 'ic_fam_icons_bag_outline')} style={{ alignSelf: 'center' }} />
+                            <NIText type='light' style={{ height: 40, fontSize: 22, textAlign: 'center', marginVertical: 20 }}>لا توجد منتجات في عربة التسوق</NIText>
+                            <NIButton type='primary' onPress={() => NavigationAdapter.goBack()}>العودة للتسوق</NIButton>
+                            {/* <TouchableOpacity onPress={() => NavigationAdapter.goBack()} style={{ alignItems: 'center', marginTop: 20 }}>
+                                       
+                                       
+                                       
+                                        <NIButton type='light' style={{ fontSize: 16, textAlign: 'center', marginTop: 10, color: '#007bff' }}>العودة للتسوق</NIText>                  
+                                    </TouchableOpacity> */}
+                        </View>
                 }
             </View>
         </NiScreen>

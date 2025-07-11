@@ -1,4 +1,5 @@
 import httpClient from "../helpers/httpClient";
+import { User } from "../hooks/user.hooks";
 
 export const sendAnOTPForLoginOrRegister = async (phoneOrEmail: string) => {
     const result = await httpClient.post("/auth/send-otp", {
@@ -17,13 +18,6 @@ export const verifyOTPForLoginOrRegister = async (phoneOrEmail: string, otp: str
 }
 
 
-export const register = async (phoneOrEmail: string) => {
-    const result = await httpClient.post("/auth/otp-register", {
-        phoneOrEmail,
-    });
-    return result.data;
-}
-
 export const login = async  (phoneOrEmail: string, otp: string) => {
     const result = await httpClient.post("/auth/otp-login", {
         phoneOrEmail,
@@ -41,6 +35,12 @@ export const refreshAccessToken = async (refresh: string) => {
 
 export const getCurrentUser = async () => {
     const result = await httpClient.get("/auth/user");
+    return result.data;
+}
+
+
+export const updateUser = async (userId: string, user: User) => {
+    const result = await httpClient.put(`/users/${userId}`, user);
     return result.data;
 }
 

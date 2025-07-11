@@ -26,7 +26,7 @@ import { useGetBrands } from "./brands.hooks";
 
 function BrandsScreen() {
 
-    const { data: brandsList, isError: isBrandsError, isLoading: isBrandsLoading } = useGetBrands()
+    const { data: brandsList, isError: isBrandsError, isLoading: isBrandsLoading, refetch } = useGetBrands()
 
 
 
@@ -56,6 +56,8 @@ function BrandsScreen() {
         <NIScreen title={t("brands")} headerProps={{ style: { marginBottom: 0 } }}>
             <View style={{ flex: 1, paddingHorizontal: 15 }}>
                 <FlatList
+                    onRefresh={refetch}
+                    refreshing={isBrandsLoading}
                     numColumns={2}
                     showsHorizontalScrollIndicator={false}
                     keyExtractor={(item, index) => index.toString()} style={{ width: '100%' }}

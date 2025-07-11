@@ -4,16 +4,22 @@ import { getGroups } from "../api/groups.api";
 import { Category } from "./categories.hooks";
 import { getBrands } from "../api/brands.api";
 import { getCurrentUser } from "../api/auth.api";
+import { Address } from "./addresses.hooks";
 
 export type User = {
-    name: {
-        en: string;
-        ar: string;
-    };
-    image: string;
-    createdAt: string;
-    updatedAt: string;
-    id: string;
+    firstName?: string;
+    lastName?: string;
+    image?: string;
+    createdAt?: string;
+    updatedAt?: string;
+    id?: string;
+    _id?: string;
+    addresses?: Address[];
+    phone?: string;
+    email?: string;
+    gender: string;
+    dateOfBirth?: string | Date;
+    
 };
 
 

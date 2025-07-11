@@ -17,7 +17,8 @@ const NAVIGATION_ROUTES = {
   FAV_LIST: 'FavList',
   BRANDS: 'Brands',
   CART: 'Cart',
-
+  ChECKOUT: 'Checkout',
+  ChECKOUT_DELIVERY_ADDRESS: 'CheckoutDeliveryAddress',
   PRODUCTS: 'Products',
   FILTERED_PRODUCTS_BY_BRAND: 'FilteredProductsByBrand',
   PRODUCT_DETAILS: 'ProductDetails',
@@ -26,15 +27,18 @@ const NAVIGATION_ROUTES = {
   LOGIN_OR_REGISTER: 'LoginOrRegister',
   OTP: 'OTP',
   RESET_PASSWORD: 'ResetPassword',
-
   ACCOUNT: 'Account',
   PROFILE: 'Profile',
-
+  ORDERS: 'Orders',
+  ORDER_DETAILS: 'OrderDetails',
+  TRACK_ORDER: 'TrackOrder',
+  LOYALTY_SERVICE: 'LoyaltyService',
+  CUSTOMER_SERVICE: 'CustomerService',
+  ABOUT_US: 'AboutUs',
+  VAT_CERTIFICATE: 'VatCertificate',
   ADDRESSES: 'Addresses',
   ADD_ADDRESS: 'AddAddress',
 
-  ChECKOUT: 'Checkout',
-  ChECKOUT_DELIVERY_ADDRESS: 'CheckoutDeliveryAddress',
 };
 
 export default NAVIGATION_ROUTES;

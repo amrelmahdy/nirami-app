@@ -29,11 +29,13 @@ function AccountScreen() {
 
     const handleLogOut = async () => {
         await AsyncStorage.multiRemove(
-            ['access-token', 'refresh-token',
+            [
+                'access-token',
+                'refresh-token',
                 'expires-in',
                 'expires-at',
             ]);
-        // NavigationAdapter.navigate(NAVIGATION_ROUTES.LOGIN);
+        NavigationAdapter.replace(NAVIGATION_ROUTES.AUTH);
     }
 
 
@@ -51,21 +53,23 @@ function AccountScreen() {
             label: 'العربية',
             icon: "ic_ion_language_outline",
             screen_key: 'lang',
-            onPress: () => { NavigationAdapter.navigate(NAVIGATION_ROUTES.CHOOSE_LANG) }
+            onPress: () => { 
+               //NavigationAdapter.navigate(NAVIGATION_ROUTES.CHOOSE_LANG) 
+            }
 
         },
         {
             label: 'الصفحة الخاصة',
             icon: "ic_ep_user",
             screen_key: 'profile',
-            onPress: () => { }
+            onPress: () => { NavigationAdapter.navigate(NAVIGATION_ROUTES.PROFILE) }
 
         },
         {
             label: 'الطلبات',
             icon: "ic_account",
             screen_key: 'orders',
-            onPress: () => { }
+            onPress: () => { NavigationAdapter.navigate(NAVIGATION_ROUTES.ORDERS) }
 
         },
         {

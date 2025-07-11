@@ -46,14 +46,12 @@ const TabBar = ({ state, descriptors, navigation }) => {
                         canPreventDefault: true,
                     });
 
-                    console.log("route.key", route)
 
                     if (!isFocused && !event.defaultPrevented) {
                         navigation.navigate(route.name, route.params);
                     }
                 };
 
-                console.log("route.params", route.params)
 
                 const onLongPress = () => {
                     navigation.emit({

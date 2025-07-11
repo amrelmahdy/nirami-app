@@ -17,11 +17,14 @@ import BrandsScreen from '../../scenes/Brands/BrandsScreen';
 import FilteredProductsByBrandScreen from '../../scenes/Brands/FilteredProductsByBrandScreen';
 import AccountScreen from '../../scenes/Account/Account';
 import ProductsScreen from '../../scenes/Products/ProductsScreen';
-import ChooseAddressScreen from '../../scenes/Checkout/ChooseAddressScreen';
-import CheckoutDeliveryAddressScreen from '../../scenes/Checkout/ChooseAddressScreen';
+
 import CheckoutScreen from '../../scenes/Checkout/CheckoutScreen';
 import AddAddressScreen from '../../scenes/Addresses/AddAddressScreen';
 import AddressesScreen from '../../scenes/Addresses/AddressesScreen';
+import OrdersScreen from '../../scenes/Orders/OrdersScreen';
+import OrderDetailsScreen from '../../scenes/Orders/OrderDetailsScreen';
+import TrackOrderScreen from '../../scenes/Orders/TrackOrderScreen';
+import ProfileScreen from '../../scenes/Profile/Profile';
 
 
 const Stack = createStackNavigator()
@@ -52,7 +55,9 @@ const CartStack = () => (
         <Stack.Screen name={NAVIGATION_ROUTES.CART} options={{ headerShown: false }} component={CartScreen} />
         <Stack.Screen name={NAVIGATION_ROUTES.FILTERED_PRODUCTS} options={{ headerShown: false }} component={FilteredProductsScreen} />
         <Stack.Screen name={NAVIGATION_ROUTES.ChECKOUT} options={{ headerShown: false }} component={CheckoutScreen} />
-
+        <Stack.Screen name={NAVIGATION_ROUTES.ADDRESSES} options={{ headerShown: false }} component={AddressesScreen} />
+        <Stack.Screen name={NAVIGATION_ROUTES.ADD_ADDRESS} options={{ headerShown: false }} component={AddAddressScreen} />
+        <Stack.Screen name={NAVIGATION_ROUTES.ORDER_DETAILS} options={{ headerShown: false }} component={OrderDetailsScreen} />
 
     </Stack.Navigator>
 )
@@ -70,9 +75,15 @@ const BrandsStack = () => (
 const AccountStack = () => (
     <Stack.Navigator>
         <Stack.Screen name={NAVIGATION_ROUTES.ACCOUNT} options={{ headerShown: false }} component={AccountScreen} />
+        <Stack.Screen name={NAVIGATION_ROUTES.PROFILE} options={{ headerShown: false }} component={ProfileScreen} />
         <Stack.Screen name={NAVIGATION_ROUTES.ADDRESSES} options={{ headerShown: false }} component={AddressesScreen} />
         <Stack.Screen name={NAVIGATION_ROUTES.ADD_ADDRESS} options={{ headerShown: false }} component={AddAddressScreen} />
-
+        <Stack.Screen name={NAVIGATION_ROUTES.ORDERS} options={{ headerShown: false }} component={OrdersScreen} />
+        <Stack.Screen name={NAVIGATION_ROUTES.ORDER_DETAILS} options={{ headerShown: false }} component={OrderDetailsScreen} />
+        <Stack.Screen name={NAVIGATION_ROUTES.TRACK_ORDER} options={{ headerShown: false }} component={TrackOrderScreen} />
+        <Stack.Screen name={NAVIGATION_ROUTES.VAT_CERTIFICATE} options={{ headerShown: false }} component={OrdersScreen} />
+        <Stack.Screen name={NAVIGATION_ROUTES.CUSTOMER_SERVICE} options={{ headerShown: false }} component={OrdersScreen} />
+        <Stack.Screen name={NAVIGATION_ROUTES.ABOUT_US} options={{ headerShown: false }} component={OrdersScreen} />
         {/* <Stack.Screen name={NAVIGATION_ROUTES.FILTERED_PRODUCTS} options={{ headerShown: false }} component={FilteredProductsScreen} /> */}
     </Stack.Navigator>
 )

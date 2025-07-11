@@ -11,12 +11,12 @@ type SearchInputProps = {
     handleQueryChange?: (query: string) => void;
 };
 
-const SearchInput: React.FC<SearchInputProps> = ({ value, placeholder, handleQueryChange }) => {
+const SearchInput: React.FC<SearchInputProps> = ({ value, placeholder, handleQueryChange, rest }) => {
 
     const { t } = useTranslation()
 
     return (
-        <View style={{}}>
+        <View style={{ direction: 'rtl' }}>
             <TextInput
                 value={value}
                 onChangeText={text => {
@@ -31,7 +31,10 @@ const SearchInput: React.FC<SearchInputProps> = ({ value, placeholder, handleQue
                 underlineStyle={{ borderRadius: 0 }}
                 returnKeyLabel={t('what_are_you_looking_for')}
                 returnKeyType="search"
-                right={<TextInput.Icon color='#bebebe' icon={getIconUrl(Images, 'ic_mynaui_search')} />}
+                right={<TextInput.Icon color='#bebebe' icon={getIconUrl(Images, 'ic_mynaui_search')}
+                {...rest}
+
+                />}
             />
         </View>
     );

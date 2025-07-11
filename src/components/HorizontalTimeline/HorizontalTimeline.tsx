@@ -1,27 +1,18 @@
 import React, { useState } from "react";
 import { Dimensions, StyleSheet, TouchableOpacity, View } from "react-native";
 import { Text } from "react-native-gesture-handler";
-import NiScreen from "../../components/NIScreen/NiScreen";
-import NIText from "../../components/NIText/NIText";
+import NiScreen from "../NIScreen/NiScreen";
+import NIText from "../NIText/NIText";
 import { List } from "react-native-paper";
-import ChangeAddress from "./steps/ChangeAddress";
-import SummeryAndPay from "./steps/SummeryAndPay";
-import OrderComplete from "./steps/OrderComplete";
 
-function CheckoutScreen() {
 
-    const [orderId, setOrderId] = React.useState("");
-
+function Timeline({ steps, disabled = false }) {
 
     const [expanded, setExpanded] = React.useState(true);
 
     const handlePress = () => setExpanded(!expanded);
 
-    const steps = [
-        { title: "عنوان الشحن", content: "This is step 1 content" },
-        { title: "الدفع", content: "This is step 2 content" },
-        { title: "تم الإرسال", content: "This is step 3 content" },
-    ];
+
 
     const [activeStep, setActiveStep] = useState(1);
     const totalSteps = steps.length;
@@ -61,7 +52,7 @@ function CheckoutScreen() {
                         ]}
                     />
                 )}
-                <TouchableOpacity onPress={() => setActiveStep(step)} style={styles.circleWrapper}>
+                <TouchableOpacity disabled={disabled} onPress={() => setActiveStep(step)} style={styles.circleWrapper}>
                     <View style={[styles.circle, isActive && styles.activeCircle]}>
                         <Text style={[styles.label, isActive && styles.activeLabel]}>{step}</Text>
                     </View>
@@ -84,36 +75,26 @@ function CheckoutScreen() {
     };
 
     const renderContent = () => {
-        switch (activeStep) {
-            case 1:
-                return <ChangeAddress onNext={handleOnNext} />;
-            case 2:
-                return <SummeryAndPay setOrderId={setOrderId} onNext={handleOnNext} />;
-            case 3:
-                return <OrderComplete orderId={orderId} onNext={handleOnNext} />;
-            default:
-                return null;
-        }
+         return steps[activeStep-1].content;
         // return <Text style={styles.card}>{steps[activeStep - 1]?.content}</Text>;
     };
 
     return (
-        <NiScreen title="إتمام الطلب">
-            <View style={{ flex: 1, paddingHorizontal: 0 }}>
-                <View style={styles.container}>
+        <View style={{ flex: 1, paddingHorizontal: 0 }}>
+            <View style={styles.container}>
 
-                    <View style={styles.stepContainer}>
-                        {[...Array(totalSteps)].map((_, idx) => renderStep(idx + 1))}
-                    </View>
-                    <View style={styles.contentContainer}>{renderContent()}</View>
+                <View style={styles.stepContainer}>
+                    {[...Array(totalSteps)].map((_, idx) => renderStep(idx + 1))}
+                </View>
+                <View style={styles.contentContainer}>{renderContent()}</View>
 
 
-                    {/* <View style={{ flexDirection: "row", marginTop: 0 }}> */}
-
+                {/* <View style={{ flexDirection: "row", marginTop: 0 }}> */}
 
 
 
-                    {/* <TouchableOpacity
+
+                {/* <TouchableOpacity
                             onPress={() => setActiveStep((prev) => Math.max(1, prev - 1))}
                             disabled={activeStep === 1}
                             style={{
@@ -139,10 +120,9 @@ function CheckoutScreen() {
 
 
 
-                    {/* </View> */}
-                </View>
+                {/* </View> */}
             </View>
-        </NiScreen>
+        </View>
     );
 }
 
@@ -222,4 +202,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default CheckoutScreen;
+export default Timeline;
