@@ -21,6 +21,9 @@ export const Images: IconMap = {
   home_banner_1: Image.resolveAssetSource(require('./images/home_banner_1.png')),
   home_banner_2: Image.resolveAssetSource(require('./images/home_banner_2.png')),
   home_banner_3: Image.resolveAssetSource(require('./images/home_banner_3.png')),
+  home_banner_4: Image.resolveAssetSource(require('./images/home_banner_4.png')),
+  home_banner_5: Image.resolveAssetSource(require('./images/home_banner_5.png')),
+  home_banner_6: Image.resolveAssetSource(require('./images/home_banner_6.png')),
 
   ic_ion_language_outline: Image.resolveAssetSource(require('./icons/ion_language-outline.png')),
   ic_ep_user: Image.resolveAssetSource(require('./icons/ep_user.png')),

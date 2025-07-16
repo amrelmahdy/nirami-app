@@ -25,8 +25,8 @@ import OrdersScreen from '../../scenes/Orders/OrdersScreen';
 import OrderDetailsScreen from '../../scenes/Orders/OrderDetailsScreen';
 import TrackOrderScreen from '../../scenes/Orders/TrackOrderScreen';
 import ProfileScreen from '../../scenes/Profile/Profile';
-import ReviewsScreen from '../../scenes/Reviews/Reviews';
-import AddReviewScreen from '../../scenes/Reviews/AddReview';
+import ReviewsScreen from '../../scenes/Reviews/ReviewsScreen';
+import AddReviewScreen from '../../scenes/Reviews/AddReviewScreen';
 
 
 const Stack = createStackNavigator()
@@ -36,8 +36,8 @@ const HomeStack = () => (
     <Stack.Navigator>
         <Stack.Screen options={{ headerShown: false }} name={NAVIGATION_ROUTES.HOMEPAGE} component={HomeScreen} />
         <Stack.Screen options={{ headerShown: false }} name={NAVIGATION_ROUTES.FAV_LIST} component={FavListScreen} />
-        <Stack.Screen options={{ headerShown: false }} name={NAVIGATION_ROUTES.PRODUCT_DETAILS} component={ProductDetailsScreen} />
         <Stack.Screen options={{ headerShown: false }} name={NAVIGATION_ROUTES.PRODUCTS} component={ProductsScreen} />
+        <Stack.Screen options={{ headerShown: false }} name={NAVIGATION_ROUTES.PRODUCT_DETAILS} component={ProductDetailsScreen} />
         <Stack.Screen options={{ headerShown: false }} name={NAVIGATION_ROUTES.REVIEWS} component={ReviewsScreen} />
         <Stack.Screen options={{ headerShown: false }} name={NAVIGATION_ROUTES.ADD_REVIEW} component={AddReviewScreen} />
 
@@ -50,6 +50,9 @@ const DepartmentStack = () => (
         <Stack.Screen name={NAVIGATION_ROUTES.DEPARTMENT_SEARCH} options={{ headerShown: false }} component={DepartmentSearchScreen} />
         <Stack.Screen name={NAVIGATION_ROUTES.FILTERED_PRODUCTS} options={{ headerShown: false }} component={FilteredProductsScreen} />
         <Stack.Screen options={{ headerShown: false }} name={NAVIGATION_ROUTES.PRODUCT_DETAILS} component={ProductDetailsScreen} />
+        <Stack.Screen options={{ headerShown: false }} name={NAVIGATION_ROUTES.REVIEWS} component={ReviewsScreen} />
+        <Stack.Screen options={{ headerShown: false }} name={NAVIGATION_ROUTES.ADD_REVIEW} component={AddReviewScreen} />
+
     </Stack.Navigator>
 )
 
@@ -62,6 +65,8 @@ const CartStack = () => (
         <Stack.Screen name={NAVIGATION_ROUTES.ADD_ADDRESS} options={{ headerShown: false }} component={AddAddressScreen} />
         <Stack.Screen name={NAVIGATION_ROUTES.ORDER_DETAILS} options={{ headerShown: false }} component={OrderDetailsScreen} />
         <Stack.Screen options={{ headerShown: false }} name={NAVIGATION_ROUTES.PRODUCT_DETAILS} component={ProductDetailsScreen} />
+        <Stack.Screen options={{ headerShown: false }} name={NAVIGATION_ROUTES.REVIEWS} component={ReviewsScreen} />
+        <Stack.Screen options={{ headerShown: false }} name={NAVIGATION_ROUTES.ADD_REVIEW} component={AddReviewScreen} />
         <Stack.Screen options={{ headerShown: false }} name={NAVIGATION_ROUTES.REVIEWS} component={ReviewsScreen} />
         <Stack.Screen options={{ headerShown: false }} name={NAVIGATION_ROUTES.ADD_REVIEW} component={AddAddressScreen} />
     </Stack.Navigator>
@@ -91,7 +96,7 @@ const AccountStack = () => (
         <Stack.Screen name={NAVIGATION_ROUTES.ABOUT_US} options={{ headerShown: false }} component={OrdersScreen} />
         <Stack.Screen options={{ headerShown: false }} name={NAVIGATION_ROUTES.PRODUCT_DETAILS} component={ProductDetailsScreen} />
         <Stack.Screen options={{ headerShown: false }} name={NAVIGATION_ROUTES.REVIEWS} component={ReviewsScreen} />
-        <Stack.Screen options={{ headerShown: false }} name={NAVIGATION_ROUTES.ADD_REVIEW} component={AddAddressScreen} />
+        <Stack.Screen options={{ headerShown: false }} name={NAVIGATION_ROUTES.ADD_REVIEW} component={AddReviewScreen} />
         {/* <Stack.Screen name={NAVIGATION_ROUTES.FILTERED_PRODUCTS} options={{ headerShown: false }} component={FilteredProductsScreen} /> */}
     </Stack.Navigator>
 )

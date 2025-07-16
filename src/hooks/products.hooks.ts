@@ -1,9 +1,10 @@
 
 import { useMutation, UseMutationResult, useQuery, useQueryClient, UseQueryResult } from "@tanstack/react-query"
-import { addProductToFav, getMostSaledProducts, getProductDetails, getProducts, getProductVariants } from "../api/products.api";
+import { addProductReview, addProductToFav, getMostSaledProducts, getProductDetails, getProducts, getProductVariants, getRelatedProducts } from "../api/products.api";
 import { Category } from "./categories.hooks";
 import { Brand } from "./brands.hooks";
 import { Group } from "./groups.hooks";
+import { Review } from "./reviews.hooks";
 
 
 export type Variant = {
@@ -22,8 +23,8 @@ export type Variant = {
 }
 
 export type Product = {
-     id: string;
-     _id: string;
+    id: string;
+    _id: string;
     name: {
         en: string;
         ar: string;
@@ -91,6 +92,15 @@ export const useGetMostSaledProducts = (): UseQueryResult<Product[]> => {
 }
 
 
+export const useGetRelatedProducts = (productId: string): UseQueryResult<Product[]> => {
+    return useQuery({
+        queryKey: ['related-products', productId],
+        queryFn: () => getRelatedProducts(productId),
+        enabled: !!productId, // optional: prevents the query from running if productId is falsy
+    });
+};
+
+
 export const useGetProduct = (id: string): UseQueryResult<Product> => {
     return useQuery({
         queryKey: ['product', id],
@@ -117,7 +127,7 @@ export const useAddProductToFav = (): UseMutationResult<Product, Error, string> 
         onSuccess: (data, productId) => {
             // Invalidate the products query to refetch the updated list
             queryClient.invalidateQueries({ queryKey: ['products'] });
-             // Invalidate the products query to refetch the updated list
+            // Invalidate the products query to refetch the updated list
             queryClient.invalidateQueries({ queryKey: ['most-saled-products'] });
             // Optionally, you can also update the specific product in the cache
             queryClient.setQueryData(['product', productId], data);
@@ -128,6 +138,23 @@ export const useAddProductToFav = (): UseMutationResult<Product, Error, string> 
 };
 
 
+
+
+
+export const useAddProductReview = (): UseMutationResult<any, Error, { productId: string; review: Review }> => {
+    const queryClient = useQueryClient();
+    return useMutation({
+        mutationFn: ({ productId, review }) => addProductReview(productId, review),
+        onSuccess: (data, { productId }) => {
+            console.log("Review added successfully::::", productId);
+            // Invalidate the product query to refetch the updated product details
+            queryClient.invalidateQueries({
+                queryKey: ['product', productId]
+            });
+            // Optionally, you can also update the specific product in the cache
+        }
+    });
+}
 
 
 

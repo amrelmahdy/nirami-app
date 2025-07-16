@@ -4,7 +4,7 @@ import { ScrollView, Text } from "react-native-gesture-handler";
 import NavigationAdapter from '../../navigation/NavigationAdapter'
 import NAVIGATION_ROUTES from "../../navigation/NavigationRoutes";
 import { getIconUrl } from "../../assets/icons";
-import { Images } from "../../assets";
+import { FONT_FAMILIES, Images } from "../../assets";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Carousel, {
     ICarouselInstance,
@@ -17,26 +17,27 @@ import { Rating } from "react-native-ratings";
 import NIText from "../../components/NIText/NIText";
 import NIButton from "../../components/NIButton/NIButton";
 import i18next from "i18next";
-import { Product, useGetProduct, useGetProductVariants } from "../../hooks/products.hooks";
+import { Product, useGetProduct, useGetProductVariants, useGetRelatedProducts } from "../../hooks/products.hooks";
 import { useAddProductToCart } from "../../hooks/cart.hooks";
 import { RouteProp } from '@react-navigation/native';
-
+import moment from 'moment';
+import ReviewCard from "../../components/ReviewCard/ReviewCard";
 
 
 type ProductDetailsScreenRouteProp = RouteProp<{ ProductDetails: { product: Product } }, 'ProductDetails'>;
 
 type ProductDetailsScreenProps = {
     route: ProductDetailsScreenRouteProp;
-    navigation: any;
 };
 
-function ProductDetailsScreen(props: any) {
-    const { route, navigation } = props;
+function ProductDetailsScreen({ route }: ProductDetailsScreenProps) {
+
     const addToCart = useAddProductToCart();
 
     const [selectedVariant, setSelectedVariant] = React.useState(route.params.product._id);
 
 
+    const { data: relatedProducts, isLoading: isLoadingRelatedProducts, isError: isErrorRelatedProducts, refetch: refretchRelatedProducts } = useGetRelatedProducts(selectedVariant || route.params.product._id);
 
     const { data: product, isLoading: isProductLoading, isError: isProductError } = useGetProduct(selectedVariant || route.params.product._id);
     const { data: productVariants, isLoading: isProductVariantsLoading, isError: isProductVariantsError } = useGetProductVariants(route.params.product._id)
@@ -45,6 +46,7 @@ function ProductDetailsScreen(props: any) {
     const data = [...new Array(6).keys()];
     const width = Dimensions.get("window").width;
     const progress = useSharedValue<number>(0);
+    const scrollViewRef = useRef<ScrollView>(null);
 
 
 
@@ -65,37 +67,8 @@ function ProductDetailsScreen(props: any) {
 
 
     const renderReview = (reviews) => {
-        return reviews && reviews.length > 0 ? reviews.map((review, index) => {
-            return <View style={{ borderWidth: 1, borderColor: '#efefef', paddingVertical: 10, paddingHorizontal: 15, marginVertical: 20, borderRadius: 10 }}>
-                <View style={{ flexDirection: 'row', direction: 'rtl', alignItems: 'center', marginBottom: 5 }}>
-                    <Text>{review.ownerName}</Text>
-                    <Rating
-                        type='custom'
-                        imageSize={18}
-                        //showRating
-                        onFinishRating={() => { }}
-                        style={{ paddingHorizontal: 5, backgroundColor: '#FFF' }}
-                        readonly
-                        ratingColor='#000000'
-                        startingValue={product.ratings}
-                        tintColor="#FFF"
-                        ratingBackgroundColor="#bebebe"
-                        ratingTextColor="red"
-                    />
-                    <Text>4.5</Text>
-                </View>
-                <View>
-                    <NIText>{review.review}</NIText>
-                </View>
-                <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginTop: 20 }}>
-                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                        <Icon source={getIconUrl(Images, 'ic_ei_like')} size={24} />
-                        <NIText style={{ color: "#797780" }}>مفيد</NIText>
-                    </View>
-
-                    <NIText style={{ color: "#797780", }}>09/3/2025</NIText>
-                </View>
-            </View>
+        return reviews && reviews.length > 0 ? reviews.map((review) => {
+            return <ReviewCard review={review} />
         }) : <></>
     }
 
@@ -110,7 +83,7 @@ function ProductDetailsScreen(props: any) {
     return (
         // <SafeAreaView style={{ flex: 1 }}>
         <View>
-            <ScrollView style={{ backgroundColor: '#FFF', flexGrow: 1, }}>
+            <ScrollView ref={scrollViewRef} style={{ backgroundColor: '#FFF', flexGrow: 1, }}>
                 <SafeAreaView>
                     <View style={{ flexDirection: 'row', justifyContent: 'space-between', paddingHorizontal: 10, marginVertical: 20 }}>
 
@@ -165,8 +138,23 @@ function ProductDetailsScreen(props: any) {
                     </View>
 
                     <View style={{ marginTop: 10, paddingHorizontal: 10 }}>
-                        <NIText style={{ fontSize: 18, color: "#000", textAlign: 'right', fontWeight: 'bold' }}>{product.brand?.name[i18next.language as 'ar' | 'en']}</NIText>
-                        <NIText style={{ fontSize: 16, marginVertical: 4, textAlign: 'right', color: '#a2a2a3', marginBottom: 10 }}>{product?.name[i18next.language as 'ar' | 'en']}</NIText>
+                        <NIText style={{ fontSize: 18, color: "#000", textAlign: 'right', fontWeight: 'bold' }}>
+                            {product.brand?.name[i18next.language as 'ar' | 'en']}
+                        </NIText>
+
+
+
+                        <View>
+                            <NIText style={{ fontSize: 16, marginVertical: 4, textAlign: 'right', color: '#a2a2a3', marginBottom: product?.color ? 0 : 10 }}>
+                                {product?.name[i18next.language as 'ar' | 'en']}
+                            </NIText>
+                            {product?.color &&
+                                <NIText style={{ fontSize: 15, marginVertical: 4, textAlign: 'right', color: '#a2a2a3', marginBottom: 10, fontFamily: FONT_FAMILIES.ALMARAI_EXTRA_BOLD }}>
+                                    {(product?.color?.name[i18next.language as 'ar' | 'en'] || "")}
+                                </NIText>
+                            }
+                        </View>
+
                         <View style={{ flexDirection: 'row-reverse' }}>
                             <Rating
                                 type='custom'
@@ -176,12 +164,12 @@ function ProductDetailsScreen(props: any) {
                                 style={{ paddingVertical: 0, direction: 'rtl', alignItems: 'flex-start', marginBottom: 20 }}
                                 readonly
                                 ratingColor='#000000'
-                                // startingValue={product.ratings}
+                                startingValue={product?.averageRating}
                                 tintColor="#FFF"
                                 ratingBackgroundColor="#bebebe"
                                 ratingTextColor="red"
                             />
-                            <NIText style={{ fontSize: 12, marginHorizontal: 4, marginTop: 1 }}>4.5</NIText>
+                            <NIText style={{ fontSize: 12, marginHorizontal: 4, marginTop: 1 }}>{product?.averageRating}</NIText>
                         </View>
 
                         {product.isOnSale && <View style={{ flexDirection: 'row', justifyContent: 'flex-end' }}>
@@ -206,9 +194,9 @@ function ProductDetailsScreen(props: any) {
                                 renderItem={({ item, index }) => <TouchableOpacity onPress={() => {
                                     setSelectedVariant(item.id);
                                 }} style={{ borderWidth: 1, borderColor: selectedVariant === item.id ? '#3f2848' : '#bdbdbd', padding: 10, marginLeft: 10, flexDirection: 'row', borderRadius: 10 }}>
-                                    <NIText>{
+                                    {/* <NIText>{
                                         item?.color?.name[i18next.language as 'ar' | 'en']
-                                    }</NIText>
+                                    }</NIText> */}
                                     <View style={{ width: 20, height: 20, backgroundColor: item?.color?.value, borderRadius: 10, marginHorizontal: 5 }} />
                                 </TouchableOpacity>} />
 
@@ -232,10 +220,14 @@ function ProductDetailsScreen(props: any) {
 
                         <Divider style={{ marginVertical: 20 }} />
 
-                        <TouchableOpacity style={{ flexDirection: 'row', direction: 'rtl', justifyContent: 'space-between', alignItems: 'center', marginVertical: 20 }}>
+                        <TouchableOpacity
+                            onPress={() => {
+                                NavigationAdapter.navigate(NAVIGATION_ROUTES.REVIEWS, { product: product });
+                            }}
+                            style={{ flexDirection: 'row', direction: 'rtl', justifyContent: 'space-between', alignItems: 'center', marginVertical: 20 }}>
                             <View style={{ flexDirection: 'row', direction: 'rtl', alignItems: 'center' }}>
                                 <NIText>التقييمات</NIText>
-                                <NIText style={{ marginHorizontal: 5 }}>(15)</NIText>
+                                <NIText style={{ marginHorizontal: 5 }}>({product.reviews.length})</NIText>
                                 <Rating
                                     type='custom'
                                     imageSize={18}
@@ -244,12 +236,12 @@ function ProductDetailsScreen(props: any) {
                                     style={{ paddingVertical: 0, backgroundColor: 'green' }}
                                     readonly
                                     ratingColor='#000000'
-                                    // startingValue={product.ratings}
+                                    startingValue={product.averageRating}
                                     tintColor="#FFF"
                                     ratingBackgroundColor="#bebebe"
                                     ratingTextColor="red"
                                 />
-                                <NIText style={{ marginHorizontal: 5 }}>4.5</NIText>
+                                <NIText style={{ marginHorizontal: 5 }}>{product.averageRating}</NIText>
                             </View>
                             <Icon source={getIconUrl(Images, 'ic_weui_arrow_outlined_left_angle')} size={12} />
 
@@ -257,7 +249,7 @@ function ProductDetailsScreen(props: any) {
 
 
                         <View>
-                            {/* {renderReview(product.reviews)} */}
+                            {renderReview(product.reviews)}
                             <NIButton
                                 onPress={() => {
                                     NavigationAdapter.navigate(NAVIGATION_ROUTES.REVIEWS, { product: product });
@@ -268,17 +260,28 @@ function ProductDetailsScreen(props: any) {
                                     NavigationAdapter.navigate(NAVIGATION_ROUTES.ADD_REVIEW, { product: product });
                                 }}
                                 type='outline'>اضف تقييماً</NIButton>
-
                         </View>
-
-
-
-
-
                     </View>
 
 
                     <Divider style={{ marginVertical: 30 }} />
+
+
+
+                    <View style={{ flex: 1, direction: 'rtl', marginBottom: 50 }}>
+                        <NIText style={{ textAlign: 'left', fontSize: 18, fontFamily: FONT_FAMILIES.ALMARAI_REGULAR, height: 25, marginBottom: 20, marginHorizontal: 15 }}>اكملي إطلالتك</NIText>
+                        <FlatList
+                            horizontal={true}
+                            scrollEnabled={false}
+                            keyExtractor={(item, index) => index.toString()} style={{ width: '100%' }}
+                            data={relatedProducts}
+                            //contentContainerStyle={{ paddingHorizontal: 10, paddingBottom: 20 }}  // Add padding around the grid
+                            renderItem={({ item, index }) => <ProductCard onPress={() => {
+                                setSelectedVariant(item.id);
+                                scrollViewRef.current?.scrollTo({ y: 0, animated: true });
+                            }} product={item} />} />
+
+                    </View>
 
 
 

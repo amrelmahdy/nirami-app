@@ -22,7 +22,7 @@ import BottomSheet from '../../components/BottomSheet/BottomSheet';
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
 import { Icon, RadioButton } from 'react-native-paper';
 import BannerImage from '../../components/BannerImage/BannerImage';
-import { useGetProducts } from '../../hooks/products.hooks';
+import { Product, useGetProducts } from '../../hooks/products.hooks';
 import i18next from 'i18next';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { getIconUrl } from '../../assets/icons';
@@ -34,6 +34,7 @@ import NIButton from '../../components/NIButton/NIButton';
 import { updateUser } from '../../api/auth.api';
 import navigationAdapter from '../../navigation/NavigationAdapter';
 import { Rating } from 'react-native-ratings';
+import ReviewCard from '../../components/ReviewCard/ReviewCard';
 
 
 
@@ -47,6 +48,10 @@ type ProfileScreenProps = {
 };
 
 const ReviewsScreen = ({ route }: ProfileScreenProps) => {
+
+
+    const { product } = route.params as { product: Product }; // Get the orderId from route params
+
 
     const insets = useSafeAreaInsets();
 
@@ -82,8 +87,6 @@ const ReviewsScreen = ({ route }: ProfileScreenProps) => {
 
     return (
         <View style={{ flex: 1, backgroundColor: '#FFF' }}>
-
-
             <View style={[
                 {
                     flexDirection: 'row',
@@ -98,12 +101,14 @@ const ReviewsScreen = ({ route }: ProfileScreenProps) => {
                 }
             ]}>
 
-                <View style={{ flex: 1,  alignItems: 'flex-start'}}>
-                    <Text style={{ fontFamily: FONT_FAMILIES.ALMARAI_REGULAR, textAlign: 'center', fontSize: 18 }}>{'التقييمات(5)'}</Text>
+                <View style={{ flex: 2, alignItems: 'flex-start' }}>
+                    <Text style={{ fontFamily: FONT_FAMILIES.ALMARAI_REGULAR, textAlign: 'center', fontSize: 18 }}>{`التقييمات(${product.reviews.length})`}</Text>
 
                 </View>
 
-                <View style={{ direction: 'rtl', flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+
+
+                <View style={{ direction: 'rtl', flex: 2, alignItems: 'center', justifyContent: 'center' }}>
                     <Rating
                         type='custom'
                         imageSize={18}
@@ -112,12 +117,18 @@ const ReviewsScreen = ({ route }: ProfileScreenProps) => {
                         style={{ paddingHorizontal: 5, backgroundColor: '#FFF' }}
                         readonly
                         ratingColor='#000000'
-                        startingValue={4.5}
+                        startingValue={product.averageRating}
                         tintColor="#FFF"
                         ratingBackgroundColor="#bebebe"
                         ratingTextColor="red"
                     />
                 </View>
+
+                <View>
+                    <Image source={{ uri: product.productCardImage }} style={{ width: 50, height: 50 }} />
+                </View>
+
+
                 <View style={{
                     flex: 1,
                     alignItems: 'flex-end'
@@ -132,6 +143,23 @@ const ReviewsScreen = ({ route }: ProfileScreenProps) => {
                     }
                 </View>
             </View>
+
+
+
+
+
+            <FlatList
+                style={{ flex: 1, paddingHorizontal: 15, paddingTop: 10 }}
+                data={product.reviews}
+                keyExtractor={(_, index) => index.toString()}
+                renderItem={({ item }) => <ReviewCard review={item} />}
+                ListEmptyComponent={
+                    <NIText style={{ textAlign: 'center', marginTop: 20 }}>
+                        لا توجد تقييمات لهذا المنتج بعد
+                    </NIText>
+                }
+                showsVerticalScrollIndicator={false}
+            />
         </View>
     );
 }

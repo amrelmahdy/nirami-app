@@ -159,7 +159,8 @@ function HomeScreen() {
                                 <View style={styles.slide}>
                                     <Image
                                         style={styles.image}
-                                        source={{ uri: item.image }}
+
+                                        source={getIconUrl(Images, item.imageName)}
                                         resizeMode={'cover'}
                                     />
                                 </View>
@@ -179,7 +180,7 @@ function HomeScreen() {
 
 
                 {
-                    mostSaledProductsData  && mostSaledProductsData.length &&
+                    mostSaledProductsData && mostSaledProductsData.length &&
 
                     <View style={{ flex: 1, paddingHorizontal: 0 }}>
                         <Text style={{ fontFamily: 'Almarai-Bold', textAlign: 'right', fontSize: 20, marginBottom: 20, marginHorizontal: 15 }}>الاكثر مبيعاً</Text>
@@ -211,7 +212,8 @@ function HomeScreen() {
                     <View style={styles.slide}>
                         <Image
                             style={styles.image}
-                            source={{ uri: "https://placehold.co/600x600.png" }}
+                            source={getIconUrl(Images, "home_banner_4")}
+
                             resizeMode={'cover'}
                         />
                     </View>
@@ -230,25 +232,10 @@ function HomeScreen() {
                 </View>
 
 
-                <View
-                    style={{
-                        flex: 1,
-                        height: 300,
-                        marginVertical: 30
-                        // justifyContent: "center",
-                    }}
-                >
-                    <View style={styles.slide}>
-                        <Image
-                            style={styles.image}
-                            source={{ uri: "https://placehold.co/600x600.png" }}
-                            resizeMode={'cover'}
-                        />
-                    </View>
-                </View>
 
 
-                {newProductsData && newProductsData.products && newProductsData.products.length &&  !isNewProductsLoading &&
+
+                {newProductsData && newProductsData.products && newProductsData.products.length && !isNewProductsLoading &&
                     <View style={{ flex: 1 }}>
                         <Text style={{ fontFamily: 'Almarai-Bold', textAlign: 'right', fontSize: 20, marginBottom: 20, paddingHorizontal: 15 }}>المنتجات الجديدة</Text>
                         <FlatList
@@ -261,6 +248,46 @@ function HomeScreen() {
                             renderItem={({ item, index }) => <ProductCard product={item} />} />
                     </View>
                 }
+
+
+                <View
+                    style={{
+                        flex: 1,
+                        height: 300,
+                        marginVertical: 30
+                        // justifyContent: "center",
+                    }}
+                >
+                    <View style={styles.slide}>
+                        <Image
+                            style={styles.image}
+                            source={getIconUrl(Images, "home_banner_5")}
+                            resizeMode={'cover'}
+                        />
+                    </View>
+                </View>
+
+
+
+
+                {
+                    mostSaledProductsData && mostSaledProductsData.length &&
+
+                    <View style={{ flex: 1, paddingHorizontal: 0 }}>
+                        <Text style={{ fontFamily: 'Almarai-Bold', textAlign: 'right', fontSize: 20, marginBottom: 20, marginHorizontal: 15, height: 30 }}>أفضل منتجات منتجات المكياج</Text>
+                        <FlatList
+                            // numColumns={2}  // Set two columns per row
+                            horizontal
+                            showsHorizontalScrollIndicator={false}
+                            keyExtractor={(item, index) => index.toString()} style={{ width: '100%' }}
+                            data={mostSaledProductsData}
+                            contentContainerStyle={{ paddingHorizontal: 10, paddingBottom: 20 }}  // Add padding around the grid
+
+                            renderItem={({ item, index }) => <ProductCard product={item} />} />
+                    </View>
+                }
+
+
             </SafeAreaView>
         </ScrollView>
 

@@ -14,10 +14,11 @@ import { useAddProductToCart } from "../../hooks/cart.hooks";
 
 
 type ProductCardProps = {
-    product: Product
+    product: Product,
+    onPress?: () => void
 }
 
-export default function ProductCard({ product }: ProductCardProps) {
+export default function ProductCard({ product, onPress }: ProductCardProps) {
 
 
     const route = useRoute();
@@ -73,6 +74,10 @@ export default function ProductCard({ product }: ProductCardProps) {
             }}
             activeOpacity={0.8} // Slight click effect
             onPress={() => {
+                if (onPress) {
+                    onPress();
+                    return;
+                }
                 //Alert.alert("Product Details", `You clicked on ${product.name[i18next.language as 'ar' | 'en']}`);
                 navigationAdapter.navigate(NAVIGATION_ROUTES.PRODUCT_DETAILS, { product })
             }}

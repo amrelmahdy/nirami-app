@@ -2,15 +2,18 @@
     "items": [
         {
             "title": "1",
-            "image": "https://placehold.co/600x400.png"
+            "image": "https://placehold.co/600x400.png",
+            "imageName": "home_banner_2"
         },
         {
             "title": "1",
-            "image": "https://placehold.co/600x400.png"
+            "image": "https://placehold.co/600x400.png",
+            "imageName": "home_banner_1"
         },
         {
             "title": "1",
-            "image": "https://placehold.co/600x400.png"
+            "image": "https://placehold.co/600x400.png",
+            "imageName": "home_banner_3"
         }
     ]
 }
