@@ -38,6 +38,8 @@ const NAVIGATION_ROUTES = {
   VAT_CERTIFICATE: 'VatCertificate',
   ADDRESSES: 'Addresses',
   ADD_ADDRESS: 'AddAddress',
+  REVIEWS: 'Reviews',
+  ADD_REVIEW: 'AddReview',
 
 };
 

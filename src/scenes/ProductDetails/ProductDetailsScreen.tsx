@@ -19,20 +19,20 @@ import NIButton from "../../components/NIButton/NIButton";
 import i18next from "i18next";
 import { Product, useGetProduct, useGetProductVariants } from "../../hooks/products.hooks";
 import { useAddProductToCart } from "../../hooks/cart.hooks";
+import { RouteProp } from '@react-navigation/native';
 
 
+
+type ProductDetailsScreenRouteProp = RouteProp<{ ProductDetails: { product: Product } }, 'ProductDetails'>;
 
 type ProductDetailsScreenProps = {
-    route: {
-        params: {
-            product: Product
-        }
-    }
-}
+    route: ProductDetailsScreenRouteProp;
+    navigation: any;
+};
 
-function ProductDetailsScreen({ route }: ProductDetailsScreenProps) {
-
-     const addToCart = useAddProductToCart();
+function ProductDetailsScreen(props: any) {
+    const { route, navigation } = props;
+    const addToCart = useAddProductToCart();
 
     const [selectedVariant, setSelectedVariant] = React.useState(route.params.product._id);
 
@@ -258,8 +258,16 @@ function ProductDetailsScreen({ route }: ProductDetailsScreenProps) {
 
                         <View>
                             {/* {renderReview(product.reviews)} */}
-                            <NIButton type='outline' style={{ marginBottom: 20 }}>جميع التقييمات</NIButton>
-                            <NIButton type='outline'>اضف تقييماً</NIButton>
+                            <NIButton
+                                onPress={() => {
+                                    NavigationAdapter.navigate(NAVIGATION_ROUTES.REVIEWS, { product: product });
+                                }}
+                                type='outline' style={{ marginBottom: 20 }}>جميع التقييمات</NIButton>
+                            <NIButton
+                                onPress={() => {
+                                    NavigationAdapter.navigate(NAVIGATION_ROUTES.ADD_REVIEW, { product: product });
+                                }}
+                                type='outline'>اضف تقييماً</NIButton>
 
                         </View>
 
@@ -320,7 +328,7 @@ function ProductDetailsScreen({ route }: ProductDetailsScreenProps) {
                         onError: (error) => {
                             //Alert.alert("Error", error.message || "Failed to add product to cart.");
                         }
-                    });     
+                    });
                 }} type="primary" style={{ width: '100%' }}>اضف الي العربة</NIButton>
             </View>
 

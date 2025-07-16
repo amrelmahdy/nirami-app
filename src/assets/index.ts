@@ -18,9 +18,9 @@ export const Images: IconMap = {
   login_logo_nirami: Image.resolveAssetSource(require('./images/login/login_logo_nirami.png')),
   makeup_tab_bg: Image.resolveAssetSource(require('./images/makeup_tab_bg.png')),
   skin_care_tab_bg: Image.resolveAssetSource(require('./images/skin_care_tab_bg.png')),
-
-
-
+  home_banner_1: Image.resolveAssetSource(require('./images/home_banner_1.png')),
+  home_banner_2: Image.resolveAssetSource(require('./images/home_banner_2.png')),
+  home_banner_3: Image.resolveAssetSource(require('./images/home_banner_3.png')),
 
   ic_ion_language_outline: Image.resolveAssetSource(require('./icons/ion_language-outline.png')),
   ic_ep_user: Image.resolveAssetSource(require('./icons/ep_user.png')),
