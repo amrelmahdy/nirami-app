@@ -89,10 +89,7 @@ const ProductCard = ({ product, onPress }: ProductCardProps) => {
                     style={{ padding: 0, borderRadius: 50, shadowColor: "#000", shadowOpacity: 0.1, shadowRadius: 5, elevation: 3 }}>
 
                     {
-                        product?.isFavourited ?
-                            <Icon source={getIconUrl(Images, 'ic_mdi_filled_heart')} size={30} />
-                            :
-                            <Icon source={getIconUrl(Images, 'ic_mdi_botdered_heart')} size={30} />
+                      renderTopIcon()
 
                     }
                 </TouchableOpacity>
