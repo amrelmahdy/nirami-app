@@ -20,7 +20,7 @@ const BannerImage: React.FC<BannerImageProps> = ({ image, style }) => {
                 <Image
                     style={styles.image}
                     source={{ uri: image }}
-                    resizeMode="cover"
+                    resizeMode="contain"
                 />
             </View>
         </View>

@@ -59,7 +59,7 @@ const FilteredProductsByBrandScreen = ({ route }) => {
                 <SearchInput handleQueryChange={setQuery} />
             </View>
             <ScrollView contentContainerStyle={{}}>
-                <BannerImage image='https://placehold.co/600x600.png' />
+                <BannerImage image={selectedBrand.image || 'https://placehold.co/600x600.png'} />
 
                 <View style={{ marginTop: 20, flex: 1, overflow: 'hidden' }}>
                     <FilterByBar

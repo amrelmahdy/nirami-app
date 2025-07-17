@@ -268,7 +268,7 @@ function ProductDetailsScreen({ route }: ProductDetailsScreenProps) {
 
 
 
-                    <View style={{ flex: 1, direction: 'rtl', marginBottom: 50 }}>
+                   {relatedProducts && !isErrorRelatedProducts && !isLoadingRelatedProducts && relatedProducts.length && <View style={{ flex: 1, direction: 'rtl', marginBottom: 50 }}>
                         <NIText style={{ textAlign: 'left', fontSize: 18, fontFamily: FONT_FAMILIES.ALMARAI_REGULAR, height: 25, marginBottom: 20, marginHorizontal: 15 }}>اكملي إطلالتك</NIText>
                         <FlatList
                             horizontal={true}
@@ -281,7 +281,7 @@ function ProductDetailsScreen({ route }: ProductDetailsScreenProps) {
                                 scrollViewRef.current?.scrollTo({ y: 0, animated: true });
                             }} product={item} />} />
 
-                    </View>
+                    </View>}
 
 
 

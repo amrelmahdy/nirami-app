@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { Alert, Button, Dimensions, FlatList, Image, StyleSheet, TouchableOpacity, View, RefreshControl } from "react-native";
 import { ScrollView, Text } from "react-native-gesture-handler";
 import NavigationAdapter from '../../navigation/NavigationAdapter'
@@ -25,8 +25,8 @@ import { useGetMostSaledProducts, useGetProducts } from "../../hooks/products.ho
 
 function HomeScreen() {
 
-    const { data: mostSaledProductsData, isError: isMostSaledProductsError, isLoading: isMostSaledLoading, refetch: refetchMostSaledProducts } = useGetMostSaledProducts();
-    const { data: newProductsData, isError: isNewProductsError, isLoading: isNewProductsLoading, refetch: refetchNeProductsProducts } = useGetProducts({ sortBy: 'new' });
+    const { data: mostSaledProductsData, isError: isMostSaledProductsError, isLoading: isMostSaledLoading, refetch: refetchMostSaledProducts, isFetching: isRefetchingMostSaledProducts } = useGetMostSaledProducts();
+    const { data: newProductsData, isError: isNewProductsError, isLoading: isNewProductsLoading, refetch: refetchNeProducts, isFetching: isRefetchingNeProducts } = useGetProducts({ sortBy: 'new' });
 
     const { t } = useTranslation();
 
@@ -37,7 +37,6 @@ function HomeScreen() {
     const data = [...new Array(6).keys()];
     const width = Dimensions.get("window").width;
     const progress = useSharedValue<number>(0);
-    const [refreshing, setRefreshing] = useState(false);
 
     const onPressPagination = (index: number) => {
         carouselRef.current?.scrollTo({
@@ -51,41 +50,39 @@ function HomeScreen() {
     };
 
 
+    useEffect(() => {
+        console.log("HomeScreen re-rendered");
+    });
 
-    const renderItem = ({ item, index }) => {
-        return (
-            <View style={styles.slide}>
-                <Text style={styles.title}>{item.title}</Text>
-            </View>
-        );
-    }
 
-    const onRefresh = async () => {
-        setRefreshing(true);
-        try {
-            await Promise.all([
-                refetchNeProductsProducts(),
-                refetchMostSaledProducts(),
-                // add more refetches if needed
-            ]);
-        } finally {
-            setRefreshing(false);
-        }
-    };
+
+    const refetch = useCallback(async () => {
+        await Promise.all([
+            refetchNeProducts(),
+            refetchMostSaledProducts(),
+        ]);
+    }, [refetchNeProducts, refetchMostSaledProducts]);
+
+
+    const onRefresh = useCallback(() => {
+        console.log('Triggered onRefresh');
+        refetch();
+    }, [refetch]);
 
     return (
         // <SafeAreaView style={{ flex: 1 }}>
 
-        <ScrollView
-            style={{}}
-            refreshControl={
-                <RefreshControl
-                    refreshing={refreshing}
-                    onRefresh={onRefresh}
-                />
-            }
-        >
-            <SafeAreaView>
+        <SafeAreaView>
+
+            <ScrollView
+                style={{}}
+                refreshControl={
+                    <RefreshControl
+                        refreshing={isRefetchingMostSaledProducts || isRefetchingNeProducts}
+                        onRefresh={onRefresh}
+                    />
+                }
+            >
                 <View style={{ justifyContent: 'center', alignItems: 'center', marginBottom: 30 }}>
                     <Image source={getIconUrl(Images, 'logo_eng_ar')} /* style={styles.image} */ />
                 </View>
@@ -134,13 +131,13 @@ function HomeScreen() {
                     </TouchableOpacity>
                 </View>
 
-                {
+                {/* {
                     refreshing && (
                         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', height: 100 }}>
                             <ActivityIndicator size="large" color="#0000ff" />
                         </View>
                     )
-                }
+                } */}
 
                 <View style={{ flex: 1, marginBottom: 40 }}>
                     <Carousel
@@ -270,7 +267,7 @@ function HomeScreen() {
 
 
 
-                {
+                {/* {
                     mostSaledProductsData && mostSaledProductsData.length &&
 
                     <View style={{ flex: 1, paddingHorizontal: 0 }}>
@@ -285,11 +282,13 @@ function HomeScreen() {
 
                             renderItem={({ item, index }) => <ProductCard product={item} />} />
                     </View>
-                }
+                } */}
 
 
-            </SafeAreaView>
-        </ScrollView>
+            </ScrollView>
+
+        </SafeAreaView>
+
 
 
 
@@ -314,4 +313,4 @@ const styles = StyleSheet.create({
 })
 
 
-export default HomeScreen
+export default React.memo(HomeScreen);

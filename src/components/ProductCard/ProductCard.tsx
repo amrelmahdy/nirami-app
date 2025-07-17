@@ -18,7 +18,7 @@ type ProductCardProps = {
     onPress?: () => void
 }
 
-export default function ProductCard({ product, onPress }: ProductCardProps) {
+const ProductCard = ({ product, onPress }: ProductCardProps) => {
 
 
     const route = useRoute();
@@ -161,3 +161,6 @@ export default function ProductCard({ product, onPress }: ProductCardProps) {
         </TouchableOpacity>
     );
 }
+
+
+export default React.memo(ProductCard);

@@ -67,8 +67,6 @@ const CartStack = () => (
         <Stack.Screen options={{ headerShown: false }} name={NAVIGATION_ROUTES.PRODUCT_DETAILS} component={ProductDetailsScreen} />
         <Stack.Screen options={{ headerShown: false }} name={NAVIGATION_ROUTES.REVIEWS} component={ReviewsScreen} />
         <Stack.Screen options={{ headerShown: false }} name={NAVIGATION_ROUTES.ADD_REVIEW} component={AddReviewScreen} />
-        <Stack.Screen options={{ headerShown: false }} name={NAVIGATION_ROUTES.REVIEWS} component={ReviewsScreen} />
-        <Stack.Screen options={{ headerShown: false }} name={NAVIGATION_ROUTES.ADD_REVIEW} component={AddAddressScreen} />
     </Stack.Navigator>
 )
 

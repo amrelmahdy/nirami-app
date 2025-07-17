@@ -45,7 +45,7 @@ const BrandCard: React.FC<FilterByBarProps> = ({ brand }) => {
 
             <Image
                 source={{ uri: brand.image }}
-                style={{ width: "100%", height: undefined, aspectRatio: 1, resizeMode: "cover" }}
+                style={{   aspectRatio: 1, resizeMode: "contain" }}
             />
 
 
