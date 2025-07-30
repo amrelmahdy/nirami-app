@@ -5,6 +5,7 @@ import { Category } from "./categories.hooks";
 import { getBrands } from "../api/brands.api";
 import { getCurrentUser } from "../api/auth.api";
 import { Address } from "./addresses.hooks";
+import { Product } from "./products.hooks";
 
 export type User = {
     firstName?: string;
@@ -19,6 +20,7 @@ export type User = {
     email?: string;
     gender: string;
     dateOfBirth?: string | Date;
+    favList: Product[]
     
 };
 

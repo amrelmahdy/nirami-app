@@ -80,31 +80,31 @@ function AccountScreen() {
 
         },
         {
-            label: 'خدمة الولاء',
+            label: 'برنامج الولاء',
             icon: "ic_iconamoon_gift_light",
             screen_key: 'loyality',
-            onPress: () => { }
+            onPress: () => { NavigationAdapter.navigate(NAVIGATION_ROUTES.LOYALTY_PROGRAM) }
 
         },
         {
             label: 'خدمة العملاء',
             icon: "ic_customer_support",
             screen_key: 'cutomer_care',
-            onPress: () => { }
+            onPress: () => { NavigationAdapter.navigate(NAVIGATION_ROUTES.CUSTOMER_SERVICE) }
 
         },
         {
             label: 'نبذة عنا',
             icon: "ic_mdi_about_circle_outline",
             screen_key: 'about_support',
-            onPress: () => { }
+            onPress: () => { NavigationAdapter.navigate(NAVIGATION_ROUTES.ABOUT_US) }
 
         },
         {
             label: 'شهادة القيمة المضافة',
             icon: "ic_tax",
             screen_key: 'VAT_cert',
-            onPress: () => { }
+            onPress: () => { NavigationAdapter.navigate(NAVIGATION_ROUTES.VAT_CERTIFICATE) }
         },
         {
             label: 'تسجيل الخروج',

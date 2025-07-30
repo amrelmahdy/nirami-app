@@ -27,6 +27,10 @@ import TrackOrderScreen from '../../scenes/Orders/TrackOrderScreen';
 import ProfileScreen from '../../scenes/Profile/Profile';
 import ReviewsScreen from '../../scenes/Reviews/ReviewsScreen';
 import AddReviewScreen from '../../scenes/Reviews/AddReviewScreen';
+import VATCertificateScreen from '../../scenes/VATCertificate/VATCertificateScreen';
+import AboutUsScreen from '../../scenes/AboutUs/AboutUsScreen';
+import LoyalityProgramScreen from '../../scenes/LoyalityProgram/LoyalityProgram';
+import CustomerServiceScreen from '../../scenes/CustomerService/CustomerServiceScreen';
 
 
 const Stack = createStackNavigator()
@@ -37,6 +41,7 @@ const HomeStack = () => (
         <Stack.Screen options={{ headerShown: false }} name={NAVIGATION_ROUTES.HOMEPAGE} component={HomeScreen} />
         <Stack.Screen options={{ headerShown: false }} name={NAVIGATION_ROUTES.FAV_LIST} component={FavListScreen} />
         <Stack.Screen options={{ headerShown: false }} name={NAVIGATION_ROUTES.PRODUCTS} component={ProductsScreen} />
+        <Stack.Screen name={NAVIGATION_ROUTES.FILTERED_PRODUCTS_BY_BRAND} options={{ headerShown: false }} component={FilteredProductsByBrandScreen} />
         <Stack.Screen options={{ headerShown: false }} name={NAVIGATION_ROUTES.PRODUCT_DETAILS} component={ProductDetailsScreen} />
         <Stack.Screen options={{ headerShown: false }} name={NAVIGATION_ROUTES.REVIEWS} component={ReviewsScreen} />
         <Stack.Screen options={{ headerShown: false }} name={NAVIGATION_ROUTES.ADD_REVIEW} component={AddReviewScreen} />
@@ -89,12 +94,15 @@ const AccountStack = () => (
         <Stack.Screen name={NAVIGATION_ROUTES.ORDERS} options={{ headerShown: false }} component={OrdersScreen} />
         <Stack.Screen name={NAVIGATION_ROUTES.ORDER_DETAILS} options={{ headerShown: false }} component={OrderDetailsScreen} />
         <Stack.Screen name={NAVIGATION_ROUTES.TRACK_ORDER} options={{ headerShown: false }} component={TrackOrderScreen} />
-        <Stack.Screen name={NAVIGATION_ROUTES.VAT_CERTIFICATE} options={{ headerShown: false }} component={OrdersScreen} />
-        <Stack.Screen name={NAVIGATION_ROUTES.CUSTOMER_SERVICE} options={{ headerShown: false }} component={OrdersScreen} />
-        <Stack.Screen name={NAVIGATION_ROUTES.ABOUT_US} options={{ headerShown: false }} component={OrdersScreen} />
+        <Stack.Screen name={NAVIGATION_ROUTES.CUSTOMER_SERVICE} options={{ headerShown: false }} component={CustomerServiceScreen} />
+        <Stack.Screen name={NAVIGATION_ROUTES.ABOUT_US} options={{ headerShown: false }} component={AboutUsScreen} />
+        <Stack.Screen name={NAVIGATION_ROUTES.LOYALTY_PROGRAM} options={{ headerShown: false }} component={LoyalityProgramScreen} />
         <Stack.Screen options={{ headerShown: false }} name={NAVIGATION_ROUTES.PRODUCT_DETAILS} component={ProductDetailsScreen} />
         <Stack.Screen options={{ headerShown: false }} name={NAVIGATION_ROUTES.REVIEWS} component={ReviewsScreen} />
         <Stack.Screen options={{ headerShown: false }} name={NAVIGATION_ROUTES.ADD_REVIEW} component={AddReviewScreen} />
+        <Stack.Screen options={{ headerShown: false }} name={NAVIGATION_ROUTES.VAT_CERTIFICATE} component={VATCertificateScreen} />
+
+
         {/* <Stack.Screen name={NAVIGATION_ROUTES.FILTERED_PRODUCTS} options={{ headerShown: false }} component={FilteredProductsScreen} /> */}
     </Stack.Navigator>
 )

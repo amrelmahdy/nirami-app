@@ -32,7 +32,7 @@ const NAVIGATION_ROUTES = {
   ORDERS: 'Orders',
   ORDER_DETAILS: 'OrderDetails',
   TRACK_ORDER: 'TrackOrder',
-  LOYALTY_SERVICE: 'LoyaltyService',
+  LOYALTY_PROGRAM: 'LoyaltyProgram',
   CUSTOMER_SERVICE: 'CustomerService',
   ABOUT_US: 'AboutUs',
   VAT_CERTIFICATE: 'VatCertificate',

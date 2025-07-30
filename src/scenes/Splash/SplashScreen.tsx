@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { View, Image, StyleSheet, Alert } from "react-native";
-import { Images } from './../../assets'
+import { View, Image, StyleSheet } from "react-native";
+import { Images } from './../../assets';
 import { getIconUrl } from "../../assets/icons";
 import navigationAdapter from "../../navigation/NavigationAdapter";
 import NAVIGATION_ROUTES from "../../navigation/NavigationRoutes";
@@ -12,62 +12,83 @@ type SplashScreenProps = {
 };
 
 const SplashScreen: React.FC<SplashScreenProps> = ({ onFinish }) => {
-
-    const [isVisible, setIsVisible] = useState(false);
-
-
-    const getAuthTokenData = async () => {
-        try {
-            const keys = ['access-token', 'refresh-token', 'expires-at'];
-            const result = await AsyncStorage.multiGet(keys);
-            return result;
-        } catch (e) {
-            console.error('Error fetching multiple items from AsyncStorage', e);
-            return null;
-        }
-    }
+    const [isVisible, setIsVisible] = useState(true);
 
     useEffect(() => {
-        // Fetch the access token from AsyncStorage             
-        (async () => {
+        let isAuthChecked = false;
+        let isTimerDone = false;
+        let navigated = false;
+
+        const getAuthTokenData = async () => {
+            try {
+                const keys = ['access-token', 'refresh-token', 'expires-at'];
+                const result = await AsyncStorage.multiGet(keys);
+                return result;
+            } catch (e) {
+                console.error('Error fetching multiple items from AsyncStorage', e);
+                return null;
+            }
+        };
+
+        const checkAuth = async () => {
             const authData = await getAuthTokenData();
-            setIsVisible(true);
             const accessToken = authData?.find(([key]) => key === 'access-token')?.[1];
+
             if (accessToken) {
                 const refreshToken = authData?.find(([key]) => key === 'refresh-token')?.[1];
                 const expiresAt = authData?.find(([key]) => key === 'expires-at')?.[1];
+
                 if (Number(expiresAt) / 1000 < Date.now() / 1000) {
-                    const res = await refreshAccessToken(refreshToken || "");
-                    const accessToken = res.accessToken;
-                    const expiresIn = res.expiresIn;
-                    const expiresAt = res.expiresAt;
-                    await AsyncStorage.multiSet([
-                        ['access-token', accessToken],
-                        ['expires-in', expiresIn],
-                        ['expires-at', expiresAt]
-                    ]);
+                    try {
+                        const res = await refreshAccessToken(refreshToken || "");
+                        const newAccessToken = res.accessToken;
+                        const expiresIn = res.expiresIn;
+                        const newExpiresAt = res.expiresAt;
+
+                        await AsyncStorage.multiSet([
+                            ['access-token', newAccessToken],
+                            ['expires-in', expiresIn],
+                            ['expires-at', newExpiresAt]
+                        ]);
+                    } catch (err) {
+                        console.error('Error refreshing token', err);
+                        // Clear tokens if refresh fails
+                        await AsyncStorage.multiRemove(['access-token', 'refresh-token', 'expires-in', 'expires-at']);
+                        navigate(NAVIGATION_ROUTES.CHOOSE_LANG);
+                        return;
+                    }
                 }
-                navigationAdapter.replace(NAVIGATION_ROUTES.BOTTOM_TAB_BAR);
+                navigate(NAVIGATION_ROUTES.BOTTOM_TAB_BAR);
             } else {
-                navigationAdapter.replace(NAVIGATION_ROUTES.CHOOSE_LANG);
+                navigate(NAVIGATION_ROUTES.CHOOSE_LANG);
             }
+        };
+
+        const navigate = (route: string) => {
+            if (!navigated && isAuthChecked && isTimerDone) {
+                navigated = true;
+                navigationAdapter.replace(route);
+                if (onFinish) onFinish();
+            }
+        };
+
+        // Start timer
+        setTimeout(() => {
+            isTimerDone = true;
+            // If auth already done, navigate
+            if (isAuthChecked && !navigated) {
+                navigated = true;
+                navigationAdapter.replace(NAVIGATION_ROUTES.CHOOSE_LANG);
+                if (onFinish) onFinish();
+            }
+        }, 2000);
+
+        // Start auth check
+        (async () => {
+            await checkAuth();
+            isAuthChecked = true;
         })();
 
-        const timer = setTimeout(() => {
-            setIsVisible(true);
-            if (onFinish) onFinish();
-        }, 1000); // Adjust the timeout as needed
-
-        // Call onFinish() after 1 more second
-        const finishTimer = setTimeout(() => {
-            navigationAdapter.replace(NAVIGATION_ROUTES.CHOOSE_LANG)
-            if (onFinish) onFinish();
-        }, 3000);
-
-        return () => {
-            clearTimeout(timer);
-            clearTimeout(finishTimer);
-        };
     }, [onFinish]);
 
     return (
@@ -82,10 +103,10 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: "center",
         alignItems: "center",
-        backgroundColor: "#000", // Change to match your theme
+        backgroundColor: "#000",
     },
     image: {
-        width: 100, // Adjust size as needed
+        width: 100,
         height: 100,
         resizeMode: "contain",
     },

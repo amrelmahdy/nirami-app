@@ -108,7 +108,7 @@ function ProductDetailsScreen({ route }: ProductDetailsScreenProps) {
                             ref={carouselRef}
                             width={width}
                             height={300}
-                            data={product.images}
+                            data={product?.images}
                             onProgressChange={progress}
                             renderItem={({ item, index }) => (
                                 <View

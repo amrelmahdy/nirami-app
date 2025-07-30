@@ -8,7 +8,9 @@ import NAVIGATION_ROUTES from "../../../navigation/NavigationRoutes";
 import navigationAdapter from "../../../navigation/NavigationAdapter";
 import i18next, { t } from "i18next";
 import { sendAnOTPForLoginOrRegister } from "../../../api/auth.api";
-import { isValidEmailOrSaudiPhone } from "../../../utils/helpers";
+import { getNormalizedPhone, isValidEmailOrSaudiPhone, isValidSaudiPhone } from "../../../utils/helpers";
+import { get } from "react-native/Libraries/TurboModule/TurboModuleRegistry";
+import NIText from "../../../components/NIText/NIText";
 // import { TextInput } from 'react-native-paper';
 // import { InputOutline, InputStandard } from 'react-native-input-outline';
 
@@ -22,6 +24,7 @@ function LoginOrRegister() {
     const [activeTab, setActiveTab] = React.useState('login');
     const [emailOrPhone, setEmailOrPhone] = React.useState('');
     const [inputError, setInputError] = React.useState<string | null>(null);
+    const [isLoading, setIsLoading] = React.useState<boolean>(false);
 
 
     const handleEmailOrPhoneChange = (text: string) => {
@@ -31,18 +34,22 @@ function LoginOrRegister() {
 
     const handleContinuePress = async () => {
         try {
-            if (!isValidEmailOrSaudiPhone(emailOrPhone)) {
-                setInputError('يرجى إدخال بريد إلكتروني صحيح أو رقم جوال سعودي صحيح');
+            if (!isValidSaudiPhone(emailOrPhone)) {
+                setInputError('يرجى إدخال رقم جوال صحيح');
                 return;
             }
+            setIsLoading(true);
             const res = await sendAnOTPForLoginOrRegister(emailOrPhone);
+            console.log("OTP sent response: ", res);
+            setIsLoading(false);
             if (!res.success) {
                 setInputError(res.error);
                 return;
             }
-            navigationAdapter.navigate(NAVIGATION_ROUTES.OTP, { emailOrPhone, type: activeTab !== 'register' ? 0 : 1 }); // Pass emailOrPhone to OTP screen
+            navigationAdapter.navigate(NAVIGATION_ROUTES.OTP, { emailOrPhone, type: activeTab !== 'register' ? 0 : 1, otpId: res?.id }); // Pass emailOrPhone to OTP screen
 
         } catch (error) {
+            setIsLoading(false);
             // Handle Axios or Fetch-style backend error format
             let message = 'حدث خطأ أثناء إرسال رمز التحقق';
 
@@ -86,25 +93,28 @@ function LoginOrRegister() {
                     </TouchableOpacity>
                 </View>
                 <View style={styles.fieldContainer}>
-                    <Text style={{ textAlign: 'right', fontFamily: 'Almarai-Regular', height: 20 }}>البريد الإلكتروني او رقم الجوال</Text>
+                    <Text style={{ textAlign: 'right', fontFamily: 'Almarai-Regular', height: 20 }}>رقم الجوال</Text>
                     <TextInput
                         style={styles.input}
                         onChangeText={handleEmailOrPhoneChange}
                         value={emailOrPhone}
-                        // placeholder=" البريد الإلكتروني او رقم الجوال"
+                        placeholder="رقم الجوال"
                         keyboardType="numeric"
                     />
                     {inputError && (
-                        <Text style={{ color: 'red', textAlign: 'right', marginBottom: 40, fontFamily: 'Almarai-Regular' }}>
+                        <NIText style={{ color: 'red', textAlign: 'right', marginBottom: 40, fontFamily: 'Almarai-Regular' }}>
                             {t(inputError)}
-                        </Text>
+                        </NIText>
                     )}
-                    <View style={styles.continueBtnContainer}>
-                        <TouchableOpacity style={{}} onPress={handleContinuePress}>
-                            <Text style={styles.continueBtn}>استمرار</Text>
-                        </TouchableOpacity>
-                    </View>
+
                 </View>
+
+                <TouchableOpacity onPress={handleContinuePress} disabled={isLoading} style={[
+                    styles.continueButton,
+                    isLoading && styles.continueButtonDisabled,
+                ]}>
+                    <NIText style={{}}>استمرار</NIText>
+                </TouchableOpacity>
             </View>
         </View>
     );
@@ -192,16 +202,24 @@ const styles = StyleSheet.create({
     continueBtnContainer: {
         alignItems: 'center'
     },
-    continueBtn: {
-        fontFamily: 'Almarai-Regular',
-        fontSize: 17,
+    continueButton: {
+        borderRadius: 20,
         borderWidth: 1,
         borderColor: 'rgb(190, 190, 190)',
-        borderRadius: 15,
-        textAlign: 'center',
         width: 130,
-        paddingVertical: 5,
-    }
+        paddingVertical: 10,
+        marginTop: 20,
+        alignItems: 'center',
+    },
+
+    continueButtonDisabled: {
+        backgroundColor: '#e0e0e0', // gray out background
+        borderColor: '#ccc',
+    },
+
+    continueBtnDisabledText: {
+        color: '#999',
+    },
     // text: {
     //     color: 'white',
     //     fontSize: 42,

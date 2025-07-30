@@ -18,6 +18,7 @@ import brandsData from './../../stubs/brands.json'
 import BrandCard from "../../components/BrandCard/BrandCard";
 import { useTranslation } from "react-i18next";
 import { useGetMostSaledProducts, useGetProducts } from "../../hooks/products.hooks";
+import { useGetBrands } from "../Brands/brands.hooks";
 
 
 
@@ -26,14 +27,15 @@ import { useGetMostSaledProducts, useGetProducts } from "../../hooks/products.ho
 function HomeScreen() {
 
     const { data: mostSaledProductsData, isError: isMostSaledProductsError, isLoading: isMostSaledLoading, refetch: refetchMostSaledProducts, isFetching: isRefetchingMostSaledProducts } = useGetMostSaledProducts();
-    const { data: newProductsData, isError: isNewProductsError, isLoading: isNewProductsLoading, refetch: refetchNeProducts, isFetching: isRefetchingNeProducts } = useGetProducts({ sortBy: 'new' });
+    const { data: newProductsData, isError: isNewProductsError, isLoading: isNewProductsLoading, refetch: refetchNewProducts, isFetching: isRefetchingNeProducts } = useGetProducts({ sortBy: 'new' });
+    const { data: brands, isError: isBrandsError, isLoading: isNBrandsLoading, refetch: refetchBrands, isFetching: isRefetchingBrands } = useGetBrands();
 
     const { t } = useTranslation();
 
     const [query, setQuery] = useState("");
     // const [activeSorting, setActiveSorting] = useState();
 
-    const carouselRef = useRef(null);
+    const carouselRef = useRef<ICarouselInstance>(null);
     const data = [...new Array(6).keys()];
     const width = Dimensions.get("window").width;
     const progress = useSharedValue<number>(0);
@@ -58,10 +60,10 @@ function HomeScreen() {
 
     const refetch = useCallback(async () => {
         await Promise.all([
-            refetchNeProducts(),
+            refetchNewProducts(),
             refetchMostSaledProducts(),
         ]);
-    }, [refetchNeProducts, refetchMostSaledProducts]);
+    }, [refetchNewProducts, refetchMostSaledProducts]);
 
 
     const onRefresh = useCallback(() => {
@@ -87,10 +89,10 @@ function HomeScreen() {
                     <Image source={getIconUrl(Images, 'logo_eng_ar')} /* style={styles.image} */ />
                 </View>
 
-                <View style={{ flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center', marginBottom: 20 }}>
+                <View style={{ flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center', marginBottom: 20, marginRight: 10 }}>
 
                     <TouchableOpacity style={{ marginHorizontal: 5 }} onPress={(() => NavigationAdapter.navigate(NAVIGATION_ROUTES.FAV_LIST))}>
-                        <Icon source={getIconUrl(Images, 'ic_mdi_light_heart')} size={24} />
+                        <Icon source={getIconUrl(Images, 'ic_mdi_light_heart')} size={30} />
                     </TouchableOpacity>
 
                     <TextInput
@@ -114,7 +116,7 @@ function HomeScreen() {
                             {
                                 fontFamily: FONT_FAMILIES.ALMARAI_LIGHT
                                 // height: 50,
-                                // margin: 12,
+                              
                                 // borderWidth: 1,
                                 // // fontSize: 17,
                                 // // padding: 10,
@@ -124,11 +126,11 @@ function HomeScreen() {
                                 // borderRadius: 5
                             }
                         }
-                        right={<TextInput.Icon color='#bebebe' icon={getIconUrl(Images, 'ic_mynaui_search')} />}
+                        right={<TextInput.Icon color='#bebebe' icon="magnify" />}
                     />
-                    <TouchableOpacity style={{ marginHorizontal: 5 }}>
+                    {/* <TouchableOpacity style={{ marginHorizontal: 5 }}>
                         <Icon source={getIconUrl(Images, 'ic_icon_notifications_outline')} size={24} />
-                    </TouchableOpacity>
+                    </TouchableOpacity> */}
                 </View>
 
                 {/* {
@@ -222,7 +224,7 @@ function HomeScreen() {
                         horizontal
                         showsHorizontalScrollIndicator={false}
                         keyExtractor={(item, index) => index.toString()} style={{ width: '100%' }}
-                        data={brandsData.brands}
+                        data={brands}
                         //contentContainerStyle={{ paddingHorizontal: 10, paddingBottom: 20 }}  // Add padding around the grid
 
                         renderItem={({ item, index }) => <BrandCard brand={item} />} />

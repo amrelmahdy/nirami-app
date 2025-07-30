@@ -1,20 +1,39 @@
 import { OrderStatus } from "../hooks/orders.hooks";
 
 export const toArabicDigits = (num: number | string): string => {
-    const arabicDigits: string[] = ['٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩'];
-    return num
-        .toString()
-        .replace(/\d/g, (d: string): string => arabicDigits[parseInt(d)]);
+  const arabicDigits: string[] = ['٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩'];
+  return num
+    .toString()
+    .replace(/\d/g, (d: string): string => arabicDigits[parseInt(d)]);
 };
 
 
-export const isValidEmailOrSaudiPhone = (input: string): boolean  => {
-    // Email regex (simple)
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    // Saudi phone: starts with 05, 5, or +9665, and 9 digits after
-    const saPhoneRegex = /^(?:\+9665|05|5)[0-9]{8}$/;
-    return emailRegex.test(input) || saPhoneRegex.test(input);
+export const isValidEmailOrSaudiPhone = (input: string): boolean => {
+  // Email regex (simple)
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  // Saudi phone: starts with 05, 5, or +9665, and 9 digits after
+  const saPhoneRegex = /^(?:\+9665|05|5)[0-9]{8}$/;
+  return emailRegex.test(input) || saPhoneRegex.test(input);
 }
+
+
+export const getNormalizedPhone = (input: string): string => {
+  // Remove common international prefixes
+  return input
+    .replace(/^(\+966|00966|0966|966)/, '')
+    .trim();
+}
+
+
+export const isValidSaudiPhone = (input: string): boolean => {
+  // Remove common international prefixes
+  const normalized = getNormalizedPhone(input);
+
+  // Valid local format: starts with 5 and has exactly 9 digits
+  const saPhoneRegex = /^5[0-9]{8}$/;
+
+  return saPhoneRegex.test(normalized);
+};
 
 
 // ---------- New (grouped) statuses ----------

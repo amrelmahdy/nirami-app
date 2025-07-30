@@ -6,13 +6,10 @@ import { Images } from "../../assets";
 import { Icon } from "react-native-paper";
 import navigationAdapter from "../../navigation/NavigationAdapter";
 import NAVIGATION_ROUTES from "../../navigation/NavigationRoutes";
+import { Brand } from "../../hooks/brands.hooks";
 
 
-type Brand = {
-    id: string,
-    name: string,
-    image: string,
-}
+
 
 
 type FilterByBarProps = {

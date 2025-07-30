@@ -2,6 +2,28 @@ export default {
     translation: {
         welcome: "مرحباااااا",
 
+
+        home: "الرئيسية",
+        profile: "الملف الشخصي",
+        cart: "السلة",
+        orders: "الطلبات",
+        settings: "الإعدادات",
+        about: "عن التطبيق",
+        contact_us: "اتصل بنا",
+        VAT_certificate: "شهادة ضريبة القيمة المضافة",
+        privacy_policy: "سياسة الخصوصية",
+        terms_of_service: "شروط الخدمة",
+        faq: "الأسئلة الشائعة",
+        logout: "تسجيل الخروج",
+        search: "بحث",
+        no_results_found: "لا توجد نتائج",
+        loading: "جار التحميل...",
+        error: "حدث خطأ ما",
+        success: "تم بنجاح",
+        add_to_cart: "أضف إلى السلة",
+        view_cart: "عرض السلة",   
+
+
         sar: 'س.ر',
         lang_ar: 'العربية',
         lang_en: 'English',

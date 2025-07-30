@@ -17,6 +17,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 type OtpScreenRouteProp = {
     params?: {
         emailOrPhone?: string;
+        otpId?: string;
         type?: number; // 0 for login, 1 for register
     };
 };
@@ -24,14 +25,15 @@ type OtpScreenRouteProp = {
 function OtpScreen({ route }: { route: OtpScreenRouteProp }) {
 
     const emailOrPhone = route.params?.emailOrPhone ?? '';
+    const otpId = route.params?.otpId ?? '';
+
     const type = route.params?.type;
 
     const [inputError, setInputError] = React.useState<string | null>(null);
 
-
     const handleonFilled = async (text: string) => {
         try {
-            const res = await login(emailOrPhone, text)
+            const res = await login(otpId, text)
             if (res && res.accessToken) {
                 const accessToken = res.accessToken;
                 const refreshToken = res.refreshToken;
@@ -73,7 +75,7 @@ function OtpScreen({ route }: { route: OtpScreenRouteProp }) {
 
 
             <OtpInput
-                numberOfDigits={6}
+                numberOfDigits={4}
                 focusColor="#452347"
                 autoFocus={false}
                 hideStick={true}

@@ -9,10 +9,11 @@ export type Brand = {
         en: string;
         ar: string;
     };
-    image: string;
-    createdAt: string;
-    updatedAt: string;
-    id: string;
+    image?: string;
+    createdAt?: string;
+    updatedAt?: string;
+    id?: string;
+    _id?: string;
 };
 
 export interface GroupFilters {
