@@ -1,8 +1,9 @@
 import React from "react";
-import { Text, TextStyle } from "react-native";
+import { Text, TextStyle, TextProps } from "react-native";
 import { FONT_FAMILIES } from "../../assets";
+import { t } from "i18next";
 
-interface NITextProps {
+interface NITextProps extends TextProps {
     children: any;
     type?: "bold" | "extraBold" | "light" | "regular";
     style?: TextStyle;
@@ -22,7 +23,10 @@ const NIText: React.FC<NITextProps> = ({ children, type = fontMap.regular, style
     const fontFamily = fontMap[type] || FONT_FAMILIES.ALMARAI_REGULAR;
 
     return (
-        <Text style={[{ fontFamily, color: "#000", textAlign: "right", lineHeight: 20 }, style]} {...props}>
+        <Text
+            style={[{ fontFamily, color: "#000", textAlign: "right", lineHeight: 20 }, style]}
+            {...props}
+        >
             {children}
         </Text>
     );

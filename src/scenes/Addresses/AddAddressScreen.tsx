@@ -412,7 +412,7 @@ const AddAddressScreen: React.FC = ({ route }) => {
             {
                 !addressToEdit && currentUserIsLoading || address.location?.lat == 0 || address.location?.lng == 0 ?
                     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', height: 100 }}>
-                        <ActivityIndicator size="large" color="#0000ff" />
+                        <ActivityIndicator size="large" color="#3f2848" />
                     </View>
                     :
                     <>

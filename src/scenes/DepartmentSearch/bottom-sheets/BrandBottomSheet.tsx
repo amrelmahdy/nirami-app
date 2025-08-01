@@ -22,9 +22,6 @@ type BrandBottomSheetProps = {
 const BrandBottomSheet: React.FC<BrandBottomSheetProps> = ({ activeBrands, brands, setActiveBrands, brandBottomSheetRef }) => {
 
 
-    
-
-
     const [filteredBrands, setFilteredBrands] = useState<string[]>([]);
 
     // Sync filteredBrands with activeBrands each time the sheet is opened

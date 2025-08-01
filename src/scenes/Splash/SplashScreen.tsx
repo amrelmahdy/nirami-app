@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { View, Image, StyleSheet } from "react-native";
-import { Images } from './../../assets';
+import { View, Image, StyleSheet, Alert } from "react-native";
+import { Images } from './../../assets'
 import { getIconUrl } from "../../assets/icons";
 import navigationAdapter from "../../navigation/NavigationAdapter";
 import NAVIGATION_ROUTES from "../../navigation/NavigationRoutes";
@@ -12,83 +12,57 @@ type SplashScreenProps = {
 };
 
 const SplashScreen: React.FC<SplashScreenProps> = ({ onFinish }) => {
-    const [isVisible, setIsVisible] = useState(true);
+
+    const [isVisible, setIsVisible] = useState(false);
+
+
+    const getAuthTokenData = async () => {
+        try {
+            const keys = ['access-token', 'refresh-token', 'expires-at'];
+            const result = await AsyncStorage.multiGet(keys);
+            return result;
+        } catch (e) {
+            console.error('Error fetching multiple items from AsyncStorage', e);
+            return null;
+        }
+    }
 
     useEffect(() => {
-        let isAuthChecked = false;
-        let isTimerDone = false;
-        let navigated = false;
+        const finishTimer = setTimeout(() => {
+            (async () => {
+                setIsVisible(true); // Only set once
 
-        const getAuthTokenData = async () => {
-            try {
-                const keys = ['access-token', 'refresh-token', 'expires-at'];
-                const result = await AsyncStorage.multiGet(keys);
-                return result;
-            } catch (e) {
-                console.error('Error fetching multiple items from AsyncStorage', e);
-                return null;
-            }
-        };
+                const authData = await getAuthTokenData();
+                const accessToken = authData?.find(([key]) => key === 'access-token')?.[1];
 
-        const checkAuth = async () => {
-            const authData = await getAuthTokenData();
-            const accessToken = authData?.find(([key]) => key === 'access-token')?.[1];
+                if (accessToken) {
+                    const refreshToken = authData?.find(([key]) => key === 'refresh-token')?.[1];
+                    const expiresAt = authData?.find(([key]) => key === 'expires-at')?.[1];
 
-            if (accessToken) {
-                const refreshToken = authData?.find(([key]) => key === 'refresh-token')?.[1];
-                const expiresAt = authData?.find(([key]) => key === 'expires-at')?.[1];
-
-                if (Number(expiresAt) / 1000 < Date.now() / 1000) {
                     try {
-                        const res = await refreshAccessToken(refreshToken || "");
-                        const newAccessToken = res.accessToken;
-                        const expiresIn = res.expiresIn;
-                        const newExpiresAt = res.expiresAt;
+                        if (Number(expiresAt) < Date.now()) {
+                            const res = await refreshAccessToken(refreshToken || "");
+                            await AsyncStorage.multiSet([
+                                ['access-token', res.accessToken],
+                                ['expires-in', res.expiresIn],
+                                ['expires-at', res.expiresAt]
+                            ]);
+                        }
 
-                        await AsyncStorage.multiSet([
-                            ['access-token', newAccessToken],
-                            ['expires-in', expiresIn],
-                            ['expires-at', newExpiresAt]
-                        ]);
+                        navigationAdapter.replace(NAVIGATION_ROUTES.BOTTOM_TAB_BAR);
                     } catch (err) {
-                        console.error('Error refreshing token', err);
-                        // Clear tokens if refresh fails
-                        await AsyncStorage.multiRemove(['access-token', 'refresh-token', 'expires-in', 'expires-at']);
-                        navigate(NAVIGATION_ROUTES.CHOOSE_LANG);
-                        return;
+                        console.error("Token refresh failed", err);
+                        navigationAdapter.replace(NAVIGATION_ROUTES.CHOOSE_LANG);
                     }
+                } else {
+                    navigationAdapter.replace(NAVIGATION_ROUTES.CHOOSE_LANG);
                 }
-                navigate(NAVIGATION_ROUTES.BOTTOM_TAB_BAR);
-            } else {
-                navigate(NAVIGATION_ROUTES.CHOOSE_LANG);
-            }
-        };
 
-        const navigate = (route: string) => {
-            if (!navigated && isAuthChecked && isTimerDone) {
-                navigated = true;
-                navigationAdapter.replace(route);
                 if (onFinish) onFinish();
-            }
-        };
+            })();
+        }, 3000);
 
-        // Start timer
-        setTimeout(() => {
-            isTimerDone = true;
-            // If auth already done, navigate
-            if (isAuthChecked && !navigated) {
-                navigated = true;
-                navigationAdapter.replace(NAVIGATION_ROUTES.CHOOSE_LANG);
-                if (onFinish) onFinish();
-            }
-        }, 2000);
-
-        // Start auth check
-        (async () => {
-            await checkAuth();
-            isAuthChecked = true;
-        })();
-
+        return () => clearTimeout(finishTimer);
     }, [onFinish]);
 
     return (
@@ -103,13 +77,14 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: "center",
         alignItems: "center",
-        backgroundColor: "#000",
+        backgroundColor: "#000", // Change to match your theme
     },
     image: {
-        width: 100,
+        width: 100, // Adjust size as needed
         height: 100,
         resizeMode: "contain",
     },
 });
 
 export default SplashScreen;
+

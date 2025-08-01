@@ -125,9 +125,19 @@ const ProductCard = ({ product, onPress }: ProductCardProps) => {
             {/* Product Info */}
             <View style={{ marginTop: 10, paddingHorizontal: 10 }}>
                 <NIText style={{ fontSize: 12, color: "#000", textAlign: 'left', fontWeight: 'bold' }}>{product?.brand?.name?.ar}</NIText>
-                <NIText style={{ fontSize: 16, marginVertical: 4, textAlign: 'left', color: '#a2a2a3', marginBottom: 10 }}>{
-                    product?.name[i18next.language as 'ar' | 'en']
-                }</NIText>
+                <NIText
+                    style={{
+                        fontSize: 16,
+                        marginVertical: 4,
+                        textAlign: 'left',
+                        color: '#a2a2a3',
+                        marginBottom: 10
+                    }}
+                    numberOfLines={1}
+                    ellipsizeMode="tail"
+                >
+                    {product?.name[i18next.language as 'ar' | 'en']}
+                </NIText>
                 <View style={{}}>
                     <Rating
                         type='custom'

@@ -13,11 +13,20 @@ import { useGetOrdres } from "../../hooks/orders.hooks";
 
 function OrdersScreen() {
     const { data: orders, isLoading: ordersIsLoading, isError: ordersIstError, refetch } = useGetOrdres();
+
+
+
+    if (ordersIsLoading) {
+        return <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+            <ActivityIndicator size="large" color="#3f2848" />
+        </View>
+    }
+
     return (
         // <SafeAreaView style={{ flex: 1 }}>
         <NiScreen title="الطلبات" style={{ flex: 1 }}>
             <View style={{ flex: 1, justifyContent: 'center' }}>
-                {ordersIsLoading && <ActivityIndicator />}
+
                 {
                     orders && !ordersIsLoading && !ordersIstError && orders?.length
                         ? <>
@@ -84,16 +93,10 @@ function OrdersScreen() {
                                     <Divider style={{ marginVertical: 10 }} />
                                 </View>} />
 
-                        </> : <View>
+                        </> : <View style={{ flex: 1, justifyContent: 'center', paddingHorizontal: 15 }}>
                             <Image source={getIconUrl(Images, 'ic_fam_icons_bag_outline')} style={{ alignSelf: 'center' }} />
                             <NIText type='light' style={{ height: 40, fontSize: 22, textAlign: 'center', marginVertical: 20 }}>لم تقم بالطلب بعد </NIText>
                             <NIButton type='primary' onPress={() => NavigationAdapter.goBack()}>العودة للتسوق</NIButton>
-                            {/* <TouchableOpacity onPress={() => NavigationAdapter.goBack()} style={{ alignItems: 'center', marginTop: 20 }}>
-                                       
-                                       
-                                       
-                                        <NIButton type='light' style={{ fontSize: 16, textAlign: 'center', marginTop: 10, color: '#007bff' }}>العودة للتسوق</NIText>                  
-                                    </TouchableOpacity> */}
                         </View>
                 }
             </View>

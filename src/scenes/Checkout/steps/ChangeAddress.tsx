@@ -133,9 +133,16 @@ function ChangeAddress({ onNext }: ChangeAddressProps) {
                     navigationAdapter.navigate(NAVIGATION_ROUTES.ADDRESSES)
                 }}>إضافة عنوان جديد</NIButton>
 
-                <NIButton type='secondary' onPress={() => {
-                    onNext?.();
-                }}>المراجعة والدفع</NIButton>
+                <NIButton
+                    disabled={!defaultAddress}
+                    type='secondary'
+                    style={{
+                        opacity: !defaultAddress ? 0.5 : 1
+                    }}
+                    onPress={() => {
+                        onNext?.();
+                    }}
+                >المراجعة والدفع</NIButton>
             </View>
         </View>
     );

@@ -32,12 +32,15 @@ import NIText from '../../components/NIText/NIText';
 
 
 const FilteredProductsScreen = ({ route }) => {
-
-
-
-
-    const selectedCategory = route.params.category;
-
+    // Defensive: check route and category
+    const selectedCategory = route?.params?.category;
+    if (!selectedCategory || !selectedCategory.id || !selectedCategory.department) {
+        return (
+            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                <NIText>لا يوجد قسم محدد</NIText>
+            </View>
+        );
+    }
 
     const [activeCategory, setActiveCategory] = useState(selectedCategory.id);
     const [activeGroup, setActiveGroup] = useState("1");
@@ -53,7 +56,14 @@ const FilteredProductsScreen = ({ route }) => {
 
     const { data: groupsList, isError: isGroupsError, isLoading: isGroupsLoading, refetch: refetchGroups } = useGetGroups({ categoryId: activeCategory });
 
-    const { data: productsData, isError: isProductsError, isLoading: isProductsLoading, refetch: refetchProducts } = useGetProducts({ groupId: activeGroup, categoryId: activeCategory, brandId: activeBrands, sortBy: activeSorting, priceFrom: activePriceFrom !== 0 ? `${activePriceFrom}` : undefined, priceTo: activePriceTo !== 500 ? `${activePriceTo}` : undefined });
+    const { data: productsData, isError: isProductsError, isLoading: isProductsLoading, refetch: refetchProducts } = useGetProducts({
+        groupId: activeGroup,
+        categoryId: activeCategory,
+        brandId: activeBrands,
+        sortBy: activeSorting,
+        priceFrom: activePriceFrom !== 0 ? `${activePriceFrom}` : undefined,
+        priceTo: activePriceTo !== 500 ? `${activePriceTo}` : undefined
+    });
 
     const { data: brandsList, isError: isBrandsError, isLoading: isBrandsLoading, refetch: refetchBrands } = useGetBrands();
 
@@ -106,9 +116,6 @@ const FilteredProductsScreen = ({ route }) => {
 
 
 
-    console.tron("activeCategory", activeCategory)
-    console.tron("activeGroup", activeGroup)
-
 
     return (
         <View style={{ flex: 1, backgroundColor: '#FFF' }}>
@@ -142,18 +149,19 @@ const FilteredProductsScreen = ({ route }) => {
                 <FlatList
                     refreshing={isProductsLoading}
                     onRefresh={refetchProducts}
-                    numColumns={2}  // Set two columns per row
-                    keyExtractor={(item, index) => index.toString()} style={{ width: '100%' }}
-                    data={productsData?.products}
-                    contentContainerStyle={{}}  // Add padding around the grid
+                    numColumns={2}
+                    keyExtractor={(item, index) => index.toString()}
+                    style={{ width: '100%' }}
+                    data={Array.isArray(productsData?.products) ? productsData.products : []}
+                    contentContainerStyle={{}}
                     showsVerticalScrollIndicator={false}
-                    ListEmptyComponent={() => <>
+                    ListEmptyComponent={() => (
                         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', padding: 20 }}>
                             <NIText>لا يوجد منتجات</NIText>
                         </View>
-                    </>}
-                    renderItem={({ item, index }) => <ProductCard product={item} />} />
-
+                    )}
+                    renderItem={({ item, index }) => item ? <ProductCard product={item} /> : null}
+                />
             </View>
 
 

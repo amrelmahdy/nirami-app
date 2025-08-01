@@ -40,6 +40,9 @@ const NAVIGATION_ROUTES = {
   ADD_ADDRESS: 'AddAddress',
   REVIEWS: 'Reviews',
   ADD_REVIEW: 'AddReview',
+  TICKETS: 'Tickets',
+  TICKET_DETAILS: 'TicketDetails',
+  ADD_TICKET: 'AddTicket',
 
 };
 

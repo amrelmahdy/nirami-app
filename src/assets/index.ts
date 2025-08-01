@@ -36,6 +36,11 @@ export const Images: IconMap = {
   ic_lucide_book: Image.resolveAssetSource(require('./icons/lucide_book.png')),
   ic_angle_left: Image.resolveAssetSource(require('./icons/angle_left.png')),
 
+  famicons_logo_whatsapp: Image.resolveAssetSource(require('./icons/famicons_logo-whatsapp.png')),
+  formkit_email: Image.resolveAssetSource(require('./icons/formkit_email.png')),
+  iconoir_phone: Image.resolveAssetSource(require('./icons/iconoir_phone.png')),
+
+
 
 
   ic_cart: Image.resolveAssetSource(require('./icons/cart.png')),

@@ -9,16 +9,6 @@ import { addAddress, getAddresses, updateAddress } from "../api/addresses.api";
 
 
 
-// {
-//    "name": "Amr",
-//    "phone": "988776r5455",
-//    "deliveryAddress": "dkjdk",
-//    "location": {
-//      "lng": "1632",
-//      "lat": "363636",
-//      "displayName": "ejhhei"
-//    }
-// }
 export type Address = {
     id?: string;
     _id?: string;

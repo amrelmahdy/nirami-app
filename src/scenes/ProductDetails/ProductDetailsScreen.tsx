@@ -75,7 +75,7 @@ function ProductDetailsScreen({ route }: ProductDetailsScreenProps) {
 
     if (isProductLoading) {
         return <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-            <ActivityIndicator size="large" color="#0000ff" />
+            <ActivityIndicator size="large" color="#3f2848" />
         </View>
     }
 
@@ -91,9 +91,9 @@ function ProductDetailsScreen({ route }: ProductDetailsScreenProps) {
                             <TouchableOpacity>
                                 <Icon source={getIconUrl(Images, 'ic_mdi_light_heart')} size={30} />
                             </TouchableOpacity>
-                            <TouchableOpacity style={{ marginLeft: 10 }}>
+                            {/* <TouchableOpacity style={{ marginLeft: 10 }}>
                                 <Icon source={getIconUrl(Images, 'ic_lsicon_share_outline')} size={30} />
-                            </TouchableOpacity>
+                            </TouchableOpacity> */}
                         </View>
 
                         <View>
@@ -227,7 +227,7 @@ function ProductDetailsScreen({ route }: ProductDetailsScreenProps) {
                             style={{ flexDirection: 'row', direction: 'rtl', justifyContent: 'space-between', alignItems: 'center', marginVertical: 20 }}>
                             <View style={{ flexDirection: 'row', direction: 'rtl', alignItems: 'center' }}>
                                 <NIText>التقييمات</NIText>
-                                <NIText style={{ marginHorizontal: 5 }}>({product.reviews.length})</NIText>
+                                <Text style={{ marginHorizontal: 5 }}>({product?.reviews?.length})</Text>
                                 <Rating
                                     type='custom'
                                     imageSize={18}
@@ -285,28 +285,7 @@ function ProductDetailsScreen({ route }: ProductDetailsScreenProps) {
 
 
 
-                    {/* 
-                <View style={{ flex: 1, paddingHorizontal: 15, marginBottom: 50 }}>
-                    <Text style={{ fontFamily: 'Almarai-Bold', textAlign: 'right', fontSize: 20, marginBottom: 20 }}>الاكثر مبيعاً</Text>
-                    <FlatList
-                        numColumns={2}  // Set two columns per row
-                        keyExtractor={(item, index) => index.toString()} style={{ width: '100%' }}
-                        data={products}
-                        //contentContainerStyle={{ paddingHorizontal: 10, paddingBottom: 20 }}  // Add padding around the grid
 
-                        renderItem={({ item, index }) => <ProductCard product={item} />} />
-                </View>
-
-                <View style={{ flex: 1, paddingHorizontal: 15 }}>
-                    <Text style={{ fontFamily: 'Almarai-Bold', textAlign: 'right', fontSize: 20, marginBottom: 20 }}>وصل حديثاً</Text>
-                    <FlatList
-                        numColumns={2}  // Set two columns per row
-                        keyExtractor={(item, index) => index.toString()} style={{ width: '100%' }}
-                        data={products}
-                        //contentContainerStyle={{ paddingHorizontal: 10, paddingBottom: 20 }}  // Add padding around the grid
-
-                        renderItem={({ item, index }) => <ProductCard product={item} />} />
-                </View> */}
                 </SafeAreaView>
             </ScrollView>
 

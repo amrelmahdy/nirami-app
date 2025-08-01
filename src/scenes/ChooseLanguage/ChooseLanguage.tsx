@@ -31,6 +31,8 @@ const ChooseLanguage: React.FC<ChooseLanguagenProps> = ({ onFinish }) => {
                     justifyContent: 'space-around',
                     borderWidth: 1,
                     borderColor: '#bebebe',
+                    height: 40,
+                    alignItems: 'center',
 
                 }}>
                     <TouchableOpacity onPress={() => {

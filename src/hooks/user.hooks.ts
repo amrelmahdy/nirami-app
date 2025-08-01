@@ -20,7 +20,7 @@ export type User = {
     email?: string;
     gender: string;
     dateOfBirth?: string | Date;
-    favList: Product[]
+    favList?: Product[],
     
 };
 
