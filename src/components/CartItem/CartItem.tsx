@@ -8,28 +8,71 @@ import navigationAdapter from "../../navigation/NavigationAdapter";
 import NAVIGATION_ROUTES from "../../navigation/NavigationRoutes";
 import NIText from "../NIText/NIText";
 import i18next from "i18next";
-import { useAddProductToCart, useRemoveProductFromCart } from "../../hooks/cart.hooks";
+import { Cart, useAddProductToCart, useRemoveProductFromCart } from "../../hooks/cart.hooks";
 import { useRoute } from "@react-navigation/native";
+import { Product } from "../../hooks/products.hooks";
 
 
 type CartItem = {
     id: string,
     name: string,
     image: string,
+    product: Product 
 }
 
 
 type CartItemProps = {
-    item: CartItem
+    item: CartItem;
+    setIsLoading?: (isLoading: boolean) => void;
 }
 
-const CartItem: React.FC<CartItemProps> = ({ item }) => {
+const CartItem: React.FC<CartItemProps> = ({ item, setIsLoading }) => {
     const route = useRoute();
 
-    console.log(`CartItem:`,  route);
+    console.log(`CartItem:`, route);
 
     const addToCart = useAddProductToCart();
     const removeFromCart = useRemoveProductFromCart();
+
+
+    const handleAddToCart = async (item: CartItem) => {
+        setIsLoading?.(true);
+        try {
+            await addToCart.mutateAsync(item?.product?.id, {
+                onSuccess: (res) => {
+                    console.log('cart : produt added successfully :', res);
+                },
+                onError: (error) => {
+                    console.log('cart : Error adding product to cart:', error);
+                }
+            });
+        } catch (error) {
+            console.log('cart : Error adding product to cart:', error);
+        } finally {
+            setIsLoading?.(false);
+        }
+    }
+
+    const handleRemoveFromCart = async (item: CartItem, removeCompletely = false) => {
+        setIsLoading?.(true);
+        try {
+            await removeFromCart.mutateAsync({
+                productId: item?.product?.id,
+                removeCompletely
+            }, {
+                onSuccess: () => {
+                    console.log('Product removed from cart successfully');
+                },
+                onError: (error) => {
+                    console.error('Error removing product from cart:', error);
+                }
+            });
+        } catch (error) {
+            console.error('Error removing product from cart:', error);
+        } finally {
+            setIsLoading?.(false);
+        }
+    }
 
 
     return (
@@ -91,56 +134,23 @@ const CartItem: React.FC<CartItemProps> = ({ item }) => {
 
 
 
-                   { route.name === NAVIGATION_ROUTES.CART && <View style={{ justifyContent: 'space-between', flexDirection: 'row-reverse', marginTop: 10, alignItems: 'center' }}>
+                    {route.name === NAVIGATION_ROUTES.CART && <View style={{ justifyContent: 'space-between', flexDirection: 'row-reverse', marginTop: 10, alignItems: 'center' }}>
                         <View style={{ flexDirection: 'row-reverse', alignItems: 'center' }}>
                             <TouchableOpacity
-                                onPress={() => addToCart.mutate(item?.product?.id, {
-                                    onSuccess: () => {
-                                        // Optionally, you can show a success message or update the UI
-                                        console.log('Product added to cart successfully');
-                                    },
-                                    onError: (error) => {
-                                        // Handle error case
-                                        console.error('Error adding product to cart:', error);
-                                    }
-                                })}
+                                onPress={() => handleAddToCart(item)}
                                 style={{ backgroundColor: '#f3f3f3', height: 25, width: 25, padding: 15, justifyContent: 'center', alignItems: 'center', borderRadius: 5 }}>
                                 <Icon source={getIconUrl(Images, 'ic_plus')} size={16} />
                             </TouchableOpacity>
                             <Text style={{ fontSize: 15, verticalAlign: 'middle', marginHorizontal: 10 }}>{item?.quantity}</Text>
                             <TouchableOpacity
-                                onPress={() => removeFromCart.mutate({
-                                    productId: item?.product?.id,
-                                }, {
-                                    onSuccess: () => {
-                                        // Optionally, you can show a success message or update the UI
-                                        console.log('Product added to cart successfully');
-                                    },
-                                    onError: (error) => {
-                                        // Handle error case
-                                        console.error('Error adding product to cart:', error);
-                                    }
-                                })}
+                                onPress={() => handleRemoveFromCart(item)}
                                 style={{ backgroundColor: '#f3f3f3', height: 25, width: 25, padding: 15, justifyContent: 'center', alignItems: 'center', borderRadius: 5 }}>
                                 <Icon source={getIconUrl(Images, 'ic_minus')} size={16} />
                             </TouchableOpacity>
-
                         </View>
                         <View style={{}}>
                             <TouchableOpacity
-                                onPress={() => removeFromCart.mutate({
-                                    productId: item?.product?.id,
-                                    removeCompletely: true
-                                }, {
-                                    onSuccess: () => {
-                                        // Optionally, you can show a success message or update the UI
-                                        console.log('Product added to cart successfully');
-                                    },
-                                    onError: (error) => {
-                                        // Handle error case
-                                        console.error('Error adding product to cart:', error);
-                                    }
-                                })}
+                                onPress={() => handleRemoveFromCart(item, true)}
                             >
                                 <Icon source={getIconUrl(Images, 'ic_circle_close')} size={25} />
                             </TouchableOpacity>

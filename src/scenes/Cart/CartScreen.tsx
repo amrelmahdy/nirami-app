@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Button, Dimensions, FlatList, Image, StyleSheet, TouchableOpacity, View } from "react-native";
 import { ScrollView, Text } from "react-native-gesture-handler";
 import NavigationAdapter from '../../navigation/NavigationAdapter'
@@ -11,7 +11,7 @@ import Carousel, {
     Pagination,
 } from "react-native-reanimated-carousel";
 import { useSharedValue } from "react-native-reanimated";
-import { TextInput, Icon } from "react-native-paper";
+import { TextInput, Icon, ActivityIndicator } from "react-native-paper";
 import ProductCard from "../../components/ProductCard/ProductCard";
 import PageHeader from "../../components/PageHeader/PageHeader";
 import NiScreen from "../../components/NIScreen/NiScreen";
@@ -24,8 +24,22 @@ import navigationAdapter from "../../navigation/NavigationAdapter";
 
 
 
+
+
+
 function CartScreen() {
+    const [isLoading, setIsLoading] = useState<boolean>(false);
+
     const { data: cartData, isLoading: cartDataIsLoading, isError: cartDataIstError, refetch } = useGetCart();
+
+
+
+
+    if (cartDataIsLoading || isLoading) {
+        return <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+            <ActivityIndicator size="large" color="#3f2848" />
+        </View>
+    }
 
     return (
         // <SafeAreaView style={{ flex: 1 }}>
@@ -38,15 +52,15 @@ function CartScreen() {
                         cartData.items
                         ? <>
                             <FlatList
-                        
+
                                 showsVerticalScrollIndicator={false}
                                 showsHorizontalScrollIndicator={false}
-                                           
+
                                 ListEmptyComponent={() => <View>
                                     <Image source={getIconUrl(Images, 'ic_fam_icons_bag_outline')} style={{ alignSelf: 'center' }} />
                                     <NIText type='light' style={{ height: 40, fontSize: 22, textAlign: 'center', marginVertical: 20 }}>لا توجد منتجات في عربة التسوق</NIText>
                                     <NIButton type='primary' onPress={() => NavigationAdapter.goBack()}>العودة للتسوق</NIButton>
-                                    
+
                                 </View>}
 
                                 refreshing={cartDataIsLoading}
@@ -54,7 +68,8 @@ function CartScreen() {
                                 keyExtractor={(item, index) => index.toString()} style={{ width: '100%' }}
                                 data={cartData.items}
                                 contentContainerStyle={{ paddingTop: 20 }}
-                                renderItem={({ item, index }) => <CartItem item={item} />} />
+                                renderItem={({ item, index }) => <CartItem setIsLoading={setIsLoading} item={item} />} />
+                           
                             {cartData &&
                                 !cartDataIsLoading &&
                                 !cartDataIstError &&
