@@ -2,8 +2,7 @@ import { createMaterialTopTabNavigator } from '@react-navigation/material-top-ta
 import React from 'react';
 import {
     StyleSheet,
-    View,
-    ActivityIndicator
+    View
 } from 'react-native';
 import { FONT_FAMILIES } from '../../assets';
 import HomeScreen from '../Home/HomeScreen';
@@ -13,6 +12,7 @@ import Makeup from './tabs/Makeup';
 import SkinCare from './tabs/SkinCare';
 import { useGetDepartments } from '../../hooks/departments.hooks';
 import DepTab from './tabs/DepTab';
+import { ActivityIndicator } from 'react-native-paper';
 
 
 
@@ -40,7 +40,11 @@ const DepartmentSearchScreen = () => {
         <View style={{ flex: 1, backgroundColor: '#FFF' }}>
 
             <PageHeader headerLabel="الاقسام" withBorder={false} />
-            {departmentsIsLoading && <ActivityIndicator />}
+
+
+            {departmentsIsLoading && <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                <ActivityIndicator size="large" color="#3f2848" />
+            </View>}
             {/* <View style={{ paddingHorizontal: 15, marginVertical: 20, backgroundColor: '#FFF' }}>
                 <SearchInput />
             </View> */}
