@@ -9,19 +9,7 @@ import {
     TouchableOpacity,
     View
 } from 'react-native';
-import { FONT_FAMILIES, Images } from '../../assets';
-import HomeScreen from '../Home/HomeScreen';
-import PageHeader from '../../components/PageHeader/PageHeader';
-import SearchInput from '../../components/SearchInput/SearchInput';
 
-import FilterBar from '../../components/FilterBar/FilterBar';
-import FilterGroupBar from '../../components/FilterGroupBar/FilterGroupBar';
-import ProductCard from '../../components/ProductCard/ProductCard';
-import FilterByBar from '../../components/FilterByBar/FilterByBar';
-import BottomSheet from '../../components/BottomSheet/BottomSheet';
-import { BottomSheetModal } from '@gorhom/bottom-sheet';
-import { RadioButton } from 'react-native-paper';
-import BannerImage from '../../components/BannerImage/BannerImage';
 import { useGetProducts } from '../../hooks/products.hooks';
 import i18next, { t } from 'i18next';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -30,8 +18,10 @@ import NIScreen from '../../components/NIScreen/NiScreen';
 import NIText from '../../components/NIText/NIText';
 import DatePicker from 'react-native-date-picker';
 import { useGetCurrentUser } from '../../hooks/user.hooks';
-import NIButton from '../../components/NIButton/NIButton';
-import { updateUser } from '../../api/auth.api';
+import Accordion from 'react-native-collapsible/Accordion';
+import { Icon } from 'react-native-paper';
+import { FONT_FAMILIES, Images } from '../../assets';
+import NIAucordion from '../../components/NIAucordion/NIAucordion';
 
 
 
@@ -44,9 +34,29 @@ type ProfileScreenProps = {
     }
 };
 
+
+
+
 const AboutUsScreen = ({ route }: ProfileScreenProps) => {
 
     const [date, setDate] = useState(new Date());
+
+
+    const SECTIONS = [
+        {
+            key: "about_nirami",
+            title: t("about_nirami"),
+            content: t("about_us_description"),
+        },
+        {
+            key: "nirami_story",
+            title: t("nirami_story"),
+            content: t("nirami_story_description"),
+        },
+    ]
+
+
+    const [activeSections, setActiveSections] = useState([]);
 
     const { data: currentUser, isError: currentUserError, isLoading: currentUserIsLoading } = useGetCurrentUser();
 
@@ -75,10 +85,51 @@ const AboutUsScreen = ({ route }: ProfileScreenProps) => {
         }
     }, [currentUser]);
 
+    const updateSections = (activeSections) => {
+        setActiveSections(activeSections);
+    };
+
+    console.log(activeSections)
+
+
+
     return (
         <NIScreen title={t("about_us")} style={{ flex: 1 }}>
-            <View style={{ flex: 1 }}>
-               
+            <View style={{ flex: 1, paddingHorizontal: 20 }}>
+
+                <NIAucordion sections={SECTIONS} />
+                {/* <Accordion
+                    activeSections={activeSections}
+                    sections={SECTIONS}
+                    renderHeader={(section) => {
+                        const indexOfActiveSection = SECTIONS.findIndex(s => s.key === section.key);
+
+
+                        return (
+                            <View style={{ flexDirection: 'row', alignItems: 'center', paddingVertical: 10, justifyContent: 'space-between' }}>
+                                {
+                                    indexOfActiveSection === activeSections?.[0] ?
+                                        <Icon
+                                            source={getIconUrl(Images, 'ic_auc_minus')}
+                                            size={15} />
+                                        :
+                                        <Icon
+                                            source={getIconUrl(Images, 'ic_auc_plus')}
+                                            size={15} />
+
+                                }
+                                <NIText style={{ fontSize: 16, height: 30 }}>{section.title}</NIText>
+                            </View>
+                        );
+                    }}
+                    // renderSectionTitle={(section) => <View style={styles.content}>
+                    //     <Text>{section.content}</Text>
+                    // </View>}
+                    renderContent={(section) => <View style={styles.content}>
+                        <NIText style={{ lineHeight: 22, fontSize: 16, fontFamily: FONT_FAMILIES.ALMARAI_LIGHT }}>{section.content}</NIText>
+                    </View>}
+                    onChange={updateSections}
+                /> */}
             </View>
         </NIScreen>
     );
@@ -90,3 +141,4 @@ const styles = StyleSheet.create({
 
 
 export default AboutUsScreen
+

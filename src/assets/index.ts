@@ -91,5 +91,7 @@ export const Images: IconMap = {
   ic_map_pin: Image.resolveAssetSource(require('./icons/map_pin.png')),
   ic_saudi_ar_flag: Image.resolveAssetSource(require('./icons/saudi_ar_flag.png')),
   ic_check: Image.resolveAssetSource(require('./icons/check.png')),
+  ic_auc_plus: Image.resolveAssetSource(require('./icons/auc_plus.png')),
+  ic_auc_minus: Image.resolveAssetSource(require('./icons/auc_minus.png')),
 
 };

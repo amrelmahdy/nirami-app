@@ -33,6 +33,8 @@ import LoyalityProgramScreen from '../../scenes/LoyalityProgram/LoyalityProgram'
 import CustomerServiceScreen from '../../scenes/CustomerService/CustomerServiceScreen';
 import TicketsScreen from '../../scenes/CustomerService/TicketsScreen';
 import AddTicketScreen from '../../scenes/CustomerService/AddTicketScreen';
+import FAQsScreen from '../../scenes/CustomerService/FAQsScreen';
+import ReturnPolicyScreen from '../../scenes/CustomerService/ReturnPolicyScreen';
 
 
 const Stack = createStackNavigator()
@@ -105,6 +107,10 @@ const AccountStack = () => (
         <Stack.Screen options={{ headerShown: false }} name={NAVIGATION_ROUTES.VAT_CERTIFICATE} component={VATCertificateScreen} />
         <Stack.Screen options={{ headerShown: false }} name={NAVIGATION_ROUTES.TICKETS} component={TicketsScreen} />
         <Stack.Screen options={{ headerShown: false }} name={NAVIGATION_ROUTES.ADD_TICKET} component={AddTicketScreen} />
+        <Stack.Screen name={NAVIGATION_ROUTES.FAQ} options={{ headerShown: false }} component={FAQsScreen} />
+        <Stack.Screen name={NAVIGATION_ROUTES.RETURN_POLICY} options={{ headerShown: false }} component={ReturnPolicyScreen} />
+
+
 
 
         {/* <Stack.Screen name={NAVIGATION_ROUTES.FILTERED_PRODUCTS} options={{ headerShown: false }} component={FilteredProductsScreen} /> */}

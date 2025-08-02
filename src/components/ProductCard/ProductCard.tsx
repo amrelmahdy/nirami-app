@@ -8,9 +8,10 @@ import navigationAdapter from "../../navigation/NavigationAdapter";
 import NAVIGATION_ROUTES from "../../navigation/NavigationRoutes";
 import NIText from "../NIText/NIText";
 import { Product, useAddProductToFav } from "../../hooks/products.hooks";
-import i18next from "i18next";
+import i18next, { t } from "i18next";
 import { useRoute } from "@react-navigation/native";
 import { useAddProductToCart } from "../../hooks/cart.hooks";
+import Toast from "react-native-toast-message";
 
 
 type ProductCardProps = {
@@ -32,8 +33,12 @@ const ProductCard = ({ product, onPress }: ProductCardProps) => {
 
     const handleOnAddProductToFavourites = () => {
         useAddProductToFavourites.mutate(product.id || product._id, {
-            onSuccess: () => {
-                //Alert.alert("Success", "Product added to favourites successfully!");
+            onSuccess: (res) => {
+                console.log("Product added to favourites successfully", res);
+                Toast.show({
+                    type: 'success',
+                    text1: t("تم تعديل قائمة المفضلة"),
+                });
             },
             onError: (error) => {
                 //Alert.alert("Error", error.message || "Failed to add product to favourites.");
@@ -89,7 +94,7 @@ const ProductCard = ({ product, onPress }: ProductCardProps) => {
                     style={{ padding: 0, borderRadius: 50, shadowColor: "#000", shadowOpacity: 0.1, shadowRadius: 5, elevation: 3 }}>
 
                     {
-                      renderTopIcon()
+                        renderTopIcon()
 
                     }
                 </TouchableOpacity>
@@ -144,7 +149,7 @@ const ProductCard = ({ product, onPress }: ProductCardProps) => {
                         imageSize={18}
                         //showRating
                         onFinishRating={() => { }}
-                        style={{ paddingVertical: 0, width: '100%', direction: 'rtl', alignItems: 'flex-start', marginBottom: 20 }}
+                        style={{ paddingVertical: 0, width: '100%', direction: 'rtl', alignItems: 'flex-start', marginBottom: 10 }}
                         readonly
                         ratingColor='#000000'
                         startingValue={product.averageRating}
@@ -153,13 +158,11 @@ const ProductCard = ({ product, onPress }: ProductCardProps) => {
                         ratingTextColor="red"
                     />
                 </View>
-                {
-                    product.isOnSale && <View style={{ flexDirection: 'row' }}>
-                        <Text style={{ fontSize: 12, fontFamily: 'Almarai-Light', marginLeft: 5, color: '#828282', textAlign: 'left' }}>السعر قبل الخصم</Text>
-                        <Text style={{ fontSize: 12, fontWeight: "bold", color: "#828282", textAlign: 'left' }}>{product.price}</Text>
-                        <Icon source={getIconUrl(Images, 'saudi_riyal_symbol')} size={15} />
-                    </View>
-                }
+                <View style={{ flexDirection: 'row', opacity: product.isOnSale ? 1 : 0, marginBottom: 5 }}>
+                    <Text style={{ fontSize: 12, fontFamily: 'Almarai-Light', marginLeft: 5, color: '#828282', textAlign: 'left' }}>السعر قبل الخصم</Text>
+                    <Text style={{ fontSize: 12, fontWeight: "bold", color: "#828282", textAlign: 'left' }}>{product.price}</Text>
+                    <Icon source={getIconUrl(Images, 'saudi_riyal_symbol')} size={15} />
+                </View>
                 <View style={{ flexDirection: 'row', marginBottom: 5 }}>
                     <Text style={{ fontSize: 18, fontWeight: "bold", color: "#000", textAlign: 'left', }}>{product.isOnSale ? product.salesPrice : product.price}</Text>
                     <Icon source={getIconUrl(Images, 'saudi_riyal_symbol')} size={15} />

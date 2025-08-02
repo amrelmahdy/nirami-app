@@ -59,6 +59,7 @@ function Navigation() {
                     console.log('Navigation container is ready')
                 }}
                 onStateChange={(state) => console.log('New state is', state)}
+            
 
             >
 
@@ -70,6 +71,7 @@ function Navigation() {
                     <Stack.Screen
                         name={NAVIGATION_ROUTES.SPLASH}
                         component={SplashScreen}
+                        
                         {...noHeaderOptions}
                     />
 
@@ -89,7 +91,9 @@ function Navigation() {
 
                     <Stack.Screen
                         name={NAVIGATION_ROUTES.BOTTOM_TAB_BAR}
-                        component={BottomTabBar} />
+                        component={BottomTabBar} 
+                        options={{ animation: 'slide_from_left' }}
+                        />
 
 
                     {/* <Stack.Screen

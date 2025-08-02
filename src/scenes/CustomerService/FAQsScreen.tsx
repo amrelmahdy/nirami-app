@@ -32,6 +32,7 @@ import DatePicker from 'react-native-date-picker';
 import { useGetCurrentUser } from '../../hooks/user.hooks';
 import NIButton from '../../components/NIButton/NIButton';
 import { updateUser } from '../../api/auth.api';
+import NIAucordion from '../../components/NIAucordion/NIAucordion';
 
 
 
@@ -61,6 +62,75 @@ const FAQsScreen = ({ route }: ProfileScreenProps) => {
         gender: 'male',
     });
 
+
+
+    const ORDERS_SECTIONS = [
+        {
+            key: "faq_question_1",
+            title: t("faq_question_1"),
+            content: t("faq_answer_1"),
+        },
+        {
+            key: "faq_question_2",
+            title: t("faq_question_2"),
+            content: t("faq_answer_2"),
+        },
+        {
+            key: "faq_question_3",
+            title: t("faq_question_3"),
+            content: t("faq_answer_3"),
+        },
+        {
+            key: "faq_question_4",
+            title: t("faq_question_4"),
+            content: t("faq_answer_4"),
+        },
+    ]
+
+    const PAYMENT_SECTIONS = [
+        {
+            key: "faq_question_5",
+            title: t("faq_question_5"),
+            content: t("faq_answer_5"),
+        }
+    ]
+
+    const PRPODUCTS_SECTIONS = [
+        {
+            key: "faq_question_6",
+            title: t("faq_question_6"),
+            content: t("faq_answer_6"),
+        },
+        {
+            key: "faq_question_7",
+            title: t("faq_question_7"),
+            content: t("faq_answer_7"),
+        },
+        {
+            key: "faq_question_8",
+            title: t("faq_question_8"),
+            content: t("faq_answer_8"),
+        },
+    ]
+
+    const RETURN_AND_REPLACEMENT_SECTIONS = [
+        {
+            key: "faq_question_9",
+            title: t("faq_question_9"),
+            content: t("faq_answer_9"),
+        },
+        {
+            key: "faq_question_10",
+            title: t("faq_question_10"),
+            content: t("faq_answer_10"),
+        },
+        {
+            key: "faq_question_11",
+            title: t("faq_question_11"),
+            content: t("faq_answer_11"),
+        },
+    ]
+
     // Sync user state with currentUser changes
     useEffect(() => {
         if (currentUser) {
@@ -77,9 +147,24 @@ const FAQsScreen = ({ route }: ProfileScreenProps) => {
 
     return (
         <NIScreen title={t("faq")} style={{ flex: 1 }}>
-            <View style={{ flex: 1 }}>
-               
-            </View>
+            <ScrollView style={{ flex: 1, paddingVertical: 15 }}>
+                <View style={{ flex: 1, paddingHorizontal: 15 }}>
+                    <NIText style={{ fontFamily: 'Almarai-Bold', textAlign: 'right', fontSize: 20, marginBottom: 20 }}>{t("orders")}</NIText>
+                    <NIAucordion sections={ORDERS_SECTIONS} />
+                </View>
+                <View style={{ flex: 1, paddingHorizontal: 15 }}>
+                    <NIText style={{ fontFamily: 'Almarai-Bold', textAlign: 'right', fontSize: 20, marginBottom: 20 }}>{t("payment")}</NIText>
+                    <NIAucordion sections={PAYMENT_SECTIONS} />
+                </View>
+                <View style={{ flex: 1, paddingHorizontal: 15 }}>
+                    <NIText style={{ fontFamily: 'Almarai-Bold', textAlign: 'right', fontSize: 20, marginBottom: 20 }}>{t("products")}</NIText>
+                    <NIAucordion sections={PRPODUCTS_SECTIONS} />
+                </View>
+                <View style={{ flex: 1, paddingHorizontal: 15 }}>
+                    <NIText style={{ fontFamily: 'Almarai-Bold', textAlign: 'right', fontSize: 20, marginBottom: 20 }}>{t("returns_and_exchanges")}</NIText>
+                    <NIAucordion sections={RETURN_AND_REPLACEMENT_SECTIONS} />
+                </View>
+            </ScrollView>
         </NIScreen>
     );
 }

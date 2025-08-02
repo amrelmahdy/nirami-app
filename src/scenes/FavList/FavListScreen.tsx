@@ -7,6 +7,7 @@ import ProductCard from "../../components/ProductCard/ProductCard";
 import PageHeader from "../../components/PageHeader/PageHeader";
 import { useGetCurrentUser } from "../../hooks/user.hooks";
 import NIText from "../../components/NIText/NIText";
+import { ActivityIndicator } from "react-native-paper";
 
 
 
@@ -25,6 +26,14 @@ const FavList = () => {
 
 
 
+    
+    
+
+    if (currentUserIsLoading) {
+        return <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+            <ActivityIndicator size="large" color="#3f2848" />
+        </View>
+    }
   
 
 

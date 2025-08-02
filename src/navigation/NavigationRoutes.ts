@@ -43,6 +43,9 @@ const NAVIGATION_ROUTES = {
   TICKETS: 'Tickets',
   TICKET_DETAILS: 'TicketDetails',
   ADD_TICKET: 'AddTicket',
+  FAQ: 'FAQ',
+  RETURN_POLICY: 'ReturnPolicy',
+
 
 };
 

@@ -19,6 +19,7 @@ import BrandCard from "../../components/BrandCard/BrandCard";
 import { useTranslation } from "react-i18next";
 import { useGetMostSaledProducts, useGetProducts } from "../../hooks/products.hooks";
 import { useGetBrands } from "../Brands/brands.hooks";
+import NIText from "../../components/NIText/NIText";
 
 
 
@@ -116,7 +117,7 @@ function HomeScreen() {
                             {
                                 fontFamily: FONT_FAMILIES.ALMARAI_LIGHT
                                 // height: 50,
-                              
+
                                 // borderWidth: 1,
                                 // // fontSize: 17,
                                 // // padding: 10,
@@ -167,13 +168,15 @@ function HomeScreen() {
                         )}
                     />
 
-                    <Pagination.Basic
-                        progress={progress}
-                        data={homeCarouselData.items}
-                        dotStyle={{ backgroundColor: "rgba(0,0,0,0.2)", borderRadius: 50 }}
-                        containerStyle={{ gap: 5, marginTop: 20 }}
-                        onPress={onPressPagination}
-                    />
+                    <View style={{ direction: 'rtl' }}>
+                        <Pagination.Basic
+                            progress={progress}
+                            data={homeCarouselData.items}
+                            dotStyle={{ backgroundColor: "rgba(0,0,0,0.2)", borderRadius: 50 }}
+                            containerStyle={{ gap: 5, marginTop: 20 }}
+                            onPress={onPressPagination}
+                        />
+                    </View>
                 </View>
 
 
@@ -181,17 +184,19 @@ function HomeScreen() {
                 {
                     mostSaledProductsData && mostSaledProductsData.length &&
 
-                    <View style={{ flex: 1, paddingHorizontal: 0 }}>
-                        <Text style={{ fontFamily: 'Almarai-Bold', textAlign: 'right', fontSize: 20, marginBottom: 20, marginHorizontal: 15 }}>الاكثر مبيعاً</Text>
-                        <FlatList
-                            // numColumns={2}  // Set two columns per row
-                            horizontal
-                            showsHorizontalScrollIndicator={false}
-                            keyExtractor={(item, index) => index.toString()} style={{ width: '100%' }}
-                            data={mostSaledProductsData}
-                            contentContainerStyle={{ paddingHorizontal: 10, paddingBottom: 20 }}  // Add padding around the grid
+                    <View style={{ flex: 1}}>
+                        <NIText style={{ fontFamily: 'Almarai-Bold', textAlign: 'right', fontSize: 20, marginBottom: 20, paddingHorizontal: 15 }}>الاكثر مبيعاً</NIText>
+                        <View style={{ direction: 'rtl' }}>
+                            <FlatList
+                                // numColumns={2}  // Set two columns per row
+                                horizontal
+                                showsHorizontalScrollIndicator={false}
+                                keyExtractor={(item, index) => index.toString()} style={{ width: '100%' }}
+                                data={mostSaledProductsData}
+                                //contentContainerStyle={{ paddingHorizontal: 10, paddingBottom: 20 }}  // Add padding around the grid
 
-                            renderItem={({ item, index }) => <ProductCard product={item} />} />
+                                renderItem={({ item, index }) => <ProductCard product={item} />} />
+                        </View>
                     </View>
                 }
 
@@ -218,16 +223,18 @@ function HomeScreen() {
                     </View>
                 </View>
 
-                <View style={{ flex: 1, paddingHorizontal: 15 }}>
-                    <Text style={{ fontFamily: 'Almarai-Bold', textAlign: 'right', fontSize: 20, marginBottom: 20 }}>إكتشف الماركات</Text>
-                    <FlatList
-                        horizontal
-                        showsHorizontalScrollIndicator={false}
-                        keyExtractor={(item, index) => index.toString()} style={{ width: '100%' }}
-                        data={brands}
-                        //contentContainerStyle={{ paddingHorizontal: 10, paddingBottom: 20 }}  // Add padding around the grid
+                <View style={{ flex: 1 }}>
+                    <NIText style={{ fontFamily: 'Almarai-Bold', textAlign: 'right', fontSize: 20, marginBottom: 20, paddingHorizontal: 15 }}>إكتشف الماركات</NIText>
+                    <View style={{ direction: 'rtl' }}>
+                        <FlatList
+                            horizontal
+                            showsHorizontalScrollIndicator={false}
+                            keyExtractor={(item, index) => index.toString()} style={{ width: '100%' }}
+                            data={brands}
+                            //contentContainerStyle={{ paddingHorizontal: 10, paddingBottom: 20 }}  // Add padding around the grid
 
-                        renderItem={({ item, index }) => <BrandCard brand={item} />} />
+                            renderItem={({ item, index }) => <BrandCard brand={item} />} />
+                    </View>
                 </View>
 
 
@@ -236,15 +243,17 @@ function HomeScreen() {
 
                 {newProductsData && newProductsData.products && newProductsData.products.length && !isNewProductsLoading &&
                     <View style={{ flex: 1 }}>
-                        <Text style={{ fontFamily: 'Almarai-Bold', textAlign: 'right', fontSize: 20, marginBottom: 20, paddingHorizontal: 15 }}>المنتجات الجديدة</Text>
-                        <FlatList
-                            horizontal
-                            showsHorizontalScrollIndicator={false}
-                            keyExtractor={(item, index) => index.toString()} style={{ width: '100%' }}
-                            data={newProductsData.products}
-                            //contentContainerStyle={{ paddingHorizontal: 10, paddingBottom: 20 }}  // Add padding around the grid
+                        <NIText style={{ fontFamily: 'Almarai-Bold', textAlign: 'right', fontSize: 20, marginBottom: 20, paddingHorizontal: 15 }}>المنتجات الجديدة</NIText>
+                        <View style={{ direction: 'rtl' }}>
+                            <FlatList
+                                horizontal
+                                showsHorizontalScrollIndicator={false}
+                                keyExtractor={(item, index) => index.toString()} style={{ width: '100%' }}
+                                data={newProductsData.products}
+                                //contentContainerStyle={{ paddingHorizontal: 10, paddingBottom: 20 }}  // Add padding around the grid
 
-                            renderItem={({ item, index }) => <ProductCard product={item} />} />
+                                renderItem={({ item, index }) => <ProductCard product={item} />} />
+                        </View>
                     </View>
                 }
 

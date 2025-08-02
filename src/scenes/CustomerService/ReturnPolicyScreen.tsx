@@ -32,6 +32,7 @@ import DatePicker from 'react-native-date-picker';
 import { useGetCurrentUser } from '../../hooks/user.hooks';
 import NIButton from '../../components/NIButton/NIButton';
 import { updateUser } from '../../api/auth.api';
+import NIAucordion from '../../components/NIAucordion/NIAucordion';
 
 
 
@@ -61,6 +62,14 @@ const ReturnPolicyScreen = ({ route }: ProfileScreenProps) => {
         gender: 'male',
     });
 
+
+    const RETURN_PLICY_SECTIONS = [
+        {
+            key: "returns_and_exchanges",
+            title: t("returns_and_exchanges"),
+            content: t("returns_and_exchanges_policy_description"),
+        }
+    ]
     // Sync user state with currentUser changes
     useEffect(() => {
         if (currentUser) {
@@ -76,10 +85,12 @@ const ReturnPolicyScreen = ({ route }: ProfileScreenProps) => {
     }, [currentUser]);
 
     return (
-        <NIScreen title={t("return_policy")} style={{ flex: 1 }}>
-            <View style={{ flex: 1 }}>
-               
-            </View>
+        <NIScreen title={t("returns_and_exchanges")} style={{ flex: 1, }}>
+            <ScrollView style={{ flex: 1, paddingHorizontal: 15, paddingTop: 25, marginBottom: 0 }}>
+                <View style={{marginBottom: 30}}>
+                    <NIAucordion sections={RETURN_PLICY_SECTIONS} />
+                </View>
+            </ScrollView>
         </NIScreen>
     );
 }

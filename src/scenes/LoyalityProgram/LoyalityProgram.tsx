@@ -20,7 +20,7 @@ import ProductCard from '../../components/ProductCard/ProductCard';
 import FilterByBar from '../../components/FilterByBar/FilterByBar';
 import BottomSheet from '../../components/BottomSheet/BottomSheet';
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
-import { RadioButton } from 'react-native-paper';
+import { Divider, RadioButton } from 'react-native-paper';
 import BannerImage from '../../components/BannerImage/BannerImage';
 import { useGetProducts } from '../../hooks/products.hooks';
 import i18next, { t } from 'i18next';
@@ -77,9 +77,42 @@ const LoyalityProgramScreen = ({ route }: ProfileScreenProps) => {
 
     return (
         <NIScreen title={t("loyality_program")} style={{ flex: 1 }}>
-            <View style={{ flex: 1 }}>
-               
+            <View style={{ flex: 1, paddingHorizontal: 15, paddingVertical: 15 }}>
+                <View style={{ marginBottom: 20 }}>
+                    <NIText style={{ textAlign: 'center' }}>{t("nirami_loyality_program")}</NIText>
+                </View>
+
+                <View style={{ marginBottom: 20 }}>
+                    <NIText style={{ marginBottom: 20 }}>{t("nirami_description")}</NIText>
+                    <NIText>{t("nirami_description2")}</NIText>
+                </View>
+
+                <Divider style={{ marginVertical: 10 }} />
+
+                <View style={{}}>
+                    <NIText style={{ textAlign: 'center' }}>{t("your_loyality_account")}</NIText>
+                </View>
+
+                <View style={{}}>
+                    <View style={{ flexDirection: 'row-reverse', justifyContent: 'space-between', marginBottom: 10, paddingVertical: 10 }}>
+                        <NIText>{t("points_credits")}</NIText>
+                        <NIText>{0}</NIText>
+                    </View>
+                    <View style={{ flexDirection: 'row-reverse', justifyContent: 'space-between', marginBottom: 10, paddingVertical: 10 }}>
+                        <NIText>{t("phone_number")}</NIText>
+                        <NIText>+966540521583</NIText>
+                    </View>
+                    <View style={{ flexDirection: 'row-reverse', justifyContent: 'space-between', marginBottom: 10, paddingVertical: 10 }}>
+                        <NIText>{t("mempership_identifier")}</NIText>
+                        <NIText>7206007645728</NIText>
+                    </View>
+                </View>
+
+                <View style={{}}>
+                    <NIText style={{ textAlign: 'center' }}>{t("for_more_info")}</NIText>
+                </View>
             </View>
+
         </NIScreen>
     );
 }

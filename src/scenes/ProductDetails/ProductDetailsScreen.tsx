@@ -34,13 +34,13 @@ function ProductDetailsScreen({ route }: ProductDetailsScreenProps) {
 
     const addToCart = useAddProductToCart();
 
-    const [selectedVariant, setSelectedVariant] = React.useState(route.params.product._id);
+    const [selectedVariant, setSelectedVariant] = React.useState(route.params.product?._id);
 
 
     const { data: relatedProducts, isLoading: isLoadingRelatedProducts, isError: isErrorRelatedProducts, refetch: refretchRelatedProducts } = useGetRelatedProducts(selectedVariant || route.params.product._id);
 
-    const { data: product, isLoading: isProductLoading, isError: isProductError } = useGetProduct(selectedVariant || route.params.product._id);
-    const { data: productVariants, isLoading: isProductVariantsLoading, isError: isProductVariantsError } = useGetProductVariants(route.params.product._id)
+    const { data: product, isLoading: isProductLoading, isError: isProductError } = useGetProduct(selectedVariant || route.params.product?._id || route.params.product?.id);
+    const { data: productVariants, isLoading: isProductVariantsLoading, isError: isProductVariantsError } = useGetProductVariants(route.params.product?._id)
 
     const carouselRef = useRef(null);
     const data = [...new Array(6).keys()];
@@ -130,7 +130,7 @@ function ProductDetailsScreen({ route }: ProductDetailsScreenProps) {
 
                         <Pagination.Basic
                             progress={progress}
-                            data={product.images}
+                            data={product?.images}
                             dotStyle={{ backgroundColor: "rgba(0,0,0,0.2)", borderRadius: 50 }}
                             containerStyle={{ gap: 5, marginTop: 20 }}
                             onPress={onPressPagination}
@@ -139,7 +139,7 @@ function ProductDetailsScreen({ route }: ProductDetailsScreenProps) {
 
                     <View style={{ marginTop: 10, paddingHorizontal: 10 }}>
                         <NIText style={{ fontSize: 18, color: "#000", textAlign: 'right', fontWeight: 'bold' }}>
-                            {product.brand?.name[i18next.language as 'ar' | 'en']}
+                            {product?.brand?.name[i18next.language as 'ar' | 'en']}
                         </NIText>
 
 
@@ -172,15 +172,15 @@ function ProductDetailsScreen({ route }: ProductDetailsScreenProps) {
                             <NIText style={{ fontSize: 12, marginHorizontal: 4, marginTop: 1 }}>{product?.averageRating}</NIText>
                         </View>
 
-                        {product.isOnSale && <View style={{ flexDirection: 'row', justifyContent: 'flex-end' }}>
+                        {product?.isOnSale && <View style={{ flexDirection: 'row', justifyContent: 'flex-end' }}>
                             <Icon source={getIconUrl(Images, 'saudi_riyal_symbol')} size={15} />
-                            <Text style={{ fontSize: 12, fontWeight: "bold", color: "#828282", }}>{product.price}</Text>
+                            <Text style={{ fontSize: 12, fontWeight: "bold", color: "#828282", }}>{product?.price}</Text>
                             <Text style={{ fontSize: 12, fontFamily: 'Almarai-Light', marginLeft: 5, color: '#828282' }}>السعر قبل الخصم</Text>
                         </View>}
 
                         <View style={{ flexDirection: 'row', justifyContent: 'flex-end', marginBottom: 5 }}>
                             <Icon source={getIconUrl(Images, 'saudi_riyal_symbol')} size={15} />
-                            <Text style={{ fontSize: 18, fontWeight: "bold", color: "#000", textAlign: 'right', }}>{product.isOnSale ? product.salesPrice : product.price}</Text>
+                            <Text style={{ fontSize: 18, fontWeight: "bold", color: "#000", textAlign: 'right', }}>{product?.isOnSale ? product?.salesPrice : product?.price}</Text>
                         </View>
 
 
@@ -236,12 +236,12 @@ function ProductDetailsScreen({ route }: ProductDetailsScreenProps) {
                                     style={{ paddingVertical: 0, backgroundColor: 'green' }}
                                     readonly
                                     ratingColor='#000000'
-                                    startingValue={product.averageRating}
+                                    startingValue={product?.averageRating}
                                     tintColor="#FFF"
                                     ratingBackgroundColor="#bebebe"
                                     ratingTextColor="red"
                                 />
-                                <NIText style={{ marginHorizontal: 5 }}>{product.averageRating}</NIText>
+                                <NIText style={{ marginHorizontal: 5 }}>{product?.averageRating}</NIText>
                             </View>
                             <Icon source={getIconUrl(Images, 'ic_weui_arrow_outlined_left_angle')} size={12} />
 
@@ -249,7 +249,7 @@ function ProductDetailsScreen({ route }: ProductDetailsScreenProps) {
 
 
                         <View>
-                            {renderReview(product.reviews)}
+                            {renderReview(product?.reviews)}
                             <NIButton
                                 onPress={() => {
                                     NavigationAdapter.navigate(NAVIGATION_ROUTES.REVIEWS, { product: product });
@@ -302,7 +302,7 @@ function ProductDetailsScreen({ route }: ProductDetailsScreenProps) {
                 alignItems: "center",
             }}>
                 <NIButton onPress={() => {
-                    addToCart.mutate(selectedVariant || route.params.product._id, {
+                    addToCart.mutate(selectedVariant || route.params.product?._id, {
                         onSuccess: () => {
                             // Optionally, you can show a success message or update the UI
                             console.log('Product added to cart successfully');

@@ -3,6 +3,9 @@ import LoyalityProgramScreen from "../../scenes/LoyalityProgram/LoyalityProgram"
 export default {
     translation: {
         welcome: "Welcome",
+        about_us_description: "We believe that beauty starts from within. That’s why we offer you a carefully curated selection of products that reflect the highest standards of luxury and quality — all through our advanced and user-friendly app. At Nirami, we pay attention to every detail of your journey with us, from browsing products to receiving your orders, ensuring a seamless and enjoyable experience that matches your modern lifestyle.\n\nNirami is your luxurious destination in the world of beauty, bringing you an exceptional shopping experience that combines the finest in makeup and skincare.\n\nThe name \"Nirami\" embodies our vision of offering a unique experience that enhances your natural glow and elegance.\n\nInspired by two words that express beauty and radiance, “Nirami” is a blend of “Nira,” meaning brightness and brilliance in Sanskrit, and “mi” from Greek, referring to the self — representing your personal elegance. Together, they mean: \"I am radiant\" or \"I am glowing.\"\n\nDiscover Nirami and let us be your partner on your beauty journey.",
+        about_nirami: "About Nirami",
+        nirami_story: "Nirami Story",
         home: "Home",
         profile: "Profile",
         cart: "Cart",

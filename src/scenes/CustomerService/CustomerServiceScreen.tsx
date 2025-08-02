@@ -90,14 +90,14 @@ const CustomerServiceScreen = ({ route }: ProfileScreenProps) => {
             label: 'frequently_asked_questions',
             icon: "ic_account",
             screen_key: 'orders',
-            onPress: () => { navigationAdapter.navigate(NAVIGATION_ROUTES.ORDERS) }
+            onPress: () => { navigationAdapter.navigate(NAVIGATION_ROUTES.FAQ) }
 
         },
         {
             label: 'return_and_refund_policy',
             icon: "ic_ph_address_book",
             screen_key: 'addresses',
-            onPress: () => { navigationAdapter.navigate(NAVIGATION_ROUTES.ADDRESSES) }
+            onPress: () => { navigationAdapter.navigate(NAVIGATION_ROUTES.RETURN_POLICY) }
         }
 
     ]
