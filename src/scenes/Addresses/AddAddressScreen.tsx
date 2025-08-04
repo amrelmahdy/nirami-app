@@ -28,7 +28,7 @@ import { ActivityIndicator, Checkbox, Divider, Icon, TextInput } from 'react-nat
 import SearchInput from "../../components/SearchInput/SearchInput";
 import { getPlaceInfo, getSuggestions } from "../../api/maps";
 import { get } from "react-native/Libraries/TurboModule/TurboModuleRegistry";
-import { BottomSheetModal } from "@gorhom/bottom-sheet";
+import { BottomSheetModal, BottomSheetTextInput } from "@gorhom/bottom-sheet";
 import BottomSheet from "../../components/BottomSheet/BottomSheet";
 import NIText from "../../components/NIText/NIText";
 import { Address, useAddAddress, useUpdateAddress } from "../../hooks/addresses.hooks";
@@ -537,10 +537,9 @@ const AddAddressScreen: React.FC = ({ route }) => {
                                             <View style={{}}>
 
                                                 <View style={{ marginBottom: 5 }}>
-                                                    <TextInput
+                                                    <BottomSheetTextInput
                                                         placeholder="الإسم"
-                                                        style={{ backgroundColor: '#FFF', height: 40, textAlign: 'right' }}
-                                                        contentStyle={{ fontFamily: FONT_FAMILIES.ALMARAI_LIGHT }}
+                                                        style={{ backgroundColor: '#FFF', height: 40, textAlign: 'right', fontFamily: FONT_FAMILIES.ALMARAI_LIGHT, borderBottomWidth: 1, borderBottomColor: "#C4C4C4", }}
                                                         value={address.name}
                                                         onChange={(text) =>
                                                             setAddress({
@@ -563,11 +562,10 @@ const AddAddressScreen: React.FC = ({ route }) => {
                                                             />
                                                         </View>
                                                         <View style={{ flex: 0.8 }}>
-                                                            <TextInput
+                                                            <BottomSheetTextInput
 
                                                                 placeholder="رقم الهاتف"
-                                                                style={{ backgroundColor: '#FFF', height: 40, textAlign: 'right' }}
-                                                                contentStyle={{ fontFamily: FONT_FAMILIES.ALMARAI_LIGHT }}
+                                                                style={{ backgroundColor: '#FFF', height: 40, textAlign: 'right', fontFamily: FONT_FAMILIES.ALMARAI_LIGHT, borderBottomWidth: 1, borderBottomColor: "#C4C4C4", }}
                                                                 value={address.phone}
                                                                 onChange={(text) =>
                                                                     setAddress({
@@ -583,7 +581,20 @@ const AddAddressScreen: React.FC = ({ route }) => {
                                                 </View>
 
                                                 <View style={{ marginBottom: 5 }}>
-                                                    <TextInput
+                                                    <BottomSheetTextInput
+
+                                                        onChange={(text) =>
+                                                            setAddress({
+                                                                ...address,
+                                                                deliveryAddress: text.nativeEvent.text
+                                                            })
+                                                        }
+                                                        placeholder="التوصيل : معلم مشهور اسم الشارع"
+                                                        style={{ backgroundColor: '#FFF', height: 40, textAlign: 'right', borderBottomWidth: 1, borderBottomColor: "#C4C4C4", fontFamily: FONT_FAMILIES.ALMARAI_LIGHT }}
+                                                        //contentStyle={{ fontFamily: FONT_FAMILIES.ALMARAI_LIGHT }}
+                                                        value={address.deliveryAddress}
+                                                    />
+                                                    {/* <TextInput
                                                         onChange={(text) =>
                                                             setAddress({
                                                                 ...address,
@@ -594,7 +605,7 @@ const AddAddressScreen: React.FC = ({ route }) => {
                                                         style={{ backgroundColor: '#FFF', height: 40, textAlign: 'right' }}
                                                         contentStyle={{ fontFamily: FONT_FAMILIES.ALMARAI_LIGHT }}
                                                         value={address.deliveryAddress}
-                                                    />
+                                                    /> */}
                                                 </View>
 
                                                 <View style={{ marginVertical: 10 }}>

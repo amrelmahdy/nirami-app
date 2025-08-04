@@ -1,8 +1,6 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import {
     GestureResponderEvent,
-    KeyboardAvoidingView,
-    Platform,
     StyleSheet,
     TouchableOpacity,
     View,
@@ -38,6 +36,12 @@ const BottomSheet: React.FC<BottomSheetProps> = ({
     withHeader = true,
     children,
 }) => {
+
+
+    // variables
+  const snapPoints = useMemo(() => ["25%"], []);
+
+
     const handleSheetChanges = useCallback((index: number) => {
         console.log('handleSheetChanges', index);
     }, []);
@@ -53,44 +57,39 @@ const BottomSheet: React.FC<BottomSheetProps> = ({
 
     return (
         <GestureHandlerRootView style={{ flex: 1 }}>
-            <KeyboardAvoidingView
-                behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-                style={{ flex: 1 }} // or appropriate styling
-                keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 0} // adjust as needed
-            >
-                <BottomSheetModal
-                    ref={bottomSheetModalRef}
-                    onChange={handleSheetChanges}
-                    enableDynamicSizing
-                    backdropComponent={renderBackdrop}
-                    enablePanDownToClose={true}
-                    enableContentPanningGesture={false} // 👈 optional
-                >
 
-                    <BottomSheetView style={styles.sheetContainer}>
-                        {withHeader && <View style={styles.header}>
-                            <TouchableOpacity onPress={() => {
-                                onReset?.();
-                                bottomSheetModalRef.current?.close();
-                                onClose?.();
-                            }}>
-                                <NIText>استعادة</NIText>
-                            </TouchableOpacity>
-                            <NIText>{title}</NIText>
-                            <TouchableOpacity onPress={() => {
-                                bottomSheetModalRef.current?.close();
-                                onClose?.()
-                            }}>
-                                <Icon source={getIconUrl(Images, 'ic_angle_bottom')} size={15} />
-                            </TouchableOpacity>
-                        </View>
-                        }
-                        <View style={styles.content}>
-                            {children}
-                        </View>
-                    </BottomSheetView>
-                </BottomSheetModal>
-            </KeyboardAvoidingView>
+            <BottomSheetModal
+                ref={bottomSheetModalRef}
+                onChange={handleSheetChanges}
+                enableDynamicSizing
+                backdropComponent={renderBackdrop}
+                enablePanDownToClose={true}
+                enableContentPanningGesture={false} // 👈 optional
+            >
+
+                <BottomSheetView  style={styles.sheetContainer}>
+                    {withHeader && <View style={styles.header}>
+                        <TouchableOpacity onPress={() => {
+                            onReset?.();
+                            bottomSheetModalRef.current?.close();
+                            onClose?.();
+                        }}>
+                            <NIText>استعادة</NIText>
+                        </TouchableOpacity>
+                        <NIText>{title}</NIText>
+                        <TouchableOpacity onPress={() => {
+                            bottomSheetModalRef.current?.close();
+                            onClose?.()
+                        }}>
+                            <Icon source={getIconUrl(Images, 'ic_angle_bottom')} size={15} />
+                        </TouchableOpacity>
+                    </View>
+                    }
+                    <View style={styles.content}>
+                        {children}
+                    </View>
+                </BottomSheetView>
+            </BottomSheetModal>
         </GestureHandlerRootView>
     );
 };

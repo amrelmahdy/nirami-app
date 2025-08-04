@@ -100,12 +100,12 @@ function AccountScreen() {
             onPress: () => { NavigationAdapter.navigate(NAVIGATION_ROUTES.ABOUT_US) }
 
         },
-        {
-            label: 'شهادة القيمة المضافة',
-            icon: "ic_tax",
-            screen_key: 'VAT_cert',
-            onPress: () => { NavigationAdapter.navigate(NAVIGATION_ROUTES.VAT_CERTIFICATE) }
-        },
+        // {
+        //     label: 'شهادة القيمة المضافة',
+        //     icon: "ic_tax",
+        //     screen_key: 'VAT_cert',
+        //     onPress: () => { NavigationAdapter.navigate(NAVIGATION_ROUTES.VAT_CERTIFICATE) }
+        // },
         {
             label: 'تسجيل الخروج',
             icon: "ic_lucide_book",
