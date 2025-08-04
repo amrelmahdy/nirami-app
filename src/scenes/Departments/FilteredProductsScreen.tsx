@@ -19,7 +19,7 @@ import ProductCard from '../../components/ProductCard/ProductCard';
 import FilterByBar from '../../components/FilterByBar/FilterByBar';
 import BottomSheet from '../../components/BottomSheet/BottomSheet';
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
-import { RadioButton } from 'react-native-paper';
+import { ActivityIndicator, RadioButton } from 'react-native-paper';
 import { useGetDepartments } from '../../hooks/departments.hooks';
 import { useGetCategories } from '../../hooks/categories.hooks';
 import { useGetGroups } from '../../hooks/groups.hooks';
@@ -114,6 +114,13 @@ const FilteredProductsScreen = ({ route }) => {
         }
     }, [groupsList]);
 
+
+
+    if (isCategoriesLoading || isProductsLoading || isGroupsLoading || isBrandsLoading) {   
+        return <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+            <ActivityIndicator size="large" color="#3f2848" />
+        </View>
+    }
 
 
 

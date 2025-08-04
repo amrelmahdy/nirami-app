@@ -18,8 +18,9 @@ export const verifyOTPForLoginOrRegister = async (phoneOrEmail: string, otp: str
 }
 
 
-export const login = async  (otpId: string, code: string) => {
+export const login = async  (phoneOrEmail: string, otpId: string, code: string) => {
     const result = await httpClient.post("/auth/otp-login", {
+        phoneOrEmail,
         otpId,
         code
     });

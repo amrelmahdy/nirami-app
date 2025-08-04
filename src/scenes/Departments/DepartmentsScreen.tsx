@@ -20,7 +20,7 @@ const Tab = createMaterialTopTabNavigator();
 
 
 
-const DepartmentSearchScreen = () => {
+const DepartmentsScreen = () => {
 
 
     const { data: departmentsList, isLoading: departmentsIsLoading, isError: departmentsIsError, refetch } = useGetDepartments()
@@ -71,4 +71,4 @@ const styles = StyleSheet.create({
 
 });
 
-export default DepartmentSearchScreen;
+export default DepartmentsScreen;

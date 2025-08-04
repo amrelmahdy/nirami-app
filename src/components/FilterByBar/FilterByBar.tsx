@@ -9,10 +9,10 @@ import { FlatList } from 'react-native-gesture-handler';
 import FilterByItem from './FilterByItem';
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
 import BottomSheet from '../BottomSheet/BottomSheet';
-import SortBottomSheet from '../../scenes/DepartmentSearch/bottom-sheets/SortBottomSheet';
-import BrandBottomSheet from '../../scenes/DepartmentSearch/bottom-sheets/BrandBottomSheet';
-import ColorBottomSheet from '../../scenes/DepartmentSearch/bottom-sheets/ColorBottomSheet';
-import PriceBottomSheet from '../../scenes/DepartmentSearch/bottom-sheets/PriceBottomSheet';
+import SortBottomSheet from '../../scenes/Departments/bottom-sheets/SortBottomSheet';
+import BrandBottomSheet from '../../scenes/Departments/bottom-sheets/BrandBottomSheet';
+import ColorBottomSheet from '../../scenes/Departments/bottom-sheets/ColorBottomSheet';
+import PriceBottomSheet from '../../scenes/Departments/bottom-sheets/PriceBottomSheet';
 
 
 type Filter = {

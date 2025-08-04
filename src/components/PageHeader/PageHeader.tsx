@@ -5,6 +5,7 @@ import { FONT_FAMILIES, Images } from '../../assets';
 import { getIconUrl } from '../../assets/icons';
 import navigationAdapter from '../../navigation/NavigationAdapter';
 import { Icon } from 'react-native-paper';
+import NIText from '../NIText/NIText';
 
 export type PageHeaderProps = {
     headerLabel?: string;
@@ -28,7 +29,7 @@ const PageHeader: React.FC<PageHeaderProps> = ({ headerLabel, withBorder = true,
                 paddingHorizontal: 15
             }, style
         ]}>
-            <Text style={{ fontFamily: FONT_FAMILIES.ALMARAI_REGULAR, textAlign: 'center', fontSize: 18 }}>{headerLabel || ''}</Text>
+            <NIText style={{ fontFamily: FONT_FAMILIES.ALMARAI_REGULAR, textAlign: 'center', fontSize: 18 }}>{headerLabel || ''}</NIText>
             <View style={{
                 position: 'absolute',
                 right: 15,
@@ -36,7 +37,7 @@ const PageHeader: React.FC<PageHeaderProps> = ({ headerLabel, withBorder = true,
             }}>
                 { 
                     navigationAdapter.canGoBack && <TouchableOpacity onPress={() => navigationAdapter.goBack()}>
-                    <Icon source={getIconUrl(Images, 'ic_weui_arrow_outlined')} size={24} />
+                    <Icon source={getIconUrl(Images, 'ic_weui_arrow_outlined')} size={30} />
                 </TouchableOpacity>
                 }
             </View>

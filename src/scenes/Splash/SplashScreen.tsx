@@ -52,10 +52,10 @@ const SplashScreen: React.FC<SplashScreenProps> = ({ onFinish }) => {
                         navigationAdapter.replace(NAVIGATION_ROUTES.BOTTOM_TAB_BAR);
                     } catch (err) {
                         console.error("Token refresh failed", err);
-                        navigationAdapter.replace(NAVIGATION_ROUTES.CHOOSE_LANG);
+                        navigationAdapter.replace(NAVIGATION_ROUTES.AUTH);
                     }
                 } else {
-                    navigationAdapter.replace(NAVIGATION_ROUTES.CHOOSE_LANG);
+                    navigationAdapter.replace(NAVIGATION_ROUTES.AUTH);
                 }
 
                 if (onFinish) onFinish();

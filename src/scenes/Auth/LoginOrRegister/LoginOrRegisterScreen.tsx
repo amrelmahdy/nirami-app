@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Button, View, ImageBackground, StyleSheet, Image, TouchableOpacity, TextInput } from "react-native";
+import { Button, View, ImageBackground, StyleSheet, Image, TouchableOpacity, TextInput, KeyboardAvoidingView, Platform } from "react-native";
 import { Text } from "react-native-gesture-handler";
 import { Images } from "../../../assets";
 import { getIconUrl } from "../../../assets/icons";
@@ -11,6 +11,7 @@ import { sendAnOTPForLoginOrRegister } from "../../../api/auth.api";
 import { getNormalizedPhone, isValidEmailOrSaudiPhone, isValidSaudiPhone } from "../../../utils/helpers";
 import { get } from "react-native/Libraries/TurboModule/TurboModuleRegistry";
 import NIText from "../../../components/NIText/NIText";
+import { TouchableRipple } from "react-native-paper";
 // import { TextInput } from 'react-native-paper';
 // import { InputOutline, InputStandard } from 'react-native-input-outline';
 
@@ -77,20 +78,24 @@ function LoginOrRegister() {
 
 
         <View style={styles.container}>
-            <View style={styles.loginFormContainer}>
+            <KeyboardAvoidingView
+                behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+                style={styles.loginFormContainer}>
                 <Image style={styles.logo} source={getIconUrl(Images, "login_logo_nirami")} />
                 <View style={[styles.tabs, { flexDirection: i18next.language === 'ar' ? 'row' : 'row-reverse' }]}>
-                    <TouchableOpacity style={styles.tab} onPress={() => setActiveTab("register")}>
-                        <Text style={[styles.font, {
+                    <TouchableRipple style={styles.tab} onPress={() => setActiveTab("register")}>
+                        <NIText style={{
+                            ...styles.font,
                             color: activeTab !== 'register' ? '#bebebe' : '#000'
-                        }]}>{t("register")}</Text>
-                    </TouchableOpacity>
-                    <Text style={styles.tabDivider}>|</Text>
-                    <TouchableOpacity style={styles.tab} onPress={() => setActiveTab("login")}>
-                        <Text style={[styles.font, {
+                        }}>{t("register")}</NIText>
+                    </TouchableRipple>
+                    <Text style={styles.tabDivider} />
+                    <TouchableRipple style={styles.tab} onPress={() => setActiveTab("login")}>
+                        <NIText style={{
+                            ...styles.font,
                             color: activeTab !== 'login' ? 'rgb(190, 190, 190)' : '#000'
-                        }]}>{t("login")}</Text>
-                    </TouchableOpacity>
+                        }}>{t("login")}</NIText>
+                    </TouchableRipple>
                 </View>
                 <View style={styles.fieldContainer}>
                     <Text style={{ textAlign: 'right', fontFamily: 'Almarai-Regular', height: 20 }}>رقم الجوال</Text>
@@ -115,7 +120,7 @@ function LoginOrRegister() {
                 ]}>
                     <NIText style={{}}>استمرار</NIText>
                 </TouchableOpacity>
-            </View>
+            </KeyboardAvoidingView>
         </View>
     );
 }
@@ -165,26 +170,34 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         borderTopWidth: 1,
         borderBottomWidth: 1,
-        paddingVertical: 15,
+        // paddingVertical: 15,
         borderColor: '#bebebe',
         marginVertical: 40,
     },
     tab: {
         flex: 1,
+        //paddingVertical: 15,
+        height: 40,
+        justifyContent: 'center',
+        alignItems: 'center',
+
     },
     tabDivider: {
-        flex: 0.1,
-        fontSize: 20,
-        color: 'rgb(190, 190, 190)'
+        // flex: 0.1,
+        // fontSize: 20,
+        //borderWidth: 1,
+        width: 1,
+        backgroundColor: 'rgb(190, 190, 190)'
     },
     fieldContainer: {
         width: '100%',
     },
     font: {
-        flex: 1,
         textAlign: 'center',
         fontSize: 17,
         fontFamily: 'Almarai-Regular',
+        alignItems: 'center'
+
     },
     input: {
         width: '100%',

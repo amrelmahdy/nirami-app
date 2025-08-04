@@ -12,7 +12,7 @@ export const isValidEmailOrSaudiPhone = (input: string): boolean => {
   // Email regex (simple)
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   // Saudi phone: starts with 05, 5, or +9665, and 9 digits after
-  const saPhoneRegex = /^(?:\+9665|05|5)[0-9]{8}$/;
+  const saPhoneRegex = /^(?:\+9665|05)[0-9]{8}$/;
   return emailRegex.test(input) || saPhoneRegex.test(input);
 }
 
@@ -30,7 +30,7 @@ export const isValidSaudiPhone = (input: string): boolean => {
   const normalized = getNormalizedPhone(input);
 
   // Valid local format: starts with 5 and has exactly 9 digits
-  const saPhoneRegex = /^5[0-9]{8}$/;
+  const saPhoneRegex = /^(?:\+9665|05)[0-9]{8}$/;
 
   return saPhoneRegex.test(normalized);
 };

@@ -26,7 +26,7 @@ export type CategoryCardProps = {
 
 export default function CategoryCard({ category }: CategoryCardProps) {
 
-      const [aspectRatio, setAspectRatio] = useState(1); // default square
+    const [aspectRatio, setAspectRatio] = useState(1); // default square
 
     useEffect(() => {
         if (category.image) {
@@ -41,28 +41,19 @@ export default function CategoryCard({ category }: CategoryCardProps) {
     return (
         <TouchableOpacity
             style={{
-
                 backgroundColor: "#fff",
                 borderWidth: 1,
                 borderColor: '#bebebe',
                 borderRadius: 2,
-                overflow: 'hidden',
-                // paddingHorizontal: 15, 
-                marginLeft: 15, // Adds spacing between cards
-                marginBottom: 15,
-                width: Dimensions.get('screen').width / 2 - 22, // Slightly smaller for better fit in grid 
-                // shadowColor: "#000", 
-                // shadowOpacity: 0.1, 
-                // shadowRadius: 5, 
-                // elevation: 5 
+                width: Dimensions.get('screen').width / 2 - 20, // slightly smaller for better fit
             }}
-            activeOpacity={0.8} // Slight click effect
+            activeOpacity={0.8}
             onPress={() => {
                 navigationAdapter.navigate(NAVIGATION_ROUTES.FILTERED_PRODUCTS, { category })
             }}
         >
             <View style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: '#000', opacity: 0.1, zIndex: 1 }} />
-           
+
             <Image
                 source={{ uri: category.image }}
                 style={{

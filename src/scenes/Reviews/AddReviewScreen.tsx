@@ -2,6 +2,8 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import {
     FlatList,
     Image,
+    KeyboardAvoidingView,
+    Platform,
     ScrollView,
     StyleSheet,
     Text,
@@ -105,7 +107,9 @@ const AddReviewScreen = ({ route }: ProfileScreenProps) => {
     }
 
     return (
-        <View style={{ flex: 1, backgroundColor: '#FFF' }}>
+        <KeyboardAvoidingView
+            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+            style={{ flex: 1, backgroundColor: '#FFF' }}>
             <View style={[
                 {
                     flexDirection: 'row',
@@ -183,6 +187,7 @@ const AddReviewScreen = ({ route }: ProfileScreenProps) => {
                         onChangeText={text => setReview(prev => ({ ...prev, review: text }))}
                         placeholder="اكتب تقييمك"
                         multiline
+                        
                         numberOfLines={4}
                         textAlign="right"
                     />
@@ -210,7 +215,7 @@ const AddReviewScreen = ({ route }: ProfileScreenProps) => {
                     <NIButton type='primary' onPress={handleSendReview}>إرسال</NIButton>
                 </View>
             </View>
-        </View>
+        </KeyboardAvoidingView>
     );
 }
 

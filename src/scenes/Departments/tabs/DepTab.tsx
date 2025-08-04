@@ -26,11 +26,12 @@ function DepTab({ departments, department, refetch }: any) {
             }>
 
             <ImageBanner image={{ uri: department.image }} />
-            <View style={{ marginTop: 20 }}>
+            <View style={{ marginTop: 20, direction: 'rtl', marginHorizontal: 15 }}>
                 <FlatList
                     scrollEnabled={false}
                     data={department?.categories}
                     numColumns={2}  // Set two columns per row
+                    columnWrapperStyle={styles.columnWrapper} // Added style for row
                     keyExtractor={(item, index) => index.toString()} style={{ width: '100%' }}
                     renderItem={({ item, index }) => <CategoryCard category={item} />}
 
@@ -61,6 +62,10 @@ const styles = StyleSheet.create({
         // backgroundColor: 'pink',
         // alignItems: 'center',
         // justifyContent: 'center',
+    },
+    columnWrapper: {
+        justifyContent: 'space-between',
+        marginBottom: 10,
     },
 })
 

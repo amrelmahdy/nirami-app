@@ -1,7 +1,6 @@
 
 import { useMutation, UseMutationResult, useQuery, useQueryClient, UseQueryResult } from "@tanstack/react-query"
 import { addProductReview, addProductToFav, getMostSaledProducts, getProductDetails, getProducts, getProductVariants, getRelatedProducts } from "../api/products.api";
-import { Category } from "./categories.hooks";
 import { Brand } from "./brands.hooks";
 import { Group } from "./groups.hooks";
 import { Review } from "./reviews.hooks";
@@ -133,6 +132,9 @@ export const useAddProductToFav = (): UseMutationResult<Product, Error, string> 
             queryClient.setQueryData(['product', productId], data);
             // Invalidate current user query to refetch the user data
             queryClient.invalidateQueries({ queryKey: ['user'] });
+             // Invalidate current user query to refetch the user data
+            queryClient.invalidateQueries({ queryKey: ['product', productId] });
+            
         }
     });
 };

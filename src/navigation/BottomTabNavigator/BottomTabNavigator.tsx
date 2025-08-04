@@ -10,8 +10,8 @@ import NAVIGATION_ROUTES from '../NavigationRoutes';
 import TabBar from './TabBar/TabBar';
 import FavListScreen from '../../scenes/FavList/FavListScreen';
 import ProductDetailsScreen from '../../scenes/ProductDetails/ProductDetailsScreen';
-import DepartmentSearchScreen from '../../scenes/DepartmentSearch/DepartmentSearchScreen';
-import FilteredProductsScreen from '../../scenes/DepartmentSearch/FilteredProductsScreen';
+import DepartmentsScreen from '../../scenes/Departments/DepartmentsScreen';
+import FilteredProductsScreen from '../../scenes/Departments/FilteredProductsScreen';
 import CartScreen from '../../scenes/Cart/CartScreen';
 import BrandsScreen from '../../scenes/Brands/BrandsScreen';
 import FilteredProductsByBrandScreen from '../../scenes/Brands/FilteredProductsByBrandScreen';
@@ -56,7 +56,7 @@ const HomeStack = () => (
 
 const DepartmentStack = () => (
     <Stack.Navigator>
-        <Stack.Screen name={NAVIGATION_ROUTES.DEPARTMENT_SEARCH} options={{ headerShown: false }} component={DepartmentSearchScreen} />
+        <Stack.Screen name={NAVIGATION_ROUTES.DEPARTMENT_SEARCH} options={{ headerShown: false }} component={DepartmentsScreen} />
         <Stack.Screen name={NAVIGATION_ROUTES.FILTERED_PRODUCTS} options={{ headerShown: false }} component={FilteredProductsScreen} />
         <Stack.Screen options={{ headerShown: false }} name={NAVIGATION_ROUTES.PRODUCT_DETAILS} component={ProductDetailsScreen} />
         <Stack.Screen options={{ headerShown: false }} name={NAVIGATION_ROUTES.REVIEWS} component={ReviewsScreen} />

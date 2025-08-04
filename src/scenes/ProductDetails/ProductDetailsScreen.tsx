@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Button, Dimensions, FlatList, Image, StyleSheet, TouchableOpacity, View } from "react-native";
 import { ScrollView, Text } from "react-native-gesture-handler";
 import NavigationAdapter from '../../navigation/NavigationAdapter'
@@ -7,8 +7,7 @@ import { getIconUrl } from "../../assets/icons";
 import { FONT_FAMILIES, Images } from "../../assets";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Carousel, {
-    ICarouselInstance,
-    Pagination,
+    Pagination
 } from "react-native-reanimated-carousel";
 import { useSharedValue } from "react-native-reanimated";
 import { TextInput, Icon, Divider, ActivityIndicator } from "react-native-paper";
@@ -16,12 +15,13 @@ import ProductCard from "../../components/ProductCard/ProductCard";
 import { Rating } from "react-native-ratings";
 import NIText from "../../components/NIText/NIText";
 import NIButton from "../../components/NIButton/NIButton";
-import i18next from "i18next";
-import { Product, useGetProduct, useGetProductVariants, useGetRelatedProducts } from "../../hooks/products.hooks";
+import i18next, { t } from "i18next";
+import { Product, useAddProductToFav, useGetProduct, useGetProductVariants, useGetRelatedProducts } from "../../hooks/products.hooks";
 import { useAddProductToCart } from "../../hooks/cart.hooks";
 import { RouteProp } from '@react-navigation/native';
 import moment from 'moment';
 import ReviewCard from "../../components/ReviewCard/ReviewCard";
+import Toast from "react-native-toast-message";
 
 
 type ProductDetailsScreenRouteProp = RouteProp<{ ProductDetails: { product: Product } }, 'ProductDetails'>;
@@ -36,11 +36,19 @@ function ProductDetailsScreen({ route }: ProductDetailsScreenProps) {
 
     const [selectedVariant, setSelectedVariant] = React.useState(route.params.product?._id);
 
+    const [addingProductToFav, setAddingProductToFav] = useState<boolean>();
+
+    const [addingProductToCart, setAddingProductToCart] = useState<boolean>();
+
 
     const { data: relatedProducts, isLoading: isLoadingRelatedProducts, isError: isErrorRelatedProducts, refetch: refretchRelatedProducts } = useGetRelatedProducts(selectedVariant || route.params.product._id);
 
     const { data: product, isLoading: isProductLoading, isError: isProductError } = useGetProduct(selectedVariant || route.params.product?._id || route.params.product?.id);
     const { data: productVariants, isLoading: isProductVariantsLoading, isError: isProductVariantsError } = useGetProductVariants(route.params.product?._id)
+
+
+
+    const addProductToFavourites = useAddProductToFav();
 
     const carouselRef = useRef(null);
     const data = [...new Array(6).keys()];
@@ -73,23 +81,69 @@ function ProductDetailsScreen({ route }: ProductDetailsScreenProps) {
     }
 
 
-    if (isProductLoading) {
+
+
+
+    const handleAddProductToFavourites = async (product: Product) => {
+        try {
+            setAddingProductToFav(true)
+            await addProductToFavourites.mutateAsync(product.id || product._id, {
+                onSuccess: (res) => {
+                    console.log("Product added to favourites successfully", res);
+                    // Toast.show({
+                    //     type: 'success',
+                    //     text1: t("تم تعديل قائمة المفضلة"),
+                    // });
+                },
+                onError: (error) => {
+                    //Alert.alert("Error", error.message || "Failed to add product to favourites.");
+                }
+            });
+        } catch (error) {
+
+        } finally {
+            setAddingProductToFav(false)
+            // Optionally, you can show a success message or update the UI
+            console.log('Product added to cart successfully');
+        }
+    }
+
+
+    const handleAddProductToCart = async (product: Product) => {
+        setAddingProductToCart(true)
+        await addToCart.mutateAsync(selectedVariant || route.params.product?._id, {
+            onSuccess: () => {
+                // Optionally, you can show a success message or update the UI
+                console.log('Product added to cart successfully');
+            },
+            onError: (error) => {
+                //Alert.alert("Error", error.message || "Failed to add product to cart.");
+            }
+        }).finally(() => {
+            setAddingProductToCart(false);
+        })
+    };
+
+
+    if (isProductLoading || addingProductToFav || addingProductToCart) {
         return <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
             <ActivityIndicator size="large" color="#3f2848" />
         </View>
     }
-
 
     return (
         // <SafeAreaView style={{ flex: 1 }}>
         <View>
             <ScrollView ref={scrollViewRef} style={{ backgroundColor: '#FFF', flexGrow: 1, }}>
                 <SafeAreaView>
-                    <View style={{ flexDirection: 'row', justifyContent: 'space-between', paddingHorizontal: 10, marginVertical: 20 }}>
+                    <View style={{ flexDirection: 'row', justifyContent: 'space-between', paddingHorizontal: 10, marginTop: 20, marginBottom: 10, alignItems: 'center' }}>
 
                         <View style={{ flexDirection: 'row', }}>
-                            <TouchableOpacity>
-                                <Icon source={getIconUrl(Images, 'ic_mdi_light_heart')} size={30} />
+                            <TouchableOpacity onPress={() => handleAddProductToFavourites(product)}>
+
+                                {product.isFavourited ?
+                                    <Icon source={getIconUrl(Images, 'ic_mdi_filled_heart')} size={40} /> :
+                                    <Icon source={getIconUrl(Images, 'ic_mdi_botdered_heart')} size={40} />}
                             </TouchableOpacity>
                             {/* <TouchableOpacity style={{ marginLeft: 10 }}>
                                 <Icon source={getIconUrl(Images, 'ic_lsicon_share_outline')} size={30} />
@@ -268,7 +322,7 @@ function ProductDetailsScreen({ route }: ProductDetailsScreenProps) {
 
 
 
-                   {relatedProducts && !isErrorRelatedProducts && !isLoadingRelatedProducts && relatedProducts.length && <View style={{ flex: 1, direction: 'rtl', marginBottom: 50 }}>
+                    {relatedProducts && !isErrorRelatedProducts && !isLoadingRelatedProducts && relatedProducts.length && <View style={{ flex: 1, direction: 'rtl', marginBottom: 50 }}>
                         <NIText style={{ textAlign: 'left', fontSize: 18, fontFamily: FONT_FAMILIES.ALMARAI_REGULAR, height: 25, marginBottom: 20, marginHorizontal: 15 }}>اكملي إطلالتك</NIText>
                         <FlatList
                             horizontal={true}
@@ -301,17 +355,9 @@ function ProductDetailsScreen({ route }: ProductDetailsScreenProps) {
                 // borderColor: "#ddd",
                 alignItems: "center",
             }}>
-                <NIButton onPress={() => {
-                    addToCart.mutate(selectedVariant || route.params.product?._id, {
-                        onSuccess: () => {
-                            // Optionally, you can show a success message or update the UI
-                            console.log('Product added to cart successfully');
-                        },
-                        onError: (error) => {
-                            //Alert.alert("Error", error.message || "Failed to add product to cart.");
-                        }
-                    });
-                }} type="primary" style={{ width: '100%' }}>اضف الي العربة</NIButton>
+                <NIButton
+                    onPress={() => handleAddProductToCart(product)}
+                    type="primary" style={{ width: '100%' }}>اضف الي العربة</NIButton>
             </View>
 
         </View>

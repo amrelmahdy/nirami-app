@@ -49,15 +49,15 @@ function AccountScreen() {
 
 
     const menu = [
-        {
-            label: 'العربية',
-            icon: "ic_ion_language_outline",
-            screen_key: 'lang',
-            onPress: () => { 
-               //NavigationAdapter.navigate(NAVIGATION_ROUTES.CHOOSE_LANG) 
-            }
+        // {
+        //     label: 'العربية',
+        //     icon: "ic_ion_language_outline",
+        //     screen_key: 'lang',
+        //     onPress: () => { 
+        //        //NavigationAdapter.navigate(NAVIGATION_ROUTES.CHOOSE_LANG) 
+        //     }
 
-        },
+        // },
         {
             label: 'الصفحة الخاصة',
             icon: "ic_ep_user",

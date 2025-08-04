@@ -33,7 +33,7 @@ function OtpScreen({ route }: { route: OtpScreenRouteProp }) {
 
     const handleonFilled = async (text: string) => {
         try {
-            const res = await login(otpId, text)
+            const res = await login(emailOrPhone, otpId, text)
             if (res && res.accessToken) {
                 const accessToken = res.accessToken;
                 const refreshToken = res.refreshToken;
