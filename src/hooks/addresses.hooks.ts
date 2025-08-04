@@ -5,7 +5,7 @@ import { Category } from "./categories.hooks";
 import { Brand } from "./brands.hooks";
 import { Group } from "./groups.hooks";
 import { User } from "./user.hooks";
-import { addAddress, getAddresses, updateAddress } from "../api/addresses.api";
+import { addAddress, deleteAddress, getAddresses, updateAddress } from "../api/addresses.api";
 
 
 
@@ -116,6 +116,23 @@ export const useUpdateAddress = () => {
         },
     });
 };
+
+
+export const useDeleteAddress = () => {
+    const queryClient = useQueryClient();
+    return useMutation({
+        mutationFn: (addressId: string) => deleteAddress(addressId),
+        onSuccess: (res) => {
+            console.log("Address deleted:", res);
+            // Invalidate the cache to refetch the updated address list
+            queryClient.invalidateQueries({ queryKey: ['addresses'] });
+            queryClient.invalidateQueries({ queryKey: ['user'] });
+        },
+        onError: (error: any) => {
+            console.error('Error deleting address:', error?.response?.data || error.message);
+        },
+    });
+};  
 
 
 

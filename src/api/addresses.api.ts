@@ -24,3 +24,8 @@ export const updateAddress = async (addressId: string, newAddress: Address) => {
     return result.data;
 }
 
+
+export const deleteAddress = async (addressId: string) => {
+    const result = await httpClient.delete(`/addresses/${addressId}`);
+    return result.data;
+}

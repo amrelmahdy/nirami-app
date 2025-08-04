@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Button, Dimensions, FlatList, Image, StyleSheet, TouchableOpacity, View } from "react-native";
 import { ScrollView, Text } from "react-native-gesture-handler";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -26,6 +26,7 @@ import NIText from "../../components/NIText/NIText";
 function AddressesScreen() {
 
 
+    const [isDeletingAddress, setIsDeletingAddress] = useState(false)
 
 
     const { data: addresses, isError: isAddressesError, isLoading: isAddressesLoading, isRefetching } = useGetAddresses()
@@ -33,7 +34,7 @@ function AddressesScreen() {
 
 
 
-    if (isAddressesLoading || isRefetching) {
+    if (isAddressesLoading || isRefetching || isDeletingAddress) {
         return <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
             <ActivityIndicator size="large" color="#3f2848" />
         </View>
@@ -52,7 +53,7 @@ function AddressesScreen() {
                             style={{ width: '100%' }}
                             data={addresses}
                             contentContainerStyle={{}}
-                            renderItem={({ item, index }) => <AddressCard address={item} />}
+                            renderItem={({ item, index }) => <AddressCard setIsDeletingAddress={setIsDeletingAddress} address={item} />}
                         />
                         :
                         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', paddingTop: 50 }}>
