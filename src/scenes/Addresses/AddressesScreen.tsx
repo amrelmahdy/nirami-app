@@ -7,7 +7,7 @@ import Carousel, {
     Pagination,
 } from "react-native-reanimated-carousel";
 import { useSharedValue } from "react-native-reanimated";
-import { TextInput, Icon } from "react-native-paper";
+import { TextInput, Icon, ActivityIndicator } from "react-native-paper";
 import { t } from "i18next";
 import NIScreen from "../../components/NIScreen/NiScreen";
 import NIButton from "../../components/NIButton/NIButton";
@@ -28,11 +28,16 @@ function AddressesScreen() {
 
 
 
-    const { data: addresses, isError: isAddressesError, isLoading: isAddressesLoading } = useGetAddresses()
+    const { data: addresses, isError: isAddressesError, isLoading: isAddressesLoading, isRefetching } = useGetAddresses()
 
 
 
 
+    if (isAddressesLoading || isRefetching) {
+        return <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+            <ActivityIndicator size="large" color="#3f2848" />
+        </View>
+    }
 
 
     return (

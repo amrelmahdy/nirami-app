@@ -6,7 +6,7 @@ import {
     TouchableOpacity,
     View,
 } from "react-native";
-import { Icon } from "react-native-paper";
+import { ActivityIndicator, Icon } from "react-native-paper";
 import NIText from "../../../components/NIText/NIText";
 import NIButton from "../../../components/NIButton/NIButton";
 import { getIconUrl } from "../../../assets/icons";
@@ -15,6 +15,7 @@ import AddressCard from "../../../components/AddressCard/AddressCard";
 import { useGetCurrentUser } from "../../../hooks/user.hooks";
 import navigationAdapter from "../../../navigation/NavigationAdapter";
 import NAVIGATION_ROUTES from "../../../navigation/NavigationRoutes";
+import { t } from "i18next";
 
 
 
@@ -27,7 +28,7 @@ type ChangeAddressProps = {
 
 function ChangeAddress({ onNext }: ChangeAddressProps) {
 
-    const { data: currentUser, isError: currentUserError, isLoading: currentUserIsLoading } = useGetCurrentUser();
+    const { data: currentUser, isError: currentUserError, isLoading: currentUserIsLoading, isRefetching: currentUserIsRefetching } = useGetCurrentUser();
 
 
     const [isCollapsed, setIsCollapsed] = useState(true);
@@ -88,7 +89,7 @@ function ChangeAddress({ onNext }: ChangeAddressProps) {
 
                 <Animated.View style={{ height: animation, overflow: 'hidden' }}>
                     <Tab.Navigator
-                        initialRouteName={'tab1'}
+                        initialRouteName={'tab2'}
                         screenOptions={{
                             tabBarLabelStyle: {
                                 fontSize: 15,
@@ -117,12 +118,32 @@ function ChangeAddress({ onNext }: ChangeAddressProps) {
 
 
             <View style={{ flex: 1 }}>
+
+
+
+
+
                 <View style={{ marginHorizontal: 15, }}>
                     <NIText type='light' style={{ fontSize: 23, height: 25, marginTop: 20 }}>عنوان التوصيل</NIText>
                 </View>
 
 
-               {defaultAddress &&  <AddressCard address={defaultAddress} hideDelete />}
+
+
+
+
+                <View style={{ flex: 1}}>
+                    {
+                        (currentUserIsLoading || currentUserIsRefetching) ? <View>
+                            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                                <ActivityIndicator size="large" color="#3f2848" />
+                            </View>
+                        </View> : defaultAddress ? <AddressCard address={defaultAddress} hideDelete /> : <View>
+                            <NIText style={{ fontSize: 16, textAlign: 'center', marginTop: 30 }}>{t("there_is_no_default_address")}</NIText>
+                        </View>
+
+                    }
+                </View>
 
 
             </View>

@@ -36,6 +36,29 @@ export const isValidSaudiPhone = (input: string): boolean => {
 };
 
 
+export function formatSaudiNumber(number: string) {
+  // Normalize: remove all non-digit characters
+  let digits = number.replace(/\D/g, '');
+
+  // Convert +966 or 966 prefix to 0
+  if (digits.startsWith('966') && digits.length === 12) {
+    digits = '0' + digits.slice(3);
+  }
+  if (digits.startsWith('+966') && digits.length === 12) {
+    digits = '0' + digits.slice(4);
+  }
+
+  // Validate format: should now start with 05 and be 10 digits
+  if (!/^05\d{8}$/.test(digits)) {
+    return false;
+  }
+
+  return `${digits.slice(0, 3)}-${digits.slice(3, 6)}-${digits.slice(6)}`;
+}
+
+
+
+
 // ---------- New (grouped) statuses ----------
 export type GroupedOrderStatus =
   | 'new'

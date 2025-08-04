@@ -128,5 +128,6 @@ export default {
         mempership_identifier: "معرف العضوية",
         for_more_info: "لمزيد من المعلومات او لتغير تفضيلاتك تواصل معنا",
         phone_number: "رقم الهاتف",
+        there_is_no_default_address: "لا يوجد عنوان افتراضي"
     }
 }

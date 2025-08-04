@@ -184,8 +184,9 @@ function HomeScreen() {
                 {
                     mostSaledProductsData && mostSaledProductsData.length &&
 
-                    <View style={{ flex: 1}}>
+                    <View style={{}}>
                         <NIText style={{ fontFamily: 'Almarai-Bold', textAlign: 'right', fontSize: 20, marginBottom: 20, paddingHorizontal: 15 }}>الاكثر مبيعاً</NIText>
+
                         <View style={{ direction: 'rtl' }}>
                             <FlatList
                                 // numColumns={2}  // Set two columns per row
@@ -195,8 +196,9 @@ function HomeScreen() {
                                 data={mostSaledProductsData}
                                 //contentContainerStyle={{ paddingHorizontal: 10, paddingBottom: 20 }}  // Add padding around the grid
 
-                                renderItem={({ item, index }) => <ProductCard product={item} />} />
+                                renderItem={({ item, index }) => <ProductCard isLoading={isRefetchingMostSaledProducts} product={item} />} />
                         </View>
+
                     </View>
                 }
 
@@ -252,7 +254,7 @@ function HomeScreen() {
                                 data={newProductsData.products}
                                 //contentContainerStyle={{ paddingHorizontal: 10, paddingBottom: 20 }}  // Add padding around the grid
 
-                                renderItem={({ item, index }) => <ProductCard product={item} />} />
+                                renderItem={({ item, index }) => <ProductCard isLoading={isRefetchingNeProducts} product={item} />} />
                         </View>
                     </View>
                 }

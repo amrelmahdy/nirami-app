@@ -30,12 +30,12 @@ import navigationAdapter from "../../navigation/NavigationAdapter";
 function CartScreen() {
     const [isLoading, setIsLoading] = useState<boolean>(false);
 
-    const { data: cartData, isLoading: cartDataIsLoading, isError: cartDataIstError, refetch } = useGetCart();
+    const { data: cartData, isLoading: cartDataIsLoading, isError: cartDataIstError, refetch, isRefetching } = useGetCart();
 
 
 
 
-    if (cartDataIsLoading || isLoading) {
+    if (cartDataIsLoading || isLoading || isRefetching) {
         return <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
             <ActivityIndicator size="large" color="#3f2848" />
         </View>

@@ -93,5 +93,6 @@ export default {
         ticket_created_successfully: "Ticket created successfully",
         your_ticket_number_is: "Your ticket number is",
         error_creating_ticket: "An error occurred while creating the ticket",
+        there_is_no_default_address: "There is no default address",
     }
 }

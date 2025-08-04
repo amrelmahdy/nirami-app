@@ -66,15 +66,14 @@ function CheckoutScreen() {
                         <Text style={[styles.label, isActive && styles.activeLabel]}>{step}</Text>
                     </View>
                     <NIText
-                        style={[
-                            styles.stepLabel,
-                            {
-                                left: -(circleSize) - 10,
-                                width: circleSize * 4,
-                                height: 20,
-                                fontSize: 12,
-                            },
-                        ]}
+                        style={{
+                            ...styles.stepLabel,
+                            left: -(circleSize) - 10,
+                            width: circleSize * 4,
+                            height: 20,
+                            fontSize: 12,
+
+                        }}
                     >
                         {steps[step - 1]?.title}
                     </NIText>

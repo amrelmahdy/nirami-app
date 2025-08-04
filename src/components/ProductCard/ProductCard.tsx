@@ -16,10 +16,11 @@ import Toast from "react-native-toast-message";
 
 type ProductCardProps = {
     product: Product,
+    isLoading?: boolean,
     onPress?: () => void
 }
 
-const ProductCard = ({ product, onPress }: ProductCardProps) => {
+const ProductCard = ({ product, onPress, isLoading = false }: ProductCardProps) => {
 
     const [addingProductToFav, setAddingProductToFav] = useState<boolean>();
 
@@ -97,7 +98,7 @@ const ProductCard = ({ product, onPress }: ProductCardProps) => {
         >
 
 
-           { addingProductToFav && <View style={{ width: "100%", height: '100%', position: 'absolute', zIndex: 111, backgroundColor: 'rgba(255, 255, 255, 0.8)' }}>
+           { (isLoading || addingProductToFav) && <View style={{ width: "100%", height: '100%', position: 'absolute', zIndex: 111, backgroundColor: 'rgba(255, 255, 255, 0.8)' }}>
                 <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
                     <ActivityIndicator size="large" color="#3f2848" />
                 </View>

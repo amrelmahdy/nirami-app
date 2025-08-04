@@ -11,7 +11,7 @@ import Carousel, {
     Pagination,
 } from "react-native-reanimated-carousel";
 import { useSharedValue } from "react-native-reanimated";
-import { TextInput, Icon } from "react-native-paper";
+import { TextInput, Icon, ActivityIndicator } from "react-native-paper";
 import ProductCard from "../../components/ProductCard/ProductCard";
 import NIScreen from "../../components/NIScreen/NiScreen";
 import { t } from "i18next";
@@ -26,7 +26,7 @@ import { useGetBrands } from "./brands.hooks";
 
 function BrandsScreen() {
 
-    const { data: brandsList, isError: isBrandsError, isLoading: isBrandsLoading, refetch } = useGetBrands()
+    const { data: brandsList, isError: isBrandsError, isLoading: isBrandsLoading, refetch, isRefetching } = useGetBrands()
 
 
 
@@ -50,6 +50,12 @@ function BrandsScreen() {
     };
 
 
+    if (isBrandsLoading || isRefetching) {
+        return <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+            <ActivityIndicator size="large" color="#3f2848" />
+        </View>
+    }
+
 
 
     return (
@@ -57,7 +63,7 @@ function BrandsScreen() {
             <View style={{ flex: 1, paddingHorizontal: 15 }}>
                 <FlatList
                     onRefresh={refetch}
-                    refreshing={isBrandsLoading}
+                    refreshing={isRefetching}
                     numColumns={2}
                     showsHorizontalScrollIndicator={false}
                     keyExtractor={(item, index) => index.toString()} style={{ width: '100%' }}

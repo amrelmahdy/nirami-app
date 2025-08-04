@@ -43,7 +43,7 @@ function ProductDetailsScreen({ route }: ProductDetailsScreenProps) {
 
     const { data: relatedProducts, isLoading: isLoadingRelatedProducts, isError: isErrorRelatedProducts, refetch: refretchRelatedProducts } = useGetRelatedProducts(selectedVariant || route.params.product._id);
 
-    const { data: product, isLoading: isProductLoading, isError: isProductError } = useGetProduct(selectedVariant || route.params.product?._id || route.params.product?.id);
+    const { data: product, isLoading: isProductLoading, isError: isProductError, isRefetching } = useGetProduct(selectedVariant || route.params.product?._id || route.params.product?.id);
     const { data: productVariants, isLoading: isProductVariantsLoading, isError: isProductVariantsError } = useGetProductVariants(route.params.product?._id)
 
 
@@ -125,7 +125,7 @@ function ProductDetailsScreen({ route }: ProductDetailsScreenProps) {
     };
 
 
-    if (isProductLoading || addingProductToFav || addingProductToCart) {
+    if (isProductLoading || addingProductToFav || addingProductToCart || isRefetching) {
         return <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
             <ActivityIndicator size="large" color="#3f2848" />
         </View>

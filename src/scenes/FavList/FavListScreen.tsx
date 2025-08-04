@@ -13,7 +13,7 @@ import { ActivityIndicator } from "react-native-paper";
 
 const FavList = () => {
 
-    const { data: currentUser, isError: currentUserError, isLoading: currentUserIsLoading } = useGetCurrentUser();
+    const { data: currentUser, isError: currentUserError, isLoading: currentUserIsLoading, isRefetching } = useGetCurrentUser();
 
 
     const insets = useSafeAreaInsets();
@@ -29,7 +29,7 @@ const FavList = () => {
     
     
 
-    if (currentUserIsLoading) {
+    if (currentUserIsLoading || isRefetching) {
         return <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
             <ActivityIndicator size="large" color="#3f2848" />
         </View>
@@ -48,7 +48,7 @@ const FavList = () => {
                                 numColumns={2}
                                 keyExtractor={(item, index) => index.toString()} style={{ width: '100%' }}
                                 data={currentUser.favList}
-                                renderItem={({ item, index }) => <ProductCard product={item} />}
+                                renderItem={({ item, index }) => <ProductCard isLoading={isRefetching} product={item} />}
                             />
                         </View>
                         :
