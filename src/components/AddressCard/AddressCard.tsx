@@ -29,10 +29,6 @@ type ChangeAddressProps = {
 
 function AddressCard({ address, hideDelete, setIsDeletingAddress }: ChangeAddressProps) {
 
-
-
-
-
     const deleteAddress = useDeleteAddress();
 
     const handleDelete = () => {
@@ -40,9 +36,9 @@ function AddressCard({ address, hideDelete, setIsDeletingAddress }: ChangeAddres
             t("confirm_delete"),
             t("confirm_delete_message"),
             [
-                { text: "إلغاء", style: "cancel" },
+                { text: t("cancel"), style: "cancel" },
                 {
-                    text: "حذف",
+                    text: t("delete"),
                     style: "destructive",
                     onPress: async () => {
                         setIsDeletingAddress?.(true);

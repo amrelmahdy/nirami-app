@@ -404,6 +404,21 @@ const AddAddressScreen: React.FC = ({ route }) => {
     };
 
 
+    const onRegionChangeComplete = (region: Region) => {
+        setAddress(prev => ({
+            ...prev,
+            location: {
+                ...prev.location,
+                lat: region.latitude,
+                lng: region.longitude,
+                displayName: "",
+            },
+        }));
+        //setPlaceInfo("جاري جلب معلومات الموقع...");
+        fetchPlaceInfo(region.latitude, region.longitude);
+    };
+
+
     return (
         <NIScreen
             title={addressToEdit ? 'تعديل العنوان' : t("اضف عنوان جديد")}
@@ -492,6 +507,7 @@ const AddAddressScreen: React.FC = ({ route }) => {
                                         zoomEnabled
                                         zoomTapEnabled
                                         zoomControlEnabled
+                                        onRegionChangeComplete={onRegionChangeComplete}
 
                                     >
                                         <Marker

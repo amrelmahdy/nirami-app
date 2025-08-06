@@ -130,6 +130,8 @@ export default {
         phone_number: "رقم الهاتف",
         there_is_no_default_address: "لا يوجد عنوان افتراضي",
         confirm_delete: "تأكيد الحذف",
-        confirm_delete_message: "هل أنت متأكد أنك تريد حذف هذا العنوان؟"
+        confirm_delete_message: "هل أنت متأكد أنك تريد حذف هذا العنوان؟",
+        cancel: "إلغاء",
+        delete: "حذف",
     }
 }
