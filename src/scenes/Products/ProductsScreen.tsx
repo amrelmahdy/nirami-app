@@ -20,12 +20,13 @@ import ProductCard from '../../components/ProductCard/ProductCard';
 import FilterByBar from '../../components/FilterByBar/FilterByBar';
 import BottomSheet from '../../components/BottomSheet/BottomSheet';
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
-import { RadioButton } from 'react-native-paper';
+import { Icon, RadioButton } from 'react-native-paper';
 import BannerImage from '../../components/BannerImage/BannerImage';
 import { useGetProducts } from '../../hooks/products.hooks';
 import i18next from 'i18next';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { getIconUrl } from '../../assets/icons';
+import navigationAdapter from '../../navigation/NavigationAdapter';
 
 
 
@@ -61,11 +62,37 @@ const ProductsScreen = ({ route }: ProductsScreenProps) => {
 
     return (
         <ScrollView style={{}}>
-            <SafeAreaView style={{ flex: 1, backgroundColor: '#FFF' }}>
-                <View style={{ justifyContent: 'center', alignItems: 'center', marginBottom: 10 }}>
-                    <Image source={getIconUrl(Images, 'logo_eng_ar')} /* style={styles.image} */ />
+            <SafeAreaView style={{ backgroundColor: '#FFF' }}>
+
+
+
+                <View style={{ flex: 1, flexDirection: 'row' }}>
+
+                    <View style={{ flex:  0.2}} />
+
+                    <View style={{ flex:  0.7, justifyContent: 'center', alignItems: 'center', marginBottom: 10 }}>
+                        <Image source={getIconUrl(Images, 'logo_eng_ar')} /* style={styles.image} */ />
+                    </View>
+
+
+                    <View style={{
+                        flex: 0.1,
+                        justifyContent: 'center',
+                        alignItems: 'flex-end',
+                        paddingHorizontal: 20
+                    }}>
+                        {
+                            navigationAdapter.canGoBack && <TouchableOpacity onPress={() => navigationAdapter.goBack()}>
+                                <Icon source={getIconUrl(Images, 'ic_weui_arrow_outlined')} size={30} />
+                            </TouchableOpacity>
+                        }
+
+                    </View>
+
                 </View>
-                <View style={{ paddingHorizontal: 15, marginBottom: 20}}>
+
+
+                <View style={{ paddingHorizontal: 15, marginBottom: 20 }}>
                     <SearchInput value={query} handleQueryChange={setQuery} />
                 </View>
                 {/* <BannerImage image='https://placehold.co/600x600.png' /> */}

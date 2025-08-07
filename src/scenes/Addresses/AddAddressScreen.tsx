@@ -79,6 +79,13 @@ const AddAddressScreen: React.FC = ({ route }) => {
         isDefault: addressToEdit ? addressToEdit.isDefault : false,
     });
 
+
+    const [markerPosition, setMarkerPosition] = useState({
+        lat: addressToEdit ? addressToEdit.location.lat : 0,
+        lng: addressToEdit ? addressToEdit.location.lng : 0,
+    });
+
+
     const [searchQuery, setSearchQuery] = useState<string>("");
     const [suggestions, setSuggestions] = useState<PlaceSuggestion[]>([]);
     const [showSuggestions, setShowSuggestions] = useState(false);
@@ -299,6 +306,8 @@ const AddAddressScreen: React.FC = ({ route }) => {
             },
         }));
 
+        setMarkerPosition({ lat: latitude, lng: longitude });
+
         //setPlaceInfo("جاري جلب معلومات الموقع...");
         await fetchPlaceInfo(latitude, longitude);
     };
@@ -404,18 +413,34 @@ const AddAddressScreen: React.FC = ({ route }) => {
     };
 
 
+    // const onRegionChangeComplete = (region: Region) => {
+    //     setAddress(prev => ({
+    //         ...prev,
+    //         location: {
+    //             ...prev.location,
+    //             lat: region.latitude,
+    //             lng: region.longitude,
+    //             displayName: "",
+    //         },
+    //     }));
+    //     //setPlaceInfo("جاري جلب معلومات الموقع...");
+    //     fetchPlaceInfo(region.latitude, region.longitude);
+    // };
+
     const onRegionChangeComplete = (region: Region) => {
-        setAddress(prev => ({
-            ...prev,
-            location: {
-                ...prev.location,
+        // Avoid unnecessary updates — only update if position actually changed
+        if (
+            Math.abs(region.latitude - markerPosition.lat) > 0.0001 ||
+            Math.abs(region.longitude - markerPosition.lng) > 0.0001
+        ) {
+            setMarkerPosition({
                 lat: region.latitude,
                 lng: region.longitude,
-                displayName: "",
-            },
-        }));
-        //setPlaceInfo("جاري جلب معلومات الموقع...");
-        fetchPlaceInfo(region.latitude, region.longitude);
+            });
+
+            fetchPlaceInfo(region.latitude, region.longitude);
+        }
+
     };
 
 
@@ -512,8 +537,8 @@ const AddAddressScreen: React.FC = ({ route }) => {
                                     >
                                         <Marker
                                             coordinate={{
-                                                latitude: address.location?.lat,
-                                                longitude: address.location?.lng,
+                                                latitude: markerPosition.lat,
+                                                longitude: markerPosition.lng,
                                             }}
                                             draggable
                                             onDragEnd={onMarkerDragEnd}

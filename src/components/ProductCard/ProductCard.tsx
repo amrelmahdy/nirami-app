@@ -39,10 +39,6 @@ const ProductCard = ({ product, onPress, isLoading = false }: ProductCardProps) 
         await addProductToFavourites.mutateAsync(product.id || product._id, {
             onSuccess: (res) => {
                 console.log("Product added to favourites successfully", res);
-                // Toast.show({
-                //     type: 'success',
-                //     text1: t("تم تعديل قائمة المفضلة"),
-                // });
             },
             onError: (error) => {
                 //Alert.alert("Error", error.message || "Failed to add product to favourites.");
@@ -180,9 +176,9 @@ const ProductCard = ({ product, onPress, isLoading = false }: ProductCardProps) 
                         <Text style={{ fontSize: 12, fontWeight: "bold", color: "#828282", textAlign: 'left' }}>{product.price}</Text>
                         <Icon source={getIconUrl(Images, 'saudi_riyal_symbol')} size={15} />
                     </View>
-                    <View style={{ flexDirection: 'row', marginBottom: 5 }}>
+                    <View style={{ flexDirection: 'row', marginBottom: 5, alignItems: 'center' }}>
                         <Text style={{ fontSize: 18, fontWeight: "bold", color: "#000", textAlign: 'left', }}>{product.isOnSale ? product.salesPrice : product.price}</Text>
-                        <Icon source={getIconUrl(Images, 'saudi_riyal_symbol')} size={15} />
+                        <Icon  source={getIconUrl(Images, 'saudi_riyal_symbol')} size={15} />
                     </View>
                 </View>
             </>
