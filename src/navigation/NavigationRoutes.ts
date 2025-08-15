@@ -29,6 +29,7 @@ const NAVIGATION_ROUTES = {
   RESET_PASSWORD: 'ResetPassword',
   ACCOUNT: 'Account',
   PROFILE: 'Profile',
+  PROFILE_MODAL: 'ProfileModal',
   ORDERS: 'Orders',
   ORDER_DETAILS: 'OrderDetails',
   TRACK_ORDER: 'TrackOrder',

@@ -10,6 +10,7 @@ import BottomTabBar from './BottomTabNavigator/BottomTabNavigator';
 import ChooseLanguage from '../scenes/ChooseLanguage/ChooseLanguage';
 import OtpScreen from '../scenes/Auth/otp/OtpScreen';
 import LoginOrRegister from '../scenes/Auth/LoginOrRegister/LoginOrRegisterScreen';
+import ProfileScreen from '../scenes/Profile/ProfileScreen';
 
 const Stack = createStackNavigator();
 
@@ -59,7 +60,7 @@ function Navigation() {
                     console.log('Navigation container is ready')
                 }}
                 onStateChange={(state) => console.log('New state is', state)}
-            
+
 
             >
 
@@ -71,7 +72,7 @@ function Navigation() {
                     <Stack.Screen
                         name={NAVIGATION_ROUTES.SPLASH}
                         component={SplashScreen}
-                        
+
                         {...noHeaderOptions}
                     />
 
@@ -83,6 +84,7 @@ function Navigation() {
 
 
 
+
                     <Stack.Screen
                         name={NAVIGATION_ROUTES.AUTH}
                         component={AuthStack}
@@ -91,9 +93,19 @@ function Navigation() {
 
                     <Stack.Screen
                         name={NAVIGATION_ROUTES.BOTTOM_TAB_BAR}
-                        component={BottomTabBar} 
+                        component={BottomTabBar}
                         options={{ animation: 'slide_from_left' }}
-                        />
+                    />
+
+
+
+                    <Stack.Screen
+                        name={NAVIGATION_ROUTES.PROFILE_MODAL}
+                        component={ProfileScreen}
+                        options={{
+                            presentation: 'modal',
+                        }}
+                    />
 
 
                     {/* <Stack.Screen

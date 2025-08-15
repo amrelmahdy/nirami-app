@@ -8,7 +8,7 @@ import NAVIGATION_ROUTES from "../../../navigation/NavigationRoutes";
 import navigationAdapter from "../../../navigation/NavigationAdapter";
 import i18next, { t } from "i18next";
 import { sendAnOTPForLoginOrRegister } from "../../../api/auth.api";
-import { formatSaudiNumber, getNormalizedPhone, isValidEmailOrSaudiPhone, isValidSaudiPhone } from "../../../utils/helpers";
+import { formatSaudiNumber, getNormalizedPhone, isValidEmailOrSaudiPhone, isValidSaudiPhone, removeSpacesFromSaudiNumber } from "../../../utils/helpers";
 import { get } from "react-native/Libraries/TurboModule/TurboModuleRegistry";
 import NIText from "../../../components/NIText/NIText";
 import { TouchableRipple } from "react-native-paper";
@@ -30,7 +30,7 @@ function LoginOrRegister() {
 
     const handleEmailOrPhoneChange = (text: string) => {
         const formatted = formatSaudiNumber(text);
-        setEmailOrPhone(formatted ? formatted : text);
+        setEmailOrPhone(formatted ? formatted : removeSpacesFromSaudiNumber(text));
         setInputError(null);
     };
 

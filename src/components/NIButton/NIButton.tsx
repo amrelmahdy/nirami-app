@@ -41,7 +41,7 @@ const NIButton: React.FC<NIButtonProps> = ({
                 type === "primary" && styles.primary,
                 type === "secondary" && styles.secondary,
                 type === "outline" && styles.outline,
-                type === "disabled" && styles.disabled,
+                (type === "disabled" || disabled) && styles.disabled,
                 style,
             ]}
         >
@@ -68,7 +68,7 @@ const styles = StyleSheet.create({
         borderRadius: 8,
         alignItems: "center",
         justifyContent: "center",
-        
+
     },
     primary: {
         backgroundColor: "#3f2848",
@@ -93,7 +93,7 @@ const styles = StyleSheet.create({
     },
     textOutline: {
         color: "#000000"
-        },
+    },
     textDisabled: {
         color: "#A0A0A0",
     },

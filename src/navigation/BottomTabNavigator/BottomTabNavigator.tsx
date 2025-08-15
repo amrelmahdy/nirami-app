@@ -24,7 +24,7 @@ import AddressesScreen from '../../scenes/Addresses/AddressesScreen';
 import OrdersScreen from '../../scenes/Orders/OrdersScreen';
 import OrderDetailsScreen from '../../scenes/Orders/OrderDetailsScreen';
 import TrackOrderScreen from '../../scenes/Orders/TrackOrderScreen';
-import ProfileScreen from '../../scenes/Profile/Profile';
+import ProfileScreen from '../../scenes/Profile/ProfileScreen';
 import ReviewsScreen from '../../scenes/Reviews/ReviewsScreen';
 import AddReviewScreen from '../../scenes/Reviews/AddReviewScreen';
 import VATCertificateScreen from '../../scenes/VATCertificate/VATCertificateScreen';

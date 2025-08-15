@@ -36,7 +36,7 @@ export const isValidSaudiPhone = (input: string): boolean => {
 };
 
 
-export function formatSaudiNumber(number: string) {
+export const formatSaudiNumber = (number: string) => {
   // Normalize: remove all non-digit characters
   let digits = number.replace(/\D/g, '');
 
@@ -53,8 +53,13 @@ export function formatSaudiNumber(number: string) {
     return false;
   }
 
-  return `${digits.slice(0, 3)}-${digits.slice(3, 6)}-${digits.slice(6)}`;
+  return `${digits.slice(0, 3)} ${digits.slice(3, 6)} ${digits.slice(6)}`;
 }
+
+export const removeSpacesFromSaudiNumber = (number: string) => {
+  // Remove spaces and ensure it starts with 05
+  return  number.replace(/\s/g, '');
+}   
 
 
 

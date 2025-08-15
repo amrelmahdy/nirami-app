@@ -13,6 +13,7 @@ import { login, verifyOTPForLoginOrRegister } from "../../../api/auth.api";
 import NIText from "../../../components/NIText/NIText";
 import { RouteProp } from '@react-navigation/native';
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { removeSpacesFromSaudiNumber } from "../../../utils/helpers";
 
 type OtpScreenRouteProp = {
     params?: {
@@ -33,7 +34,7 @@ function OtpScreen({ route }: { route: OtpScreenRouteProp }) {
 
     const handleonFilled = async (text: string) => {
         try {
-            const res = await login(emailOrPhone, otpId, text)
+            const res = await login(removeSpacesFromSaudiNumber(emailOrPhone), otpId, text)
             if (res && res.accessToken) {
                 const accessToken = res.accessToken;
                 const refreshToken = res.refreshToken;

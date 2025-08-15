@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { use, useCallback, useEffect, useRef, useState } from "react";
 import { Alert, Button, Dimensions, FlatList, Image, StyleSheet, TouchableOpacity, View, RefreshControl } from "react-native";
 import { ScrollView, Text } from "react-native-gesture-handler";
 import NavigationAdapter from '../../navigation/NavigationAdapter'
@@ -20,13 +20,15 @@ import { useTranslation } from "react-i18next";
 import { useGetMostSaledProducts, useGetProducts } from "../../hooks/products.hooks";
 import { useGetBrands } from "../Brands/brands.hooks";
 import NIText from "../../components/NIText/NIText";
+import navigationAdapter from "../../navigation/NavigationAdapter";
+import { useGetCurrentUser } from "../../hooks/user.hooks";
 
 
 
 
 
 function HomeScreen() {
-
+    const { data: currentUser, isError: currentUserError, isLoading: currentUserIsLoading } = useGetCurrentUser();
     const { data: mostSaledProductsData, isError: isMostSaledProductsError, isLoading: isMostSaledLoading, refetch: refetchMostSaledProducts, isFetching: isRefetchingMostSaledProducts } = useGetMostSaledProducts();
     const { data: newProductsData, isError: isNewProductsError, isLoading: isNewProductsLoading, refetch: refetchNewProducts, isFetching: isRefetchingNeProducts } = useGetProducts({ sortBy: 'new' });
     const { data: brands, isError: isBrandsError, isLoading: isNBrandsLoading, refetch: refetchBrands, isFetching: isRefetchingBrands } = useGetBrands();
@@ -71,6 +73,16 @@ function HomeScreen() {
         console.log('Triggered onRefresh');
         refetch();
     }, [refetch]);
+
+
+    useEffect(() => {
+      console.log('HomeScreen mounted');
+      console.log('Current User:', currentUser);
+      if(currentUser && !currentUser.isProfileCompleted) {
+          console.log('User is logged in, navigating to profile modal');
+          navigationAdapter.replace(NAVIGATION_ROUTES.PROFILE_MODAL);
+      }
+    }, [currentUser]);
 
     return (
         // <SafeAreaView style={{ flex: 1 }}>
