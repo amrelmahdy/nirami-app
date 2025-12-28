@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { createStackNavigator } from '@react-navigation/stack';
 // import Icon from 'react-native-vector-icons/AntDesign';
@@ -35,6 +35,9 @@ import TicketsScreen from '../../scenes/CustomerService/TicketsScreen';
 import AddTicketScreen from '../../scenes/CustomerService/AddTicketScreen';
 import FAQsScreen from '../../scenes/CustomerService/FAQsScreen';
 import ReturnPolicyScreen from '../../scenes/CustomerService/ReturnPolicyScreen';
+import { useGetCurrentUser } from '../../hooks/user.hooks';
+import navigationAdapter from '../NavigationAdapter';
+import { ActivityIndicator } from 'react-native-paper';
 
 
 const Stack = createStackNavigator()
@@ -141,6 +144,26 @@ const TabIcon: React.FC<TabIconProps> = ({ focused, iconName }) => {
 
 
 const BottomTabBar = () => {
+    const { data: currentUser, isError: currentUserError, isLoading: currentUserIsLoading } = useGetCurrentUser();
+
+
+    useEffect(() => {
+        console.log('HomeScreen mounted');
+        console.log('Current User:', currentUser);
+        if (currentUser && !currentUser.isProfileCompleted) {
+            console.log('User is logged in, navigating to profile modal');
+            navigationAdapter.replace(NAVIGATION_ROUTES.PROFILE_MODAL);
+        }
+    }, [currentUser?.isProfileCompleted]);
+
+
+
+    if (currentUserIsLoading) {   
+        return <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+            <ActivityIndicator size="large" color="#3f2848" />
+        </View>
+    }
+
     return (
         <Tab.Navigator
             tabBar={(props) => <TabBar {...props} />}

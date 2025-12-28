@@ -174,4 +174,4 @@ const Timeline = ({
   return <View style={styles.container}>{events}</View>;
 };
 
-module.exports = Timeline;
+export default Timeline;

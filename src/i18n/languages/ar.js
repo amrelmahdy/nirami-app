@@ -133,5 +133,25 @@ export default {
         confirm_delete_message: "هل أنت متأكد أنك تريد حذف هذا العنوان؟",
         cancel: "إلغاء",
         delete: "حذف",
+
+        pending: 'قيد الانتظار',
+        awaiting_payment: 'بانتظار الدفع',
+        payment_failed: 'فشل الدفع',
+        processing: 'قيد المعالجة',
+        on_hold: 'معلق',
+        shipped: 'تم الشحن',
+        out_for_delivery: 'خرج للتسليم',
+        delivered: 'تم التسليم',
+        completed: 'مكتمل',
+        cancelled: 'ملغي',
+        failed: 'فشل',
+        returned: 'مرتجع',
+        refunded: 'تم رد المبلغ',
+        partially_shipped: 'تم الشحن جزئياً',
+        partially_refunded: 'تم رد جزء من المبلغ',
+        ready_for_pickup: 'جاهز للاستلام',
+        rescheduled: 'تمت إعادة الجدولة',
+        expired: 'منتهي',
+
     }
 }

@@ -28,7 +28,7 @@ import { useGetCurrentUser } from "../../hooks/user.hooks";
 
 
 function HomeScreen() {
-    const { data: currentUser, isError: currentUserError, isLoading: currentUserIsLoading } = useGetCurrentUser();
+    // const { data: currentUser, isError: currentUserError, isLoading: currentUserIsLoading } = useGetCurrentUser();
     const { data: mostSaledProductsData, isError: isMostSaledProductsError, isLoading: isMostSaledLoading, refetch: refetchMostSaledProducts, isFetching: isRefetchingMostSaledProducts } = useGetMostSaledProducts();
     const { data: newProductsData, isError: isNewProductsError, isLoading: isNewProductsLoading, refetch: refetchNewProducts, isFetching: isRefetchingNeProducts } = useGetProducts({ sortBy: 'new' });
     const { data: brands, isError: isBrandsError, isLoading: isNBrandsLoading, refetch: refetchBrands, isFetching: isRefetchingBrands } = useGetBrands();
@@ -75,14 +75,14 @@ function HomeScreen() {
     }, [refetch]);
 
 
-    useEffect(() => {
-      console.log('HomeScreen mounted');
-      console.log('Current User:', currentUser);
-      if(currentUser && !currentUser.isProfileCompleted) {
-          console.log('User is logged in, navigating to profile modal');
-          navigationAdapter.replace(NAVIGATION_ROUTES.PROFILE_MODAL);
-      }
-    }, [currentUser]);
+    // useEffect(() => {
+    //   console.log('HomeScreen mounted');
+    //   console.log('Current User:', currentUser);
+    //   if(currentUser && !currentUser.isProfileCompleted) {
+    //       console.log('User is logged in, navigating to profile modal');
+    //       navigationAdapter.replace(NAVIGATION_ROUTES.PROFILE_MODAL);
+    //   }
+    // }, [currentUser]);
 
     return (
         // <SafeAreaView style={{ flex: 1 }}>

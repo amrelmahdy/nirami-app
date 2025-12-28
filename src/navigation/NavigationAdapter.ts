@@ -19,6 +19,10 @@ class NavigationAdapter {
     return this._navigator?.canGoBack() ?? false;
   }
 
+  hasBack(): boolean {
+    return this._navigator?.canGoBack() ?? false;
+  }
+
   navigate(routeName: string, params?: object): void {
     this._navigator?.dispatch(CommonActions.navigate(routeName, params));
   }

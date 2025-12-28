@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { use, useCallback, useEffect, useRef, useState } from 'react';
 import {
     FlatList,
     Image,
@@ -22,6 +22,7 @@ import Accordion from 'react-native-collapsible/Accordion';
 import { Icon } from 'react-native-paper';
 import { FONT_FAMILIES, Images } from '../../assets';
 import NIAucordion from '../../components/NIAucordion/NIAucordion';
+import { useGetAllSettings } from '../../hooks/settings.hooks';
 
 
 
@@ -41,6 +42,7 @@ const AboutUsScreen = ({ route }: ProfileScreenProps) => {
 
     const [date, setDate] = useState(new Date());
 
+    const { data: settings, isLoading, isError } = useGetAllSettings()
 
     const SECTIONS = [
         {
@@ -54,6 +56,10 @@ const AboutUsScreen = ({ route }: ProfileScreenProps) => {
             content: t("nirami_story_description"),
         },
     ]
+
+
+    const [contentSections, setContentSections] = useState(SECTIONS);
+
 
 
     const [activeSections, setActiveSections] = useState([]);
@@ -71,25 +77,28 @@ const AboutUsScreen = ({ route }: ProfileScreenProps) => {
         gender: 'male',
     });
 
-    // Sync user state with currentUser changes
+
     useEffect(() => {
-        if (currentUser) {
-            setUser({
-                firstName: currentUser.firstName || '',
-                lastName: currentUser.lastName || '',
-                email: currentUser.email || '',
-                phone: currentUser.phone || '',
-                dataOfBirth: currentUser.dateOfBirth ? new Date(currentUser.dateOfBirth) : new Date(),
-                gender: currentUser.gender || 'male',
+        if (settings) {
+            const updatedSections = SECTIONS.map(section => {
+                if (section.key === 'about_nirami') {
+                    return {
+                        ...section,
+                        content: settings.aboutUs?.[i18next.language] || '',
+                        html: true,
+                    };
+                } else if (section.key === 'nirami_story') {
+                    return {
+                        ...section,
+                        content: settings.ourStory?.[i18next.language] || '',
+                        html: true,
+                    };
+                }
+                return section;
             });
+            setContentSections(updatedSections);
         }
-    }, [currentUser]);
-
-    const updateSections = (activeSections) => {
-        setActiveSections(activeSections);
-    };
-
-    console.log(activeSections)
+    }, [settings]);
 
 
 
@@ -97,7 +106,7 @@ const AboutUsScreen = ({ route }: ProfileScreenProps) => {
         <NIScreen title={t("about_us")} style={{ flex: 1 }}>
             <View style={{ flex: 1, paddingHorizontal: 20 }}>
 
-                <NIAucordion sections={SECTIONS} />
+                <NIAucordion sections={contentSections} />
                 {/* <Accordion
                     activeSections={activeSections}
                     sections={SECTIONS}

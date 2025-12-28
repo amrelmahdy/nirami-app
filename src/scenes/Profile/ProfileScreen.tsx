@@ -34,6 +34,8 @@ import DatePicker from 'react-native-date-picker';
 import { useGetCurrentUser } from '../../hooks/user.hooks';
 import NIButton from '../../components/NIButton/NIButton';
 import { updateUser } from '../../api/auth.api';
+import navigationAdapter from '../../navigation/NavigationAdapter';
+import NAVIGATION_ROUTES from '../../navigation/NavigationRoutes';
 
 
 
@@ -52,7 +54,7 @@ const ProfileScreen = ({ route }: ProfileScreenProps) => {
 
     const [isUpdatingUserData, setIsUpdatingUserData] = useState(false);
 
-    const { data: currentUser, isError: currentUserError, isLoading: currentUserIsLoading } = useGetCurrentUser();
+    const { data: currentUser, isError: currentUserError, isLoading: currentUserIsLoading, refetch: refetchCurrentUser, isRefetching: isRefetchingCurrentUser } = useGetCurrentUser();
 
     const [open, setOpen] = useState(false)
 
@@ -87,7 +89,7 @@ const ProfileScreen = ({ route }: ProfileScreenProps) => {
     return (
         <NIScreen title="الصفحة الخاصة" style={{ flex: 1 }}>
             {
-                currentUserIsLoading || isUpdatingUserData ? (<View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                currentUserIsLoading || isUpdatingUserData || isRefetchingCurrentUser ? (<View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
                     <ActivityIndicator size="large" color="#3f2848" />
                 </View>) :
                     <KeyboardAvoidingView
@@ -95,7 +97,7 @@ const ProfileScreen = ({ route }: ProfileScreenProps) => {
                         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
                     >
                         <ScrollView
-                            contentContainerStyle={{ }}
+                            contentContainerStyle={{}}
                             keyboardShouldPersistTaps="handled"
                         >
                             <View>
@@ -236,11 +238,16 @@ const ProfileScreen = ({ route }: ProfileScreenProps) => {
                                                 phone: user.phone,
                                                 dateOfBirth: user.dataOfBirth,
                                                 gender: user.gender,
-                                                isProfileComplete: true,
+                                                isProfileCompleted: true,
                                             }
 
                                             await updateUser(currentUser?.id || "", newUser)
                                             setIsUpdatingUserData(false);
+
+                                            if (!navigationAdapter.hasBack()) {
+                                                await refetchCurrentUser();
+                                                navigationAdapter.replace(NAVIGATION_ROUTES.BOTTOM_TAB_BAR);
+                                            }
 
 
                                         } catch (error) {

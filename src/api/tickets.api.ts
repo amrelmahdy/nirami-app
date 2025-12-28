@@ -1,9 +1,7 @@
 import httpClient from "../helpers/httpClient";
 import { Address } from "../hooks/addresses.hooks";
 import { ProductFilters } from "../hooks/products.hooks";
-
-
-
+import { Ticket } from "../hooks/tickets.hooks";
 
 
 

@@ -9,7 +9,8 @@ import NiScreen from "../../components/NIScreen/NiScreen";
 import NIText from "../../components/NIText/NIText";
 import NIButton from "../../components/NIButton/NIButton";
 import { useGetOrdres } from "../../hooks/orders.hooks";
-
+import moment from "moment";
+import { t } from "i18next";
 
 function OrdersScreen() {
     const { data: orders, isLoading: ordersIsLoading, isError: ordersIstError, refetch } = useGetOrdres();
@@ -64,16 +65,22 @@ function OrdersScreen() {
                                         </View>
                                         <View style={{ flexDirection: 'row-reverse', justifyContent: 'space-between', marginTop: 5, paddingBottom: 20, }}>
                                             <NIText>تاريخ الطلب</NIText>
-                                            <NIText>{item.createdAt}</NIText>
+                                            <NIText>{
+                                                moment(item.createdAt).format('DD-MM-YY')
+                                            }</NIText>
                                         </View>
                                         <View style={{ flexDirection: 'row-reverse', justifyContent: 'space-between', marginTop: 5, paddingBottom: 20, }}>
                                             <NIText>السعر الاجمالي</NIText>
-                                            <NIText>{item.finalPrice}</NIText>
+                                            <NIText>
+                                                <Icon source={getIconUrl(Images, 'saudi_riyal_symbol')} size={15} />
+                                                <View style={{ width: 2 }} />
+                                                {item.finalPrice}
+                                            </NIText>
                                         </View>
 
                                         <View style={{ flexDirection: 'row-reverse', justifyContent: 'space-between', marginTop: 5, paddingBottom: 20, }}>
                                             <NIText>الحالة</NIText>
-                                            <NIText>{item.status}</NIText>
+                                            <NIText>{t(item.status)}</NIText>
                                         </View>
                                     </View>
 

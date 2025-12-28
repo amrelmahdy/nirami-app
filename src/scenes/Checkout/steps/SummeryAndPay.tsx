@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Dimensions, StyleSheet, TouchableOpacity, View, TextInput, FlatList } from "react-native";
 import { ScrollView, Text } from "react-native-gesture-handler";
-import { Icon, List, RadioButton } from "react-native-paper";
+import { ActivityIndicator, Icon, List, RadioButton } from "react-native-paper";
 import NIText from "../../../components/NIText/NIText";
 import NIButton from "../../../components/NIButton/NIButton";
 import { FONT_FAMILIES, Images } from "../../../assets";
@@ -23,8 +23,10 @@ type SummeryAndPayProps = {
 
 function SummeryAndPay({ onNext, setOrderId }: SummeryAndPayProps) {
 
+    const [isLoading, setIsLoading] = useState<boolean>(false);
 
-    const [paymentMethod, setPaymentMethod] = useState<string>('credit_card'); // Default selected payment method
+
+    const [paymentMethod, setPaymentMethod] = useState<string>('cash_on_delivery'); // Default selected payment method
     const { data: cartData, isLoading: cartDataIsLoading, isError: cartDataIstError, refetch } = useGetCart();
     const { data: currentUser, isError: currentUserError, isLoading: currentUserIsLoading } = useGetCurrentUser();
 
@@ -38,6 +40,7 @@ function SummeryAndPay({ onNext, setOrderId }: SummeryAndPayProps) {
 
 
     const handlePayment = async () => {
+        setIsLoading(true);
         const newOrder = {
             paymentMethod: paymentMethod,
             paymentStatus: "unpaid",
@@ -47,12 +50,22 @@ function SummeryAndPay({ onNext, setOrderId }: SummeryAndPayProps) {
 
         checkout.mutate(newOrder, {
             onSuccess: (order) => {
-               order && order.id && setOrderId(order.id);
+                // set loading to false
+                setIsLoading(false);
+                order && order.id && setOrderId(order.id);
                 onNext?.()
             }, onError: () => {
-
+                setIsLoading(false);
+                // handle error case    
             }
         })
+    }
+
+
+    if (isLoading) {
+        return <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+            <ActivityIndicator size="large" color="#3f2848" />
+        </View>
     }
 
 
@@ -180,7 +193,7 @@ function SummeryAndPay({ onNext, setOrderId }: SummeryAndPayProps) {
                         <View style={{}}>
 
                             <RadioButton.Group onValueChange={setPaymentMethod} value={paymentMethod}>
-                                <View style={{ flexDirection: 'row', justifyContent: 'space-between', height: 60 }}>
+                                {/* <View style={{ flexDirection: 'row', justifyContent: 'space-between', height: 60 }}>
                                     <View style={{ flexDirection: 'row', marginHorizontal: 15, alignItems: 'center' }}>
                                         <View style={{ borderWidth: 1, borderColor: '#b7b7b7', borderRadius: 5, paddingHorizontal: 5, marginRight: 10 }}>
                                             <Icon source={getIconUrl(Images, 'ic_logos_mastercard')} size={25} />
@@ -211,9 +224,9 @@ function SummeryAndPay({ onNext, setOrderId }: SummeryAndPayProps) {
 
                                         />
                                     </View>
-                                </View>
+                                </View> */}
 
-
+                                {/* 
                                 <View style={{ flexDirection: 'row', justifyContent: 'space-between', }}>
                                     <View style={{ flexDirection: 'row', marginHorizontal: 15, alignItems: 'center' }}>
                                         <Icon source={getIconUrl(Images, 'ic_logos_apple_pay')} size={50} />
@@ -231,7 +244,7 @@ function SummeryAndPay({ onNext, setOrderId }: SummeryAndPayProps) {
                                         rippleColor="transparent"
 
                                     />
-                                </View>
+                                </View> */}
 
                                 <View style={{ flexDirection: 'row', justifyContent: 'space-between', }}>
                                     <View style={{ flexDirection: 'row', marginHorizontal: 15, alignItems: 'center' }}>
@@ -258,7 +271,7 @@ function SummeryAndPay({ onNext, setOrderId }: SummeryAndPayProps) {
 
 
 
-                                <View style={{ flexDirection: 'row', justifyContent: 'space-between', }}>
+                                {/* <View style={{ flexDirection: 'row', justifyContent: 'space-between', }}>
                                     <View style={{ flexDirection: 'row', marginHorizontal: 15, alignItems: 'center' }}>
                                         <Icon source={getIconUrl(Images, 'ic_tabby')} size={50} />
                                     </View>
@@ -275,11 +288,11 @@ function SummeryAndPay({ onNext, setOrderId }: SummeryAndPayProps) {
                                         rippleColor="transparent"
 
                                     />
-                                </View>
+                                </View> */}
 
 
 
-                                <View style={{ flexDirection: 'row', justifyContent: 'space-between', }}>
+                                {/* <View style={{ flexDirection: 'row', justifyContent: 'space-between', }}>
                                     <View style={{ flexDirection: 'row', marginHorizontal: 15, alignItems: 'center' }}>
                                         <Icon source={getIconUrl(Images, 'ic_tamara')} size={70} />
                                     </View>
@@ -296,7 +309,9 @@ function SummeryAndPay({ onNext, setOrderId }: SummeryAndPayProps) {
                                         rippleColor="transparent"
 
                                     />
-                                </View>
+                                </View> */}
+
+
                             </RadioButton.Group>
                         </View>
                     </View>

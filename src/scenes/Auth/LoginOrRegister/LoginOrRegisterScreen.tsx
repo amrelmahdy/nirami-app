@@ -35,14 +35,11 @@ function LoginOrRegister() {
     };
 
     const handleContinuePress = async () => {
-
-
-
         try {
-            if (!formatSaudiNumber(emailOrPhone)) {
-                setInputError('يرجى إدخال رقم جوال صحيح');
-                return;
-            }
+            // if (!formatSaudiNumber(emailOrPhone)) {
+            //     setInputError('يرجى إدخال رقم جوال صحيح');
+            //     return;
+            // }
             setIsLoading(true);
             const res = await sendAnOTPForLoginOrRegister(emailOrPhone);
             console.log("OTP sent response: ", res);
@@ -118,10 +115,12 @@ function LoginOrRegister() {
 
                 </View>
 
-                <TouchableOpacity onPress={handleContinuePress} disabled={isLoading} style={[
-                    styles.continueButton,
-                    isLoading && styles.continueButtonDisabled,
-                ]}>
+                <TouchableOpacity
+                    onPress={handleContinuePress}
+                    disabled={isLoading} style={[
+                        styles.continueButton,
+                        isLoading && styles.continueButtonDisabled,
+                    ]}>
                     <NIText style={{}}>استمرار</NIText>
                 </TouchableOpacity>
             </KeyboardAvoidingView>

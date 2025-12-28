@@ -23,7 +23,7 @@ import { useGetCart } from "../../hooks/cart.hooks";
 import navigationAdapter from "../../navigation/NavigationAdapter";
 import { useGetOrderDetails, useGetOrdres } from "../../hooks/orders.hooks";
 import { VerticalStatusProgress } from 'react-native-vertical-status-progress';
-import { Timeline } from 'react-native-just-timeline';
+import Timeline from './../../components/Timeline/Timeline';
 import { mapOrderStatus } from "../../utils/helpers";
 
 
@@ -71,8 +71,8 @@ function TrackOrderScreen({ route }: TrackOrderScreenProps) {
 
       },
       description: {
-        content: <NIText>February,5,2025</NIText>,
-        style: { fontSize: 14, textAlign: 'right' },
+        content: <NIText> </NIText>,
+        style: { fontSize: 14, textAlign: 'left' },
       },
       time: '6:00 PM',
       // lineStyle: { backgroundColor: '#333', width: 3 },
@@ -90,14 +90,15 @@ function TrackOrderScreen({ route }: TrackOrderScreenProps) {
         style: { fontSize: 16, textAlign: 'right' }
       },
       description: {
-        content: <NIText>February,5,2025</NIText>,
+        content: <NIText> </NIText>,
         style: { fontSize: 14, textAlign: 'right' },
       },
       time: '6:00 PM',
       active:
 
         mapOrderStatus(order?.status) === 'shipping' ||
-        mapOrderStatus(order?.status) === 'out_for_delivery'
+        mapOrderStatus(order?.status) === 'out_for_delivery' ||
+        order?.status && mapOrderStatus(order.status) === 'delivered'
     },
     {
       title: {
@@ -105,7 +106,7 @@ function TrackOrderScreen({ route }: TrackOrderScreenProps) {
         style: { fontSize: 16, textAlign: 'right' }
       },
       description: {
-        content: <NIText>February,5,2025</NIText>,
+        content: <NIText> </NIText>,
         style: { fontSize: 14, textAlign: 'right' },
       },
       time: '6:00 PM',
@@ -120,7 +121,7 @@ function TrackOrderScreen({ route }: TrackOrderScreenProps) {
         style: { fontSize: 16, textAlign: 'right' }
       },
       description: {
-        content: <NIText>February,5,2025</NIText>,
+        content: <NIText> </NIText>,
         style: { fontSize: 14, textAlign: 'right' },
       },
       time: '6:00 PM',
@@ -212,7 +213,7 @@ function TrackOrderScreen({ route }: TrackOrderScreenProps) {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 0.5,
+    flex: 1,
     padding: 16,
     direction: 'rtl', // 👈 Important for layout
   },

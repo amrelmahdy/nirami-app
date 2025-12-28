@@ -3,7 +3,8 @@ import Config from 'react-native-config';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const httpClient: AxiosInstance = axios.create({
-  baseURL: Config.SERVER_BASE_URL, // Use server base URL from react-native-config
+  //baseURL: Config.SERVER_BASE_URL, // Use server base URL from react-native-config
+  baseURL: "https://nirami-server-259be2a147a8.herokuapp.com"
   // You can add other static config options here
 });
 

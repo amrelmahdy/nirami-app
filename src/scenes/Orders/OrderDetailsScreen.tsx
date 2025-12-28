@@ -39,6 +39,12 @@ function OrderDetailsScreen({ route }) {
     // const progress = useSharedValue<number>(0);
 
 
+    if(orderIsLoading) {
+        return <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+            <ActivityIndicator size="large" color="#3f2848" />
+        </View>
+    }
+
 
 
     return (
@@ -47,7 +53,7 @@ function OrderDetailsScreen({ route }) {
             <ScrollView
                 style={{ flex: 1 }}>
 
-                {orderIsLoading && <ActivityIndicator />}
+                {/* {orderIsLoading && <ActivityIndicator />} */}
 
                 {order &&
                     !orderIsLoading &&
